@@ -2,20 +2,20 @@
 
 namespace App\Controllers;
 
+use Core\View;
+
 class Home extends \Core\Controller
 {
     public function indexAction()
     {
-        echo 'Home controller';
+        View::renderTemplate('Home/index.html');
     }
 	
 	protected function before()
 	{
-	    echo "(before action filter) ";
 	}
 	
 	protected function after()
 	{
-	    echo " (after action filter)";
 	}
 }
