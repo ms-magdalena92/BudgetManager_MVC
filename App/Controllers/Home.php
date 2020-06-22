@@ -2,10 +2,20 @@
 
 namespace App\Controllers;
 
-class Home
+class Home extends \Core\Controller
 {
-    public function index()
+    public function indexAction()
     {
         echo 'Home controller';
     }
+	
+	protected function before()
+	{
+	    echo "(before action filter) ";
+	}
+	
+	protected function after()
+	{
+	    echo " (after action filter)";
+	}
 }
