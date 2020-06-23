@@ -1,17 +1,88 @@
-<!DOCTYPE html>
+{% extends "base.html" %}
 
-<html lang="pl">
+{% block title %}Home{% endblock %}
 
-<head>
+{% block description %}Track your income and expenses - avoid overspending!{% endblock %}
 
-	<meta charset="utf-8">
-	
-</head>
+{% block main %}
 
-<body>
-	
-	<h1>Hello</h1>
-	
-</body>
+    <section class="container-fluid square my-4 py-3">
+			
+        <p>Feeling like you need reining in your spending and getting your finances under control?<br />
+        <b>You've come to the right place!</b></p>
+				
+        <div class="row row-eq-height justify-content-center mb-2">
+				
+            <div class="col-sm-6 col-md-3 col-lg-2 pt-2 mt-2">
+                <div class="pt-2 tile">
+                    <figure>
+                        <i class="icon-basket bigIcon"></i>
+                        <figcaption>Different<br />Income And Expense<br />Categories</figcaption>
+                    </figure>
+                </div>
+            </div>
+				
+            <div class="col-sm-6 col-md-3 col-lg-2 pt-2 mt-2">
+                <div class="pt-2 tile">
+                    <figure>
+                        <i class="icon-money-1 bigIcon"></i>
+                        <figcaption>Manage<br />Your<br />Budget</figcaption>
+                    </figure>
+                </div>
+            </div>
+				
+            <div class="col-sm-6 col-md-3 col-lg-2 pt-2 mt-2">
+                <div class="pt-2 tile">
+                    <figure>
+                        <i class="icon-chart-pie bigIcon"></i>
+                        <figcaption>Analyze<br />Your Finances<br />With Charts</figcaption>
+                    </figure>
+                </div>
+            </div>
+				
+            <div class="col-sm-6 col-md-3 col-lg-2 pt-2 mt-2">
+                <div class="col-12 pt-2 tile">
+                    <figure>
+                        <i class="icon-cog-alt bigIcon"></i>
+                        <figcaption>Add, Remove<br />And Costum<br />Categories</figcaption>
+                    </figure>
+                </div>
+            </div>
+				
+        </div>
+			
+    </section>
+		
+    <section class="container-fluid square my-4 py-3">
+		
+        <p>Track your income and expences - <b>avoid overspending!</b></p>
+			
+        <nav>
+			
+            <div class="row justify-content-center mb-2">
+					
+                <div class="col-md-4 mt-2">
+                    <div class="py-2 option">
+                        Already have an account?<br />Sign in here:<br />
+                        <a class="btn btn-lg mb-2 mt-3 signButton" href="">
+                            <i class="icon-login"></i> Sign in
+                        </a>
+                    </div>
+                </div>
+					
+                <div class="col-md-4 mt-2">
+                    <div class="py-2 option">
+                        No account yet?<br />Create it here:<br />
+                        <a class="btn btn-lg mb-2 mt-3 signButton" href="">
+                            <i class="icon-user-plus"></i> Register
+                        </a>
+                    </div>
+                </div>
+					
+            </div>
+				
+        </nav>
+			
+    </section>
 
-</html>
+{% endblock %}
