@@ -4,6 +4,8 @@
 
 {% block description %}Track your income and expenses - avoid overspending!{% endblock %}
 
+{% block header %}{{ parent() }}{% endblock %}
+
 {% block main %}
 
     <section class="container-fluid square my-4 py-3">
@@ -86,3 +88,5 @@
     </section>
 
 {% endblock %}
+
+{% block footer %}{{ parent() }}{% endblock %}
