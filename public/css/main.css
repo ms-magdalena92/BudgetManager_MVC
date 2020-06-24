@@ -119,6 +119,17 @@ figcaption {
     box-shadow: 0 0 10px #b3b3b3;
 }
 
+.error > li {
+	font-size: 0.8em;
+	letter-spacing: 1px;
+	font-weight: 500;
+	list-style: none;
+}
+
+.error > li:before {
+	content: "✖ ";
+}
+
 @media (max-width: 767px) {
 	#title {
 		font-size: 2.5em;

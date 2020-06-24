@@ -22,8 +22,7 @@ class Signup extends \Core\Controller
             
         } else {
             
-            //View::renderTemplate('Signup/new.html', ['user' => $user]);
-			var_dump($user -> validationErrors);
+            View::renderTemplate('Signup/new.html', ['user' => $user]);
 		}
     }
 }
