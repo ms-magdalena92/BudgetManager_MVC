@@ -25,7 +25,8 @@
 
 <body>
 	
-    <header>
+    {% block header %}
+	<header>
 	
         <h1 class="mt-3 mb-1" id="title">
             <a id="homeButton" href="/home/index" role="button">Welcome to <span id="logo">myBudget</span>.com!</a>
@@ -34,6 +35,7 @@
         <div id="subtitle">Your Personal Finance Manager</div>
 		
     </header>
+	{% endblock %}
 	
     <main>
 	
@@ -41,13 +43,15 @@
 		
     </main>
 	
-    <footer>
+	{% block footer %}
+	<footer>
 	
         <div class="col my-2 footer">
             2020 &copy; myBudget.com
         </div>
 		
     </footer>
+	{% endblock %}
 	
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 	
