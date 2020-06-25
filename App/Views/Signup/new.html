@@ -12,7 +12,7 @@
 
     <section class="container-fluid square my-4 py-4">
 			
-        <form class="col-sm-10 col-md-8 col-lg-6 mx-auto my-2 py-3" method="post" action="/signup/create">
+        <form class="col-sm-10 col-md-8 col-lg-6 mx-auto my-2 py-3" method="post" action="/signup/create" id="signupForm">
 				
             <div class="row justify-content-around">
 				
@@ -22,81 +22,73 @@
                         <div class="input-group-prepend px-1 pt-1 inputIcon">
                             <i class="icon-user"></i>
                         </div>
-                        <input class="form-control  userInput" type="text" name="userName" placeholder="name" value="{{ user.userName }}" required>
+                        <input class="form-control  userInput" type="text" name="userName" placeholder="name" value="{{ user.userName }}" required >
                     </div>
 					
-					{% if user.validationErrors['nameE1'] is defined %}
-						<div class="text-danger text-left mt-1 pl-1 error">
+					<div class="text-danger text-left mt-1 pl-1 error" id="nameError" >
+					
+						{% if user.validationErrors['nameE1'] is defined %}
 							<li>{{ user.validationErrors['nameE1'] }}</li>
-						</div>
-					{% endif %}
-					
-					{% if user.validationErrors['nameE2'] is defined %}
-						<div class="text-danger text-left mt-1 pl-1 error">
+						{% endif %}
+						
+						{% if user.validationErrors['nameE2'] is defined %}
 							<li>{{ user.validationErrors['nameE2'] }}</li>
-						</div>
-					{% endif %}
-					
-					{% if user.validationErrors['nameE3'] is defined %}
-						<div class="text-danger text-left mt-1 pl-1 error">
+						{% endif %}
+						
+						{% if user.validationErrors['nameE3'] is defined %}
 							<li>{{ user.validationErrors['nameE3'] }}</li>
-						</div>
-					{% endif %}
+						{% endif %}
+						
+					</div>
 
                     <div class="input-group mt-3">
                         <div class="input-group-prepend px-1 pt-1 inputIcon">
                             <i class="icon-mail-alt"></i>
                         </div>
-                        <input class="form-control  userInput" type="email" name="email" placeholder="email@address.com" value="{{ user.email }}" required>
+                        <input class="form-control  userInput" type="email" name="email" placeholder="email@address.com" value="{{ user.email }}" required >
                     </div>
 					
-					{% if user.validationErrors['emailE1'] is defined %}
-						<div class="text-danger text-left mt-1 pl-1 error">
-							<li>{{ user.validationErrors['emailE1'] }}</li>
-						</div>
-					{% endif %}
+					<div class="text-danger text-left mt-1 pl-1 error" id="emailError" >
 					
-					{% if user.validationErrors['emailE2'] is defined %}
-						<div class="text-danger text-left mt-1 pl-1 error">
+						{% if user.validationErrors['emailE1'] is defined %}
+							<li>{{ user.validationErrors['emailE1'] }}</li>
+						{% endif %}
+						
+						{% if user.validationErrors['emailE2'] is defined %}
 							<li>{{ user.validationErrors['emailE2'] }}</li>
-						</div>
-					{% endif %}
+						{% endif %}
+						
+					</div>
 						
                     <div class="input-group mt-3">
                         <div class="input-group-prepend px-1 pt-1 inputIcon">
                             <i class="icon-lock"></i>
                         </div>
-                        <input class="form-control  userInput" type="password" id="password1" name="password" placeholder="password" value="{{ user.password }}" required>
+                        <input class="form-control  userInput" type="password" id="password1" name="password" placeholder="password" value="{{ user.password }}" required >
                     </div>
 
                     <div class="input-group mt-3">
                         <div class="input-group-prepend px-1 pt-1 inputIcon">
                             <i class="icon-lock"></i>
                         </div>
-                        <input class="form-control  userInput" type="password" id="password2" name="passwordConfirm" placeholder="confirm password" required>
+                        <input class="form-control  userInput" type="password" id="password2" name="passwordConfirm" placeholder="confirm password" required >
                     </div>
 					
-					{% if user.validationErrors['passwordE1'] is defined %}
-						<div class="text-danger text-left mt-1 pl-1 error">
+					<div class="text-danger text-left mt-1 pl-1 error" id="passwordError" >
+					
+						{% if user.validationErrors['passwordE1'] is defined %}
 							<li>{{ user.validationErrors['passwordE1'] }}</li>
-						</div>
-					{% endif %}
-					
-					{% if user.validationErrors['passwordE2'] is defined %}
-						<div class="text-danger text-left mt-1 pl-1 error">
-							<li>{{ user.validationErrors['passwordE2'] }}</li>
-						</div>
-					{% endif %}
-					
-					{% if user.validationErrors['passwordE3'] is defined %}
-						<div class="text-danger text-left mt-1 pl-1 error">
-							<li>{{ user.validationErrors['passwordE3'] }}</li>
-						</div>
-					{% endif %}
+						{% endif %}
 						
-                    <div id="rememberMe">
-                        <input class="mt-3" type="checkbox" > Remember me
-                    </div>
+						{% if user.validationErrors['passwordE2'] is defined %}
+							<li>{{ user.validationErrors['passwordE2'] }}</li>
+						{% endif %}
+						
+						{% if user.validationErrors['passwordE3'] is defined %}
+							<li>{{ user.validationErrors['passwordE3'] }}</li>
+						{% endif %}
+						
+					</div>
 						
                     <button class="btn btn-lg mt-3 mb-2 signButton" type="submit">
                         <i class="icon-user-plus"></i> Sign up
@@ -141,3 +133,68 @@
 {% endblock %}
 
 {% block footer %}{{ parent() }}{% endblock %}
+
+{% block links %}
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js" integrity="sha256-+BEKmIvQ6IsL8sHcvidtDrNOdZO3C9LtFPtF2H0dOHI=" crossorigin="anonymous"></script>
+	
+	<script>
+        $(document).ready(function() {
+            $('#signupForm').validate({
+				errorElement: 'li',
+                rules: {
+                    userName: {
+                        required: true,
+                        minlength: 2,
+                        maxlength: 20
+                    },
+                    email: {
+                        required: true,
+                        email: true,
+                    },
+                    password: {
+                        required: true,
+                        minlength: 8,
+                        maxlength: 50,
+                    },
+					passwordConfirm: {
+						equalTo: '#password1'
+					}
+                },
+				messages: {
+					userName: {
+						required: 'Name is required.',
+						minlength: 'Name needs to be between 2 to 20 characters.',
+						maxlength: 'Name needs to be between 2 to 20 characters.'
+					},
+					email: {
+						required: 'E-mail adress is required.',
+						email: 'Please enter a valid e-mail adress.'
+					},
+					password: {
+						required: 'Password is required.',
+						minlength: 'Password needs to be between 8 to 50 characters.',
+						maxlength: 'Password needs to be between 8 to 50 characters.'
+					},
+					passwordConfirm: {
+						equalTo: 'Passwords you have entered does not match.'
+					}
+				},
+				errorPlacement: function(error,element){
+					if(element.attr('name') == 'userName') {
+						error.appendTo('#nameError');
+					}
+					if(element.attr('name') == 'email') {
+						error.appendTo('#emailError');
+					}
+					if(element.attr('name') == 'password' || element.attr('name') == 'passwordConfirm') {
+						error.appendTo('#passwordError');
+					}
+				}	
+            });
+        });
+    </script>
+
+{% endblock %}
+
+
