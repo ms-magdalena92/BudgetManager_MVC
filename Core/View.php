@@ -28,6 +28,7 @@ class View
 			
             $loader = new \Twig\Loader\FilesystemLoader('../App/Views');
             $twig = new \Twig\Environment($loader);
+			$twig -> addGlobal('is_registered', \App\Models\User::isRegistered());
         }
 		
         echo $twig->render($template, $args);
