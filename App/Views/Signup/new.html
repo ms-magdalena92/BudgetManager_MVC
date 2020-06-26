@@ -178,7 +178,8 @@
                     },
                     email: {
                         required: true,
-                        email: true
+                        email: true,
+						remote: '/account/validate-email'
                     },
                     password: {
                         required: true,
@@ -187,6 +188,7 @@
 						validPassword: true
                     },
 					passwordConfirm: {
+						required: true,
 						equalTo: '#password1'
 					}
                 },
@@ -198,7 +200,8 @@
 					},
 					email: {
 						required: 'E-mail adress is required.',
-						email: 'Please enter a valid e-mail adress.'
+						email: 'Please enter a valid e-mail adress.',
+						remote: 'An account with this e-mail adress already exists.'
 					},
 					password: {
 						required: 'Password is required.',
@@ -206,6 +209,7 @@
 						maxlength: 'Password needs to be between 8 to 50 characters.'
 					},
 					passwordConfirm: {
+						required: 'Password is required.',
 						equalTo: 'Passwords you have entered does not match.'
 					}
 				},
@@ -216,7 +220,7 @@
 					if(element.attr('name') == 'email') {
 						error.appendTo('#emailError');
 					}
-					if(element.attr('name') == 'password' || element.attr('name') == 'passwordConfirm') {
+					if(element.attr('name') == 'password' element.attr('name') == 'passwordConfirm') {
 						error.appendTo('#passwordError');
 					}
 				}	
