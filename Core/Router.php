@@ -58,8 +58,9 @@ class Router {
 
     public function dispatchRoute($url)
     {
-
-        if ($this->matchUrlToRoutes($url)) {
+        $url = $this->removeQueryStringVariables($url);
+		
+		if ($this->matchUrlToRoutes($url)) {
 			
 			$this -> createControlerAndRunActionMethod();
             
@@ -107,5 +108,24 @@ class Router {
     protected function convertToCamelCase($string)
     {
 		return lcfirst($this->convertToStudlyCaps($string));
+    }
+	
+	protected function removeQueryStringVariables($url)
+    {
+        if ($url != '') {
+			
+            $parts = explode('&', $url, 2);
+
+            if (strpos($parts[0], '=') === false) {
+				
+                $url = $parts[0];
+				
+            } else {
+				
+                $url = '';
+            }
+        }
+		
+        return $url;
     }
 }
