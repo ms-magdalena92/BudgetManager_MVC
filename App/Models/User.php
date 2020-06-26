@@ -56,7 +56,7 @@ class User extends \Core\Model
             $this -> validationErrors['nameE2'] = 'Name needs to be between 2 to 20 characters.';
         }
 		
-		if(!preg_match('/[a-z]+/i', $this -> userName)) {
+		if(preg_match('/[a-z]+/i', $this -> userName)) {
 			
             $this -> validationErrors['nameE3'] = 'Name must contain letters only, special characters not allowed.';
         }
