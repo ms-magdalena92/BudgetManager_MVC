@@ -25,7 +25,6 @@ body {
 
 #subtitle
 {
-	color: #404040;
 	font-weight: 400;
 	letter-spacing: 3px;
 }
@@ -97,7 +96,7 @@ figcaption {
 
 #homeButton {
 	text-decoration: none;
-	color: #595959;
+	color: #404040;
 }
 
 .userInput {
@@ -140,7 +139,6 @@ figcaption {
 }
 
 button.reveal:focus {
-    outline: none !important;
     border: 2px solid #b3b3b3;
     box-shadow: 0 0 10px #b3b3b3;
 }
