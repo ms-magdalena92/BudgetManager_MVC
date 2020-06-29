@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Sign in{% endblock %}
+
+{% block description %}Sign in to myBudget.com - track your finances and avoid overspending!{% endblock %}
+
+{% block header %}
+    {{ parent() }}
+{% endblock %}
+
+{% block main %}
+
+	<section class="container-fluid square my-4 py-4">
+			
+		<form class="col-sm-10 col-md-8 col-lg-6 mx-auto my-2 py-3" method="post" action="\login\create">
+				
+			<div class="row justify-content-around">
+					
+				<div class="col-sm-8">
+						
+					<div class="input-group mt-3">
+						<div class="input-group-prepend px-1 pt-1 inputIcon">
+							<i class="icon-mail-alt"></i>
+						</div>
+						<input class="form-control  userInput" type="email" name="email" placeholder="email@address.com" required>
+					</div>
+							
+					<div class="input-group mt-3">
+						<div class="input-group-prepend px-1 pt-1 inputIcon">
+							<i class="icon-lock"></i>
+						</div>
+						<input class="form-control  userInput" type="password" id="password1" placeholder="password" name="password" required>
+						<button class="btn reveal" type="button"><i class="icon-eye" id="toggler"></i></button>
+					</div>
+						
+					<button class="btn btn-lg mt-4 px-4 signButton" type="submit">
+							<i class="icon-login"></i> Sign in
+					</button>
+							
+				</div>
+						
+			</div>
+					
+		</form>
+				
+	</section>
+		
+{% endblock %}
+
+{% block footer %}{{ parent() }}{% endblock %}
+
+{% block links %}
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js" integrity="sha256-+BEKmIvQ6IsL8sHcvidtDrNOdZO3C9LtFPtF2H0dOHI=" crossorigin="anonymous"></script>
+	<script src="/js/mybudget.js"></script>
+
+{% endblock %}
