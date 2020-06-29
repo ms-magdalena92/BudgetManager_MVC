@@ -25,7 +25,6 @@ body {
 
 #subtitle
 {
-	color: #404040;
 	font-weight: 400;
 	letter-spacing: 3px;
 }
@@ -97,19 +96,21 @@ figcaption {
 
 #homeButton {
 	text-decoration: none;
-	color: #595959;
+	color: #404040;
 }
 
 .userInput {
 	font-size: 1.2em;
 	background-color: white;
 	border: 1px solid #cccccc;
+	border-radius: 3px !important;
 	box-sizing: border-box;
 }
 
 .inputIcon {
 	font-size: 1.2em;
 	border: 1px solid #cccccc;
+	border-radius: 3px;
 	background-color: #d5ff80;
 }
 
@@ -128,6 +129,18 @@ figcaption {
 
 .error > li:before {
 	content: "✖ ";
+}
+
+.reveal {
+	font-size: 1.2em;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	background-color: #f2f2f2;
+}
+
+button.reveal:focus {
+    border: 2px solid #b3b3b3;
+    box-shadow: 0 0 10px #b3b3b3;
 }
 
 @media (max-width: 767px) {

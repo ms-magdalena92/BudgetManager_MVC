@@ -28,7 +28,7 @@
 	<header>
 	
         <h1 class="mt-3 mb-1" id="title">
-            <a id="homeButton" href="/home/index" role="button">{% block welcome %}{% endblock %}<span id="logo">myBudget</span>.com!</a>
+            {% block welcome %}{% endblock %}<a id="homeButton" href="/home/index" role="button"><span id="logo">myBudget</span>.com!</a>
         </h1>
 		
         <div id="subtitle">Your Personal Finance Manager</div>
