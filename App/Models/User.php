@@ -104,23 +104,38 @@ class User extends \Core\Model
         return false;
     }
 	
-    public static function  findUserByEmail($email)
+    public static function findUserByEmail($email)
     {
-        $sql = 'SELECT * 
-				FROM users
+        $sql = 'SELECT * FROM users
 				WHERE email = :email';
 
         $db = static::getDBconnection();
 		
         $stmt = $db -> prepare($sql);
         $stmt -> bindValue(':email', $email, PDO::PARAM_STR);
+        $stmt -> setFetchMode(PDO::FETCH_CLASS, get_called_class());
         $stmt -> execute();
 
-        return $stmt -> fetch() !== false;
+        return $stmt -> fetch();
     }
 	
 	public static function isRegistered ()
 	{
 		return self::$signedUp;
 	}
+	
+	public static function authenticate($email, $password)
+    {
+        $user = static::findUserByEmail($email); 
+
+        if ($user) {
+			
+            if (password_verify($password, $user -> password)) {
+				
+                return $user;
+            }
+        }
+		
+        return false;
+    }
 }
