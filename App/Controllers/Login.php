@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use \Core\View;
+use \App\Auth;
 use \App\Models\User;
 
 class Login extends \Core\Controller
@@ -18,6 +19,8 @@ class Login extends \Core\Controller
 
 		if ($user) {
 			
+			Auth::login($user);
+			
 			echo 'Logged in';
 			
 		} else {
@@ -27,4 +30,11 @@ class Login extends \Core\Controller
 			]);
 		}
 	}
+	
+	public function logoutAction()
+    {
+		Auth::logout();
+		
+		echo 'Logged out';      
+    }
 }
