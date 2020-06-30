@@ -13,4 +13,6 @@ class Config
     const DB_USER = 'root';
 
     const DB_PASSWORD = '';
+	
+	const TOKEN_HASH_KEY = '764BD1EF7AEBB576B826ED9A3DFFA';
 }
