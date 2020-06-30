@@ -34,4 +34,12 @@ class Auth
 	  
 		session_destroy();
 	}
+	
+	public static function getLoggedUser()
+	{
+		if(isset($_SESSION['user_id'])) {
+		
+		return User::findUserByID($_SESSION['user_id']);
+		}
+	}
 }
