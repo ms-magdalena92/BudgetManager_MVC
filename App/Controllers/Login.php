@@ -27,7 +27,7 @@ class Login extends \Core\Controller
 		
 		if ($user) {
 			
-			Auth::login($user);
+			Auth::login($user, $rememberMe);
 			Flash::addFlashMsg('You\'ve successfully logged in.');
 			$this -> redirect(Auth::getReturnToPage());
 			
