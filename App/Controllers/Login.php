@@ -22,7 +22,9 @@ class Login extends \Core\Controller
 	public function create()
 	{
 		$user = User::authenticate($_POST['email'], $_POST['password']);
-
+		
+		$rememberMe = isset($_POST['remember_me']);
+		
 		if ($user) {
 			
 			Auth::login($user);
@@ -32,7 +34,8 @@ class Login extends \Core\Controller
 		} else {
 			
 			View::renderTemplate('Login/new.html', [
-			'email' => $_POST['email']
+			'email' => $_POST['email'],
+			'remember_me' => $rememberMe
 			]);
 		}
 	}

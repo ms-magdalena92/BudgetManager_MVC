@@ -38,10 +38,22 @@
 						<input class="form-control  userInput" type="password" id="password1" placeholder="password" name="password" required>
 						<button class="btn reveal" type="button"><i class="icon-eye" id="toggler"></i></button>
 					</div>
-						
-					<button class="btn btn-lg mt-4 px-4 signButton" type="submit">
-							<i class="icon-login"></i> Sign in
+					
+					<div class="mt-3 float-left">
+						<label>
+							<input class = "mx-2" type="checkbox" name="remember_me" {% if remember_me %}checked="checked"{% endif %} />Remember me
+						</label>
+					</div>
+					
+					<div class="clearfix"></div>
+					
+					<button class="btn btn-lg mt-1 px-4 signButton" type="submit">
+						<i class="icon-login"></i> Sign in
 					</button>
+					
+					<div class="mt-3">
+                        Have no account yet? <a href="\signup\new">Sign up!</a>
+                    </div>
 							
 				</div>
 						
