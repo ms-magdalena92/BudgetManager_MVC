@@ -21,7 +21,7 @@ class Login extends \Core\Controller
 			
 			Auth::login($user);
 			
-			echo 'Logged in';
+			$this -> redirect('/menu/main');
 			
 		} else {
 			
@@ -32,9 +32,9 @@ class Login extends \Core\Controller
 	}
 	
 	public function logoutAction()
-    {
+	{
 		Auth::logout();
 		
-		echo 'Logged out';      
-    }
+		$this -> redirect('/');
+	}
 }
