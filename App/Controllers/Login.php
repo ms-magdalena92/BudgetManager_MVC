@@ -10,6 +10,11 @@ class Login extends \Core\Controller
 {
 	public function newAction()
 	{
+		if (Auth::getLoggedUser()){
+			
+			$this -> redirect(Auth::getReturnToPage());
+		}
+		
 		View::renderTemplate('Login/new.html');
 	}
 	
@@ -20,8 +25,7 @@ class Login extends \Core\Controller
 		if ($user) {
 			
 			Auth::login($user);
-			
-			$this -> redirect('/menu/main');
+			$this -> redirect(Auth::getReturnToPage());
 			
 		} else {
 			

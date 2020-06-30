@@ -42,4 +42,14 @@ class Auth
 		return User::findUserByID($_SESSION['user_id']);
 		}
 	}
+	
+	public static function rememberRequestedURL()
+	{
+		$_SESSION['requested_page'] = $_SERVER['REQUEST_URI'];
+	}
+	
+	public static function getReturnToPage()
+	{
+		return $_SESSION['requested_page'] ?? '/menu/main';
+	}
 }
