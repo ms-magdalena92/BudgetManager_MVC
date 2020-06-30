@@ -2,6 +2,9 @@
 
 namespace Core;
 
+use \App\Auth;
+use \App\Flash;
+
 abstract class Controller
 {
     protected $routeParams = [];
@@ -29,6 +32,16 @@ abstract class Controller
 	{
 		header('Location: http://'.$_SERVER['HTTP_HOST'].$url, true, 303);
 		exit;
+	}
+	
+	public function requireLogin()
+	{
+		if (!Auth::getLoggedUser()) {
+			
+			Flash::addFlashMsg('Please log in to accesss that page.', Flash::INFO);
+			Auth::rememberRequestedURL();
+			$this -> redirect('/login');
+		}
 	}
 	
     protected function before()
