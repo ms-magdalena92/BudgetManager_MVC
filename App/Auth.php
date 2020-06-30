@@ -3,6 +3,7 @@
 namespace App;
 
 use \App\Models\User;
+use \App\Models\RememberedLogin;
 
 class Auth
 {
@@ -41,13 +42,19 @@ class Auth
 		}
 	  
 		session_destroy();
+		
+		static::forgetLogin();
 	}
 	
 	public static function getLoggedUser()
 	{
 		if(isset($_SESSION['user_id'])) {
-		
-		return User::findUserByID($_SESSION['user_id']);
+			
+			return User::findUserByID($_SESSION['user_id']);
+			
+		} else {
+			
+			return static::loginFromRememberedCookie();
 		}
 	}
 	
@@ -59,5 +66,41 @@ class Auth
 	public static function getReturnToPage()
 	{
 		return $_SESSION['requested_page'] ?? '/menu/main';
+	}
+	
+	protected static function loginFromRememberedCookie()
+	{
+		$cookie = $_COOKIE['remember_me'] ?? false;
+		
+		if($cookie) {
+			
+			$rememberedLogin = RememberedLogin::findUserByToken($cookie);
+			
+			if($rememberedLogin && !$rememberedLogin -> tokenExpired()) {
+				
+				$user = $rememberedLogin -> getRememberedUser();
+				
+				static::login($user, false);
+				
+				return $user;
+			}
+        }
+    }
+	
+	protected static function forgetLogin()
+	{
+		$cookie = $_COOKIE['remember_me'] ?? false;
+		
+		if($cookie) {
+			
+			$remembered_login = RememberedLogin::findUserByToken($cookie);
+			
+			if($remembered_login) {
+				
+				$remembered_login -> deleteRememberedLogin();
+			}
+			
+			setcookie('remember_me', '', time() - 3600);
+		}
 	}
 }
