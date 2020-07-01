@@ -59,7 +59,7 @@ class Password extends \Core\Controller
 		
 		if ($user -> resetPassword($_POST['password'])) {
 			
-			echo "Success";
+			View::renderTemplate('Password/successful_reset.html');
 			
 		} else {
 			
