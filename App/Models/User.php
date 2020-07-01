@@ -174,4 +174,11 @@ class User extends \Core\Model
 
 		return $stmt -> execute();
 	}
+	
+	public static function requestPasswordReset($email)
+    {
+        $user = static::findUserByEmail($email);
+
+        if ($user) {}
+    }
 }
