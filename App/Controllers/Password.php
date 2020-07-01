@@ -25,4 +25,30 @@ class Password extends \Core\Controller
 			View::renderTemplate('Password/forgot.html');
 		}
     }
+	
+	public function resetAction()
+	{
+		$token = $this -> routeParams['token'];
+		
+		$user = $this -> getUserOrExit($token);
+		
+		View::renderTemplate('Password/reset.html', [
+			'token' => $token
+		]);
+	}
+	
+	protected function getUserOrExit($token)
+	{
+		$user = User::findUserByResetToken($token);
+		
+		if ($user) {
+			
+			return $user;
+			
+		} else {
+			
+			View::renderTemplate('Password/invalid_token.html');
+			exit;
+		}
+	}
 }

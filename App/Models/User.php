@@ -224,4 +224,30 @@ class User extends \Core\Model
 		
         return Mail::sendEmail($this -> email, 'Password reset', $html, $headers);
     }
+	
+	public static function findUserByResetToken($token)
+	{
+		$token = new Token($token);
+		$hashed_token = $token -> getTokenHash();
+
+		$sql = 'SELECT * FROM users
+				WHERE password_reset_hash = :token_hash';
+
+		$db = static::getDBconnection();
+		
+		$stmt = $db -> prepare($sql);
+		$stmt -> bindValue(':token_hash', $hashed_token, PDO::PARAM_STR);
+		$stmt -> setFetchMode(PDO::FETCH_CLASS, get_called_class());
+		$stmt -> execute();
+
+		$user = $stmt -> fetch();
+
+		if($user) {
+			
+			if(strtotime($user -> password_reset_expirity) > time()) {
+				
+				return $user;
+			}
+		}
+	}
 }
