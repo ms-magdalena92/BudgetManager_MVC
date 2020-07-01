@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}Reset Password{% endblock %}
+
+{% block header %}
+    {{ parent() }}
+{% endblock %}
+
+{% block main %}
+
+	<section class="container-fluid square my-4 py-4">
+			
+		<form class="col-sm-10 col-md-8 col-lg-6 mx-auto my-2 py-3" method="post" action="/password/reset-password" id="signupForm">
+				
+			<h4 class="text-primary">Choose a new password</h4>
+			
+			<div class="row justify-content-around">
+				
+				<div class="col-sm-8">
+					
+					<input type="hidden" name="token" value="{{ token }}" />
+					
+					<div class="input-group mt-3">
+						<div class="input-group-prepend px-1 pt-1 inputIcon">
+							<i class="icon-lock"></i>
+						</div>
+						<input class="form-control  userInput" type="password" id="password1" name="password" placeholder="password" required >
+						<button class="btn reveal" type="button"><i class="icon-eye" id="toggler"></i></button>
+					</div>
+					
+					<div class="text-danger text-left mt-1 pl-1 error" id="passwordError" >
+						
+						{% if user.validationErrors['passwordE1'] is defined %}
+							<li>{{ user.validationErrors['passwordE1'] }}</li>
+						{% endif %}
+						
+						{% if user.validationErrors['passwordE2'] is defined %}
+							<li>{{ user.validationErrors['passwordE2'] }}</li>
+						{% endif %}
+						
+					</div>
+					
+					<button class="btn btn-lg mt-3 mb-2 signButton" type="submit">
+						Reset Password
+					</button>
+					
+				</div>
+				
+			</div>
+			
+		</form>
+		
+	</section>
+	
+{% endblock %}
+
+{% block footer %}{{ parent() }}{% endblock %}
+
+{% block links %}
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js" integrity="sha256-+BEKmIvQ6IsL8sHcvidtDrNOdZO3C9LtFPtF2H0dOHI=" crossorigin="anonymous"></script>
+	<script src="/js/mybudget.js"></script>
+
+{% endblock %}
+
+
