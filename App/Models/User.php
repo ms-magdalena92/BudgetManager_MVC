@@ -179,6 +179,31 @@ class User extends \Core\Model
     {
         $user = static::findUserByEmail($email);
 
-        if ($user) {}
+        if ($user) {
+			
+			$user -> createResetToken();
+		}
+    }
+	
+	protected function createResetToken()
+	{
+		$token = new Token();
+		$hashed_token = $token -> getTokenHash();
+		$expiry_timestamp = time() + 60*60*2;  // 2 hours from now
+		
+		$this -> password_reset_token = $token -> getTokenValue();
+
+		$sql = 'UPDATE users
+				SET password_reset_hash = :token_hash, password_reset_expirity = :expiry_date
+				WHERE user_id = :user_id';
+
+		$db = static::getDBconnection();
+		
+		$stmt = $db -> prepare($sql);
+		$stmt -> bindValue(':token_hash', $hashed_token, PDO::PARAM_STR);
+		$stmt -> bindValue(':expiry_date', date('Y-m-d H:i:s', $expiry_timestamp), PDO::PARAM_STR);
+		$stmt -> bindValue(':user_id', $this -> user_id, PDO::PARAM_INT);
+
+		return $stmt -> execute();
     }
 }
