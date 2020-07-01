@@ -107,10 +107,13 @@ class User extends \Core\Model
     {
 		$user = static::findUserByEmail($email);
 		
-        if($user -> user_id != $existing_user_id) {
+        if($user) {
+			
+			if($user -> user_id != $existing_user_id) {
 
-            return true;
-        }
+				return true;
+			}
+		}
 		
         return false;
     }
