@@ -5,6 +5,7 @@ namespace App\Models;
 use PDO;
 use \Core\View;
 use \App\Token;
+use \App\Mail;
 
 class User extends \Core\Model
 {
@@ -57,7 +58,7 @@ class User extends \Core\Model
             $this -> validationErrors['nameE2'] = 'Name needs to be between 2 to 20 characters.';
         }
 		
-		if(preg_match('/[a-z]+/i', $this -> userName)) {
+		if(!preg_match('/^[A-Za-z]+$/', $this -> userName)) {
 			
             $this -> validationErrors['nameE3'] = 'Name must contain letters only, special characters not allowed.';
         }
@@ -176,13 +177,18 @@ class User extends \Core\Model
 	}
 	
 	public static function requestPasswordReset($email)
-    {
-        $user = static::findUserByEmail($email);
-
-        if ($user) {
+	{
+		$user = static::findUserByEmail($email);
+		
+		if($user) {
 			
-			$user -> createResetToken();
+			if($user -> createResetToken()) {
+				
+				return $user -> sendPasswordResetEmail();
+			}
 		}
+		
+		return false;
     }
 	
 	protected function createResetToken()
@@ -205,5 +211,17 @@ class User extends \Core\Model
 		$stmt -> bindValue(':user_id', $this -> user_id, PDO::PARAM_INT);
 
 		return $stmt -> execute();
+    }
+	
+	protected function sendPasswordResetEmail()
+    {
+		$url = 'http://'.$_SERVER['HTTP_HOST'].'/password/reset/'.$this -> password_reset_token;
+		$html = View::getTemplate('Password/reset_email.html', ['url' => $url]);
+		
+		$headers = "MIME-Version: 1.0"."\r\n";
+		$headers .= "Content-type:text/html;charset=UTF-8"."\r\n";
+		$headers .= 'From: <admin@mybudget.com>'."\r\n";
+		
+        return Mail::sendEmail($this -> email, 'Password reset', $html, $headers);
     }
 }
