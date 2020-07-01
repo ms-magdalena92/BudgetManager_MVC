@@ -14,6 +14,7 @@ $router -> addRoute('', ['controller' => 'Home', 'action' => 'index']);
 $router -> addRoute('login', ['controller' => 'Login', 'action' => 'new']);
 $router -> addRoute('logout', ['controller' => 'Login', 'action' => 'logout']);
 $router -> addRoute('{controller}/{action}');
+$router -> addRoute('password/reset/{token:[\da-f]+}', ['controller' => 'Password', 'action' => 'reset']);
 	
 $url = $_SERVER['QUERY_STRING'];
 $router -> dispatchRoute($url);
