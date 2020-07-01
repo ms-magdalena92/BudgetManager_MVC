@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Reset request{% endblock %}
+
+{% block header %}
+    {{ parent() }}
+{% endblock %}
+
+{% block main %}
+
+	<section class="container-fluid square my-4 py-4">
+			
+		<div class="col-sm-10 col-md-8 col-lg-6 mx-auto my-2 py-3">
+			
+			<h4 class="text-success">✔  Request Submitted successfully</h4>
+			
+			<p>Please check your email to get reset password link.</p>
+			
+			<div class="row justify-content-around">
+					
+				<div class="col-sm-8">
+					
+					<div class="mt-3">
+                        Not received email?  <a href="\password\forgot">Resend</a>
+                    </div>
+					<div class="mt-2">
+                        <a href="\login\new">Sign in</a>
+                    </div>
+							
+				</div>
+						
+			</div>
+					
+		</div>
+				
+	</section>
+		
+{% endblock %}
+
+{% block footer %}{{ parent() }}{% endblock %}
