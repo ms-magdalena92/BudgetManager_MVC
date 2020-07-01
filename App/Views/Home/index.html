@@ -1,22 +1,30 @@
 {% extends "base.html" %}
 
-{% block title %}Home{% endblock %}
+{% block title %}
+    Home
+{% endblock %}
 
-{% block description %}Track your income and expenses - avoid overspending!{% endblock %}
+{% block description %}
+    Track your income and expenses - avoid overspending!
+{% endblock %}
 
-{% block header %}{{ parent() }}{% endblock %}
+{% block header %}
+    {{ parent() }}
+{% endblock %}
 
-{% block welcome %}Welcome to {% endblock %}
+{% block welcome %}
+    Welcome to 
+{% endblock %}
 
 {% block main %}
-
+    
     <section class="container-fluid square my-4 py-3">
-			
+        
         <p>Feeling like you need reining in your spending and getting your finances under control?<br />
         <b>You've come to the right place!</b></p>
-				
+        
         <div class="row row-eq-height justify-content-center mb-2">
-				
+            
             <div class="col-sm-6 col-md-3 col-lg-2 pt-2 mt-2">
                 <div class="pt-2 tile">
                     <figure>
@@ -25,7 +33,7 @@
                     </figure>
                 </div>
             </div>
-				
+            
             <div class="col-sm-6 col-md-3 col-lg-2 pt-2 mt-2">
                 <div class="pt-2 tile">
                     <figure>
@@ -34,7 +42,7 @@
                     </figure>
                 </div>
             </div>
-				
+            
             <div class="col-sm-6 col-md-3 col-lg-2 pt-2 mt-2">
                 <div class="pt-2 tile">
                     <figure>
@@ -43,7 +51,7 @@
                     </figure>
                 </div>
             </div>
-				
+            
             <div class="col-sm-6 col-md-3 col-lg-2 pt-2 mt-2">
                 <div class="col-12 pt-2 tile">
                     <figure>
@@ -52,19 +60,19 @@
                     </figure>
                 </div>
             </div>
-				
+            
         </div>
-			
+        
     </section>
-		
+    
     <section class="container-fluid square my-4 py-3">
-		
+        
         <p>Track your income and expences - <b>avoid overspending!</b></p>
-			
+        
         <nav>
-			
+            
             <div class="row justify-content-center mb-2">
-					
+                
                 <div class="col-md-4 mt-2">
                     <div class="py-2 option">
                         Already have an account?<br />Sign in here:<br />
@@ -73,7 +81,7 @@
                         </a>
                     </div>
                 </div>
-					
+                
                 <div class="col-md-4 mt-2">
                     <div class="py-2 option">
                         No account yet?<br />Create it here:<br />
@@ -82,13 +90,15 @@
                         </a>
                     </div>
                 </div>
-					
+                
             </div>
-				
+            
         </nav>
-			
+        
     </section>
 
 {% endblock %}
 
-{% block footer %}{{ parent() }}{% endblock %}
+{% block footer %}
+    {{ parent() }}
+{% endblock %}

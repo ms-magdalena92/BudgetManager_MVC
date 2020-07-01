@@ -7,7 +7,7 @@ use \App\Models\User;
 
 class Signup extends \Core\Controller
 {
-	public function newAction()
+    public function newAction()
     {
         View::renderTemplate('Signup/new.html');
     }
@@ -17,12 +17,12 @@ class Signup extends \Core\Controller
         $user = new User($_POST);
         
         if($user -> saveUserToDB()) {
-			
-			$this -> redirect('/signup/new');
-			
-		} else {
-			
-			View::renderTemplate('Signup/new.html', ['user' => $user]);
-		}
+            
+            $this -> redirect('/signup/new');
+            
+        } else {
+            
+            View::renderTemplate('Signup/new.html', ['user' => $user]);
+        }
     }
 }

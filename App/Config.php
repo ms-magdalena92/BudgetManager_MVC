@@ -4,15 +4,15 @@ namespace App;
 
 class Config
 {
-	const SHOW_ERRORS = true;
-	
+    const SHOW_ERRORS = true;
+    
     const DB_HOST = 'localhost';
-
+    
     const DB_NAME = 'my_budget';
-
+    
     const DB_USER = 'root';
-
+    
     const DB_PASSWORD = '';
-	
-	const TOKEN_HASH_KEY = '764BD1EF7AEBB576B826ED9A3DFFA';
+    
+    const TOKEN_HASH_KEY = '764BD1EF7AEBB576B826ED9A3DFFA';
 }

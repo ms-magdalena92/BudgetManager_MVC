@@ -1,149 +1,158 @@
 {% extends "base.html" %}
 
-{% block title %}Sign up{% endblock %}
+{% block title %}
+    Sign up
+{% endblock %}
 
-{% block description %}Sign up to myBudget.com - track your finances and avoid overspending!{% endblock %}
+{% block description %}
+    Sign up to myBudget.com - track your finances and avoid overspending!
+{% endblock %}
 
 {% block header %}
     {{ parent() }}
 {% endblock %}
 
 {% block main %}
-
+    
     <section class="container-fluid square my-4 py-4">
-			
+        
         <form class="col-sm-10 col-md-8 col-lg-6 mx-auto my-2 py-3" method="post" action="/signup/create" id="signupForm">
-				
+            
             <div class="row justify-content-around">
-				
+                
                 <div class="col-sm-8">
-					
+                    
                     <div class="input-group mt-3">
                         <div class="input-group-prepend px-1 pt-1 inputIcon">
                             <i class="icon-user"></i>
                         </div>
                         <input class="form-control  userInput" type="text" name="userName" placeholder="name" value="{{ user.userName }}" required >
                     </div>
-					
-					<div class="text-danger text-left mt-1 pl-1 error" id="nameError" >
-					
-						{% if user.validationErrors['nameE1'] is defined %}
-							<li>{{ user.validationErrors['nameE1'] }}</li>
-						{% endif %}
-						
-						{% if user.validationErrors['nameE2'] is defined %}
-							<li>{{ user.validationErrors['nameE2'] }}</li>
-						{% endif %}
-						
-						{% if user.validationErrors['nameE3'] is defined %}
-							<li>{{ user.validationErrors['nameE3'] }}</li>
-						{% endif %}
-						
-					</div>
-
+                    
+                    <div class="text-danger text-left mt-1 pl-1 error" id="nameError" >
+                        
+                        {% if user.validationErrors['nameE1'] is defined %}
+                            <li>{{ user.validationErrors['nameE1'] }}</li>
+                        {% endif %}
+                        
+                        {% if user.validationErrors['nameE2'] is defined %}
+                            <li>{{ user.validationErrors['nameE2'] }}</li>
+                        {% endif %}
+                        
+                        {% if user.validationErrors['nameE3'] is defined %}
+                            <li>{{ user.validationErrors['nameE3'] }}</li>
+                        {% endif %}
+                        
+                    </div>
+                    
                     <div class="input-group mt-3">
                         <div class="input-group-prepend px-1 pt-1 inputIcon">
                             <i class="icon-mail-alt"></i>
                         </div>
                         <input class="form-control  userInput" type="email" name="email" placeholder="email@address.com" value="{{ user.email }}" required >
                     </div>
-					
-					<div class="text-danger text-left mt-1 pl-1 error" id="emailError" >
-					
-						{% if user.validationErrors['emailE1'] is defined %}
-							<li>{{ user.validationErrors['emailE1'] }}</li>
-						{% endif %}
-						
-						{% if user.validationErrors['emailE2'] is defined %}
-							<li>{{ user.validationErrors['emailE2'] }}</li>
-						{% endif %}
-						
-					</div>
-						
+                    
+                    <div class="text-danger text-left mt-1 pl-1 error" id="emailError" >
+                        
+                        {% if user.validationErrors['emailE1'] is defined %}
+                            <li>{{ user.validationErrors['emailE1'] }}</li>
+                        {% endif %}
+                        
+                        {% if user.validationErrors['emailE2'] is defined %}
+                            <li>{{ user.validationErrors['emailE2'] }}</li>
+                        {% endif %}
+                        
+                    </div>
+                    
                     <div class="input-group mt-3">
                         <div class="input-group-prepend px-1 pt-1 inputIcon">
                             <i class="icon-lock"></i>
                         </div>
                         <input class="form-control  userInput" type="password" id="password1" name="password" placeholder="password" value="{{ user.password }}" required >
-						<button class="btn reveal" type="button"><i class="icon-eye" id="toggler"></i></button>
+                        <button class="btn reveal" type="button"><i class="icon-eye" id="toggler"></i></button>
                     </div>
-					
-					<div class="text-danger text-left mt-1 pl-1 error" id="passwordError" >
-					
-						{% if user.validationErrors['passwordE1'] is defined %}
-							<li>{{ user.validationErrors['passwordE1'] }}</li>
-						{% endif %}
-						
-						{% if user.validationErrors['passwordE2'] is defined %}
-							<li>{{ user.validationErrors['passwordE2'] }}</li>
-						{% endif %}
-						
-					</div>
-
+                    
+                    <div class="text-danger text-left mt-1 pl-1 error" id="passwordError" >
+                        
+                        {% if user.validationErrors['passwordE1'] is defined %}
+                            <li>{{ user.validationErrors['passwordE1'] }}</li>
+                        {% endif %}
+                        
+                        {% if user.validationErrors['passwordE2'] is defined %}
+                            <li>{{ user.validationErrors['passwordE2'] }}</li>
+                        {% endif %}
+                        
+                    </div>
+                    
                     <div class="input-group mt-3">
                         <div class="input-group-prepend px-1 pt-1 inputIcon">
                             <i class="icon-lock"></i>
                         </div>
                         <input class="form-control  userInput" type="password" id="password2" name="passwordConfirm" placeholder="confirm password" required >
                     </div>
-					
-					<div class="text-danger text-left mt-1 pl-1 error" id="passwordConfirmError" >
-					
-						{% if user.validationErrors['passwordE3'] is defined %}
-							<li>{{ user.validationErrors['passwordE3'] }}</li>
-						{% endif %}
-						
-					</div>
-						
+                    
+                    <div class="text-danger text-left mt-1 pl-1 error" id="passwordConfirmError" >
+                        
+                        {% if user.validationErrors['passwordE3'] is defined %}
+                            <li>{{ user.validationErrors['passwordE3'] }}</li>
+                        {% endif %}
+                        
+                    </div>
+                    
                     <button class="btn btn-lg mt-3 mb-2 signButton" type="submit">
                         <i class="icon-user-plus"></i> Sign up
                     </button>
-					
+                    
                     <div class="mt-2">
-                        Already have an account? <a href="\login\new">Sign in!</a>
+                        Already have an account? <a href="/login/new">Sign in!</a>
                     </div>
-					
+                    
+                </div>
+                
             </div>
-				
+            
         </form>
-			
+        
     </section>
-	
-	{% if is_registered %}
-		<script type="text/javascript">$(document).ready(function(){ $('#registrationModal').modal('show'); });</script>
-	{% endif %}
-	
-	<div class="modal fade" id="registrationModal" role="dialog">
-		<div class="modal-dialog col">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h3 class="modal-title">Successful Registration</h3>
-					<a href="/signup/new">
-						<button type="button" class="close">&times;</button>
-					</a>
-				</div>
-															
-				<div class="modal-body">
-					<p>Thank you for registration! You can now sign in.</p>
-				</div>
-				<div class="modal-footer">
-					<a href="/login/new">
-						<button type="button" class="btn signButton">Sign in</button>
-					</a>
-				</div>
-			</div>
-		</div>
-	</div>
-		
+    
+    {% if is_registered %}
+        <script type="text/javascript">$(document).ready(function(){ $('#registrationModal').modal('show'); });</script>
+    {% endif %}
+    
+    <div class="modal fade" id="registrationModal" role="dialog">
+        
+        <div class="modal-dialog col">
+            
+            <div class="modal-content">
+                
+                <div class="modal-header">
+                    <h3 class="modal-title">Successful Registration</h3>
+                    <a href="/signup/new" type="button" class="close">&times;</a>
+                </div>
+                
+                <div class="modal-body">
+                    <p>Thank you for registration! You can now sign in.</p>
+                </div>
+                
+                <div class="modal-footer">
+                    <a href="/login/new" type="button" class="btn signButton">Sign in</a>
+                </div>
+                
+            </div>
+            
+        </div>
+        
+    </div>
+    
 {% endblock %}
 
-{% block footer %}{{ parent() }}{% endblock %}
+{% block footer %}
+    {{ parent() }}
+{% endblock %}
 
 {% block links %}
-
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js" integrity="sha256-+BEKmIvQ6IsL8sHcvidtDrNOdZO3C9LtFPtF2H0dOHI=" crossorigin="anonymous"></script>
-	<script src="/js/mybudget.js"></script>
-
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js" integrity="sha256-+BEKmIvQ6IsL8sHcvidtDrNOdZO3C9LtFPtF2H0dOHI=" crossorigin="anonymous"></script>
+    <script src="/js/mybudget.js"></script>
+    
 {% endblock %}
-
-
