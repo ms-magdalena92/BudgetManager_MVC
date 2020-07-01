@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Reset request{% endblock %}
+
+{% block header %}
+    {{ parent() }}
+{% endblock %}
+
+{% block main %}
+
+	<section class="container-fluid square my-4 py-4">
+			
+		<form class="col-sm-10 col-md-8 col-lg-6 mx-auto my-2 py-3" method="post" action="/password/request-reset">
+			
+			<h5>Forgot Your Password?</h5>
+			
+			Don't worry! Just fill in your email address and we'll send you a link to reset your password.
+			
+			<div class="row justify-content-around">
+					
+				<div class="col-sm-8">
+					
+					<div class="input-group mb-3 mt-4">
+						<div class="input-group-prepend px-1 pt-1 inputIcon">
+							<i class="icon-mail-alt"></i>
+						</div>
+						<input class="form-control  userInput" type="email" name="email" placeholder="email@address.com" required autofocus>
+					</div>
+					
+					<button class="btn btn-lg mt-3 px-4 signButton" type="submit">Request reset</button>
+							
+				</div>
+						
+			</div>
+					
+		</form>
+				
+	</section>
+		
+{% endblock %}
+
+{% block footer %}{{ parent() }}{% endblock %}
