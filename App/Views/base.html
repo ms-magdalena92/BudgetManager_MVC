@@ -3,195 +3,199 @@
 <html lang="pl">
 
 <head>
-	
+    
     <meta charset="utf-8">
     <title>MyBudget - {% block title %}{% endblock %}</title>
     <meta name="description" content="{% block description %}{% endblock %}">
     <meta name="keywords" content="expense manager, budget planner, expense tracker, budgeting app, money manager, money management, personal finance management software, finance manager, saving planner {% block keywords %}{% endblock %}">
     <meta name="author" content="Magdalena Słomiany">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	
+    
     <meta http-equiv="X-Ua-Compatible" content="IE=edge">
-	
+    
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Baloo+Paaji+2:wght@500&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="/css/fontello.css">
-	<link rel="stylesheet" href="/css/main.css">
-	
-	<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-	
+    <link rel="stylesheet" href="/css/fontello.css">
+    <link rel="stylesheet" href="/css/main.css">
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    
 </head>
 
 <body>
-
-	{% for message in flash_messages %}
-	
-		<div class="alert alert-{{ message.type }} alert-dismissible fade show mt-2 mx-4" role="alert">
-			{{ message.body }}
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-			</button>
-		</div>
-		
-	{% endfor %}
-	
-    {% block header %}
-	
-	<header>
-	
-        <h1 class="mt-3 mb-1" id="title">
-            {% block welcome %}{% endblock %}<a id="homeButton" href="/home/index" role="button"><span id="logo">myBudget</span>.com!</a>
-        </h1>
-		
-        <div id="subtitle">Your Personal Finance Manager</div>
-		
-    </header>
-	
-	{% endblock %}
-
-	{% block main %}
-	
-		{% if current_user %}
-		
-			<section class="container-fluid square mt-4 py-2">
-				
-				<nav class="navbar navbar-dark navbar-expand-lg">
-				
-					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMenu" aria-controls="mainMenu" aria-expanded="false" aria-label="Navigation Toggler">
-						<span class="navbar-toggler-icon"></span>
-					</button>
-					
-					<div class="collapse navbar-collapse" id="mainMenu">
-				
-						<ul class="navbar-nav mx-auto">
-						
-							<li class="col-lg-2 mr-1 nav-item disabled">
-								<a class="nav-link" href="/menu/main"><i class="icon-home"></i> Home</a>
-							</li>
-							
-							<li class="col-lg-2 mr-1 nav-item">
-								<a class="nav-link" href=""><i class="icon-money-1"></i> Add Income</a>
-							</li>
-							
-							<li class="col-lg-2 mr-1 nav-item">
-								<a class="nav-link" href=""><i class="icon-dollar"></i> Add Expense</a>
-							</li>
-							
-							<li class="col-lg-2 mr-1 nav-item dropdown">
-							
-								<a class="nav-link" href="" role="button"><i class="icon-chart-pie"></i> View Balance</a>
-								
-								<div class="dropdown-menu bg-transparent border-0 m-0 p-0">
-								
-									<a class="dropdown-item" href="">Current Month</a>
-									<a class="dropdown-item" href="">Last Month</a>
-									<a class="dropdown-item" href="">Current Year</a>
-									<a class="dropdown-item" href="#" data-toggle="modal" data-target="#dateModal">Custom</a>
-								
-								</div>
-								
-							</li>
-							
-							<li class="col-lg-2 mr-1 nav-item dropdown">
-							
-								<a class="nav-link" href="" role="button"><i class="icon-cog-alt"></i> Settings</a>
-								
-								<div class="dropdown-menu bg-transparent border-0 m-0 p-0">
-								
-									<h6 class="dropdown-header">Profile settings</h6>
-									<a class="dropdown-item" href="">Name</a>
-									<a class="dropdown-item" href="">Password</a>
-									<a class="dropdown-item" href="">E-mail Adress</a>
-									<div class="dropdown-divider"></div>
-									<h6 class="dropdown-header">Category settings</h6>
-									<a class="dropdown-item" href="">Income</a>
-									<a class="dropdown-item" href="">Expense</a>
-									<a class="dropdown-item" href="">Payment Methods</a>
-								
-								</div>
-								
-							</li>
-							
-							<li class="col-lg-2 nav-item">
-							
-								<a class="nav-link" href="/logout"><i class="icon-logout"></i> Sign out</a>
-								
-							</li>
-							
-						</ul>
-						
-					</div>
-				
-				</nav>
-			
-			</section>
-			
-			<div class="modal fade" role='dialog' id="dateModal">
-				<div class="modal-dialog" role="document">
-					<div class="modal-content">
-
-						<div class="modal-header">
-							<h3 class="modal-title">Selecting time period</h3>
-							<button type="button" class="close" data-dismiss="modal">&times;</button>
-						</div>
-
-						<form class="col py-3 mx-auto">
-						
-							<div class="modal-body">
-							
-								<h5>Enter a start date and an end date of period that you want to review</h5>
-									
-								<div class="row justify-content-around py-2">
-									
-									<div class="form-group my-2">
-										<label for="startDate">Enter start date</label>
-										<input class="form-control  userInput labeledInput" type="date" name="userStartDate" required>
-									</div>
-										
-									<div class="form-group my-2">
-										<label for="endDate">Enter end date</label>
-										<input class="form-control userInput labeledInput" type="date" name="userEndDate" required>
-									</div>
-										
-								</div>
-									
-							</div>
-
-							<div class="modal-footer">
-								<button class="btn signButton" type="submit">Save</button>
-								<button type="button" class="btn signButton" data-dismiss="modal">Close</button>
-							</div>
-								
-						</form>
-
-					</div>
-					
-				</div>
-				
-			</div>
-		
-		{% endif %}
-	
-    {% endblock %}
-		
-    </main>
-	
-	{% block footer %}
-	<footer>
-	
-        <div class="col my-2 footer">
-            2020 &copy; myBudget.com
+    
+    {% for message in flash_messages %}
+        
+        <div class="alert alert-{{ message.type }} alert-dismissible fade show mt-2 mx-4" role="alert">
+            {{ message.body }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
-		
-    </footer>
-	{% endblock %}
-
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-	
+        
+    {% endfor %}
+    
+    {% block header %}
+    
+        <header>
+            
+            <h1 class="mt-3 mb-1" id="title">
+                {% block welcome %}{% endblock %}<a id="homeButton" href="/home/index" role="button"><span id="logo">myBudget</span>.com!</a>
+            </h1>
+            
+            <div id="subtitle">Your Personal Finance Manager</div>
+            
+        </header>
+    
+    {% endblock %}
+    
+    <main>
+    
+    {% block main %}
+        
+        {% if current_user %}
+            
+            <section class="container-fluid square mt-4 py-2">
+                
+                <nav class="navbar navbar-dark navbar-expand-lg">
+                    
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMenu" aria-controls="mainMenu" aria-expanded="false" aria-label="Navigation Toggler">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    
+                    <div class="collapse navbar-collapse" id="mainMenu">
+                        
+                        <ul class="navbar-nav mx-auto">
+                            
+                            <li class="col-lg-2 mr-1 nav-item disabled">
+                                <a class="nav-link" href="/menu/main"><i class="icon-home"></i> Home</a>
+                            </li>
+                            
+                            <li class="col-lg-2 mr-1 nav-item">
+                                <a class="nav-link" href=""><i class="icon-money-1"></i> Add Income</a>
+                            </li>
+                            
+                            <li class="col-lg-2 mr-1 nav-item">
+                                <a class="nav-link" href=""><i class="icon-dollar"></i> Add Expense</a>
+                            </li>
+                            
+                            <li class="col-lg-2 mr-1 nav-item dropdown">
+                                
+                                <a class="nav-link" href="" role="button"><i class="icon-chart-pie"></i> View Balance</a>
+                                
+                                <div class="dropdown-menu bg-transparent border-0 m-0 p-0">
+                                    
+                                    <a class="dropdown-item" href="">Current Month</a>
+                                    <a class="dropdown-item" href="">Last Month</a>
+                                    <a class="dropdown-item" href="">Current Year</a>
+                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#dateModal">Custom</a>
+                                    
+                                </div>
+                                
+                            </li>
+                            
+                            <li class="col-lg-2 mr-1 nav-item dropdown">
+                                
+                                <a class="nav-link" href="" role="button"><i class="icon-cog-alt"></i> Settings</a>
+                                
+                                <div class="dropdown-menu bg-transparent border-0 m-0 p-0">
+                                    
+                                    <h6 class="dropdown-header">Profile settings</h6>
+                                    <a class="dropdown-item" href="">Name</a>
+                                    <a class="dropdown-item" href="">Password</a>
+                                    <a class="dropdown-item" href="">E-mail Adress</a>
+                                    <div class="dropdown-divider"></div>
+                                    <h6 class="dropdown-header">Category settings</h6>
+                                    <a class="dropdown-item" href="">Income</a>
+                                    <a class="dropdown-item" href="">Expense</a>
+                                    <a class="dropdown-item" href="">Payment Methods</a>
+                                    
+                                </div>
+                                
+                            </li>
+                            
+                            <li class="col-lg-2 nav-item">
+                                
+                                <a class="nav-link" href="/logout"><i class="icon-logout"></i> Sign out</a>
+                                
+                            </li>
+                            
+                        </ul>
+                        
+                    </div>
+                    
+                </nav>
+                
+            </section>
+            
+            <div class="modal fade" role='dialog' id="dateModal">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        
+                        <div class="modal-header">
+                            <h3 class="modal-title">Selecting time period</h3>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        
+                        <form class="col py-3 mx-auto">
+                            
+                            <div class="modal-body">
+                                
+                                <h5>Enter a start date and an end date of period that you want to review</h5>
+                                
+                                <div class="row justify-content-around py-2">
+                                    
+                                    <div class="form-group my-2">
+                                        <label for="startDate">Enter start date
+                                            <input class="form-control  userInput labeledInput" id="startDate" type="date" name="userStartDate" required>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="form-group my-2">
+                                        <label for="endDate">Enter end date
+                                            <input class="form-control userInput labeledInput" id="endDate" type="date" name="userEndDate" required>
+                                        </label>
+                                    </div>
+                                    
+                                </div>
+                                
+                            </div>
+                            
+                            <div class="modal-footer">
+                                <button class="btn signButton" type="submit">Save</button>
+                                <button type="button" class="btn signButton" data-dismiss="modal">Close</button>
+                            </div>
+                            
+                        </form>
+                        
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+        {% endif %}
+        
+    {% endblock %}
+    
+    </main>
+    
+    {% block footer %}
+        <footer>
+            
+            <div class="col my-2 footer">
+                2020 &copy; myBudget.com
+            </div>
+            
+        </footer>
+    {% endblock %}
+    
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    
     {% block links %}
     {% endblock %}
-	
+    
 </body>
 
 </html>
