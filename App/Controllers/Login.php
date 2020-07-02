@@ -27,10 +27,16 @@ class Login extends \Core\Controller
         
         if ($user) {
             
-            Auth::login($user, $rememberMe);
-            Flash::addFlashMsg('You\'ve successfully logged in.');
-            $this -> redirect(Auth::getReturnToPage());
-            
+            if(!$user -> is_active) {
+                
+                Flash::addFlashMsg('Your account is not active. Please check your email to activate your account.', Flash::WARNING);
+                View::renderTemplate('Login/new.html');
+            } else {
+                
+                Auth::login($user, $rememberMe);
+                Flash::addFlashMsg('You\'ve successfully logged in.');
+                $this -> redirect(Auth::getReturnToPage());
+            }
         } else {
             
             View::renderTemplate('Login/new.html', [
