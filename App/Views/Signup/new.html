@@ -115,35 +115,6 @@
         
     </section>
     
-    {% if is_registered %}
-        <script type="text/javascript">$(document).ready(function(){ $('#registrationModal').modal('show'); });</script>
-    {% endif %}
-    
-    <div class="modal fade" id="registrationModal" role="dialog">
-        
-        <div class="modal-dialog col">
-            
-            <div class="modal-content">
-                
-                <div class="modal-header">
-                    <h3 class="modal-title">Successful Registration</h3>
-                    <a href="/signup/new" type="button" class="close">&times;</a>
-                </div>
-                
-                <div class="modal-body">
-                    <p>Thank you for registration! You can now sign in.</p>
-                </div>
-                
-                <div class="modal-footer">
-                    <a href="/login/new" type="button" class="btn signButton">Sign in</a>
-                </div>
-                
-            </div>
-            
-        </div>
-        
-    </div>
-    
 {% endblock %}
 
 {% block footer %}
