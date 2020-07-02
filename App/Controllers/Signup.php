@@ -18,11 +18,17 @@ class Signup extends \Core\Controller
         
         if($user -> saveUserToDB()) {
             
-            $this -> redirect('/signup/new');
+            $user -> sendActivationEmail();
+            $this -> redirect('/signup/success');
             
         } else {
             
             View::renderTemplate('Signup/new.html', ['user' => $user]);
         }
+    }
+    
+    public function successAction()
+    {
+        View::renderTemplate('Signup/success.html');
     }
 }

@@ -11,8 +11,6 @@ class User extends \Core\Model
 {
     public $validationErrors = [];
     
-    static $signedUp = false;
-    
     public function __construct($data = [])
     {
         foreach($data as $key => $value) {
@@ -44,10 +42,10 @@ class User extends \Core\Model
             $stmt -> bindValue(':password_hash', $password_hash, PDO::PARAM_STR);
             $stmt -> bindValue(':activation_token', $hashed_token, PDO::PARAM_STR);
             
-            $stmt -> execute();
-            
-            self::$signedUp = true;
+            return $stmt -> execute();
         }
+        
+        return false;
     }
     
     public function validateUserData()
@@ -136,11 +134,6 @@ class User extends \Core\Model
         $stmt -> execute();
         
         return $stmt -> fetch();
-    }
-    
-    public static function isRegistered ()
-    {
-        return self::$signedUp;
     }
     
     public static function authenticate($email, $password)
@@ -293,5 +286,17 @@ class User extends \Core\Model
             return $stmt -> execute();
         }
         return false;
+    }
+    
+    public function sendActivationEmail()
+    {
+        $url = 'http://'.$_SERVER['HTTP_HOST'].'/signup/activate/'.$this -> activation_token;
+        $html = View::getTemplate('Signup/activation_email.html', ['url' => $url]);
+        
+        $headers = "MIME-Version: 1.0"."\r\n";
+        $headers .= "Content-type:text/html;charset=UTF-8"."\r\n";
+        $headers .= 'From: <admin@mybudget.com>'."\r\n";
+        
+        return Mail::sendEmail($this -> email, 'Activate your account', $html, $headers);
     }
 }
