@@ -47,4 +47,12 @@ abstract class Controller
             $this -> redirect('/login');
         }
     }
+    
+    protected function before()
+    {
+    }
+    
+    protected function after()
+    {
+    }
 }

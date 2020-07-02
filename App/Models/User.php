@@ -314,7 +314,7 @@ class User extends \Core\Model
         
         $stmt = $db -> prepare($sql);
         $stmt -> bindValue(':hashed_token', $hashed_token, PDO::PARAM_STR);
-            
+        
         $stmt -> execute();
     }
 }
