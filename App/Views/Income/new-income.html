@@ -48,8 +48,14 @@
                             <span class="input-group-text inputLabel">Category</span>
                         </div>
                         
-                        <select class="form-control userInput labeledInput" name="income_category">
+                        <select class="form-control userInput labeledInput" name="income_category" required >
+                            
                             <option value="" disabled selected hidden >- select category -</option>
+                            
+                            {% for category in incomeCategories %}
+                                <option>{{ category.income_category }}</option>
+                            {% endfor %}
+                            
                         </select>
                         
                     </div>

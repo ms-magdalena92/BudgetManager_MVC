@@ -3,11 +3,14 @@
 namespace App\Controllers;
 
 use \Core\View;
+use \App\Models\Categories;
 
 class Income extends Authenticated
 {
     public function newAction()
     {
-        View::renderTemplate('Income/new-income.html');
+        $incomeCategories = Categories::getCurrentUserIncomeCategories();
+        
+        View::renderTemplate('Income/new-income.html', array('incomeCategories' => $incomeCategories));
     }
 }

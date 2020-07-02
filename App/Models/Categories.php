@@ -28,4 +28,19 @@ class Categories extends \Core\Model
         
         $stmt -> execute();
     }
+    
+    public static function getCurrentUserIncomeCategories()
+    {
+        $db = static::getDBconnection();
+        
+        $sql = 'SELECT ic.income_category
+                FROM income_categories ic NATURAL JOIN user_income_category uic
+                WHERE uic.user_id = :loggedUserId';
+        
+        $stmt = $db -> prepare($sql);
+        $stmt -> bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt -> execute();
+        
+        return $stmt -> fetchAll();
+    }
 }
