@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Add Income
+{% endblock %}
+
+{% block header %}
+    {{ parent() }}
+{% endblock %}
+
+{% block main %}
+    
+    {{ parent() }}
+    
+    <section class="container-fluid my-4 py-4">
+        
+        <form class="col-sm-10 col-md-8 col-lg-6 py-3 mx-auto square" method="post" action="/income/add-income">
+            
+            <h5>ADDING AN INCOME</h5>
+            
+            <div class="row justify-content-around">
+                
+                <div class="col-sm-10 col-lg-8">
+                    
+                    <div class="input-group mt-3">
+                        
+                        <div class="input-group-prepend px-1">
+                            <span class="input-group-text inputLabel">Amount</span>
+                        </div>
+                        
+                        <input class="form-control userInput labeledInput" type="number" name="income_amount" step="0.01" required >
+                        
+                    </div>
+                    
+                    <div class="input-group mt-3">
+                        
+                        <div class="input-group-prepend px-1">
+                            <span class="input-group-text inputLabel">Date</span>
+                        </div>
+                        
+                        <input class="form-control  userInput labeledInput" type="date" id="dateInput" name="income_date" required >
+                        
+                    </div>
+                    
+                    <div class="input-group mt-3">
+                        
+                        <div class="input-group-prepend px-1">
+                            <span class="input-group-text inputLabel">Category</span>
+                        </div>
+                        
+                        <select class="form-control userInput labeledInput" name="income_category">
+                            <option value="" disabled selected hidden >- select category -</option>
+                        </select>
+                        
+                    </div>
+                    
+                    <div class="input-group mt-3">
+                        
+                        <div class="input-group-prepend px-1">
+                            <span class="input-group-text inputLabel">Commments<br />(optional)</span>
+                        </div>
+                        
+                        <textarea class="form-control userInput labeledInput" name="incomeComment" maxlength="100" rows="5"></textarea>
+                        
+                    </div>
+                    
+                    <div class="col-md-11">
+                        
+                        <button class="btn mt-3 mb-2 mx-1 signButton" type="submit">
+                            <i class="icon-floppy"></i> Save
+                        </button>
+                        
+                        <a data-toggle="modal" data-target="#discardIncomeModal">
+                            <button class="btn mt-3 mb-2 mx-1 signButton">
+                                <i class="icon-cancel-circled"></i> Cancel
+                            </button>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+        </form>
+        
+    </section>
+    
+    <div class="modal hide fade in" data-backdrop="static" id="discardIncomeModal">
+        
+        <div class="modal-dialog col">
+            
+            <div class="modal-content">
+                
+                <div class="modal-header">
+                    <h3 class="modal-title text-danger">Quit Adding Income?</h3>
+                    <a href="income.php" type="button" class="close">&times;</a>
+                </div>
+                
+                <div class="modal-body">
+                    <p>Data you have entered so far will not be saved.</p>
+                </div>
+                
+                <div class="modal-footer">
+                    <a href="/menu/main" type="button" class="btn signButton">YES</a>
+                    <button type="button" class="btn signButton" data-dismiss="modal">NO</button>
+                </div>
+                
+            </div>
+			
+        </div>
+        
+    </div>
+    
+{% endblock %}
+
+{% block footer %}
+    {{ parent() }}
+{% endblock %}
+
+{% block links %}
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js" integrity="sha256-+BEKmIvQ6IsL8sHcvidtDrNOdZO3C9LtFPtF2H0dOHI=" crossorigin="anonymous"></script>
+    <script src="/js/mybudget.js"></script>
+    
+{% endblock %}

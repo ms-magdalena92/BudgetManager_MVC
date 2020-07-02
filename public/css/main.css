@@ -220,6 +220,15 @@ a.dropdown-item:hover {
     outline: none;
 }
 
+.labeledInput {
+    font-size: 0.9em;
+    resize: none;
+}
+
+.inputLabel {
+    background-color: #f2f2f2;
+}
+
 @media (max-width: 767px) {
     #title {
         font-size: 2.5em;
