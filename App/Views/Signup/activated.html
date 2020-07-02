@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Account activated
+{% endblock %}
+
+{% block header %}
+    {{ parent() }}
+{% endblock %}
+
+{% block main %}
+    
+    <section class="container-fluid square my-4 py-4">
+        
+        <div class="col-sm-10 col-md-8 col-lg-6 mx-auto my-2 py-3">
+            
+            <h4 class="text-success">✔  Your account has been activated</h4>
+            
+            <p>You can now <a href="/login/new">sign in</a> to your account.</p>
+            
+        </div>
+        
+    </section>
+    
+{% endblock %}
+
+{% block footer %}
+    {{ parent() }}
+{% endblock %}

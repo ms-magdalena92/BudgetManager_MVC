@@ -29,7 +29,7 @@ class User extends \Core\Model
             
             $token = new Token();
             $hashed_token = $token -> getTokenHash();
-            $this -> activation_token = $token -> getTokenHash();
+            $this -> activation_token = $token -> getTokenValue();
             
             $sql = 'INSERT INTO users (username, email, password, activation_hash_token)
                     VALUES (:name, :email, :password_hash, :activation_token)';
@@ -298,5 +298,23 @@ class User extends \Core\Model
         $headers .= 'From: <admin@mybudget.com>'."\r\n";
         
         return Mail::sendEmail($this -> email, 'Activate your account', $html, $headers);
+    }
+    
+    public static function activateAccount($activationToken)
+    {
+        $token = new Token($activationToken);
+        $hashed_token = $token -> getTokenHash();
+        
+        $sql = 'UPDATE users
+                SET is_active = 1,
+                    activation_hash_token = NULL
+                WHERE activation_hash_token = :hashed_token';
+        
+        $db = static::getDBconnection();
+        
+        $stmt = $db -> prepare($sql);
+        $stmt -> bindValue(':hashed_token', $hashed_token, PDO::PARAM_STR);
+            
+        $stmt -> execute();
     }
 }

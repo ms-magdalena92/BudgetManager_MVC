@@ -31,4 +31,15 @@ class Signup extends \Core\Controller
     {
         View::renderTemplate('Signup/success.html');
     }
+    
+    public function activateAction()
+    {
+        User::activateAccount($this -> routeParams['token']);
+        $this -> redirect('/signup/activated');
+    }
+    
+    public function activatedAction()
+    {
+        View::renderTemplate('Signup/activated.html');
+    }
 }
