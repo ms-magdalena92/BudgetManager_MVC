@@ -29,8 +29,12 @@ class User extends \Core\Model
             
             $password_hash = password_hash($this -> password, PASSWORD_DEFAULT);
             
-            $sql = 'INSERT INTO users (username, email, password)
-                    VALUES (:name, :email, :password_hash)';
+            $token = new Token();
+            $hashed_token = $token -> getTokenHash();
+            $this -> activation_token = $token -> getTokenHash();
+            
+            $sql = 'INSERT INTO users (username, email, password, activation_hash_token)
+                    VALUES (:name, :email, :password_hash, :activation_token)';
             
             $db = static::getDBconnection();
             
@@ -38,6 +42,7 @@ class User extends \Core\Model
             $stmt -> bindValue(':name', $this -> userName, PDO::PARAM_STR);
             $stmt -> bindValue(':email', $this -> email, PDO::PARAM_STR);
             $stmt -> bindValue(':password_hash', $password_hash, PDO::PARAM_STR);
+            $stmt -> bindValue(':activation_token', $hashed_token, PDO::PARAM_STR);
             
             $stmt -> execute();
             
