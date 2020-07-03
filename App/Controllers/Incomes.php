@@ -31,7 +31,7 @@ class Incomes extends Authenticated
         
         if($income -> saveIncomeToDB()) {
             
-            Flash::addFlashMsg('Your income have been successfully added.');
+            Flash::addFlashMsg('Your income has been successfully added.');
             $this -> redirect('/incomes/new');
             
         } else {
