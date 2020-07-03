@@ -63,27 +63,21 @@ class Income extends \Core\Model
         }
         
         //Category validation
-        if(isset($this -> category)) {
+        if(!isset($this -> category)) {
             
-            if($this -> category == '') {
-                
-                $this -> validationErrors['categoryE1'] = 'Income category is required.';
-            }
+            $this -> validationErrors['categoryE1'] = 'Income category is required.';
         }
         
         //Date validation
-        if(isset($this -> date)) {
+        if(!isset($this -> date)) {
             
-            if($this -> date == '') {
-                
-                $this -> validationErrors['dateE1'] = 'Date is required.';
-            }
+            $this -> validationErrors['dateE1'] = 'Date is required.';
         }
         
         //Comment validation
         if(isset($this -> comment)) {
             
-            if(!empty($this -> comment) && !preg_match('/^[A-ZĄĘÓŁŚŻŹĆŃa-ząęółśżźćń 0-9]+$/', $this -> comment)) {
+            if($this -> comment != '' && !preg_match('/^[A-ZĄĘÓŁŚŻŹĆŃa-ząęółśżźćń 0-9]+$/', $this -> comment)) {
                 
                 $this -> validationErrors['commentE1'] = 'Comment can contain up to 100 characters - only letters and numbers allowed.';
             }
