@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Add Income
+{% endblock %}
+
+{% block header %}
+    {{ parent() }}
+{% endblock %}
+
+{% block main %}
+    
+    {{ parent() }}
+    
+    <section class="container-fluid my-4 py-4">
+        
+        <form class="col-sm-10 col-md-8 col-lg-6 py-3 mx-auto square" method="post" action="/incomes/add-income" id="itemsForm">
+            
+            <h5>ADDING AN INCOME</h5>
+            
+            <div class="row justify-content-around">
+                
+                <div class="col-sm-10 col-lg-8">
+                    
+                    <div class="input-group mt-3">
+                        
+                        <div class="input-group-prepend px-1">
+                            <span class="input-group-text inputLabel">Amount</span>
+                        </div>
+                        
+                        <input class="form-control userInput labeledInput" type="number" name="amount" step="0.01" value="{{ income.amount }}" required >
+                        
+                    </div>
+                    
+                    <ul class="text-danger text-left mt-1 pl-1 error" id="amountError" >
+                        
+                        {% if income.validationErrors['amountE1'] is defined %}
+                            <li>{{ income.validationErrors['amountE1'] }}</li>
+                        {% endif %}
+                        
+                        {% if income.validationErrors['amountE2'] is defined %}
+                            <li>{{ income.validationErrors['amountE2'] }}</li>
+                        {% endif %}
+                        
+                    </ul>
+                    
+                    <div class="input-group mt-3">
+                        
+                        <div class="input-group-prepend px-1">
+                            <span class="input-group-text inputLabel">Date</span>
+                        </div>
+                        
+                        <input class="form-control  userInput labeledInput" type="date" id="dateInput" name="date" value="{{ income.date ? income.date : current_date }}" required >
+                        
+                    </div>
+                    
+                    <ul class="text-danger text-left mt-1 pl-1 error" id="dateError" >
+                        
+                        {% if income.validationErrors['dateE1'] is defined %}
+                            <li>{{ income.validationErrors['dateE1'] }}</li>
+                        {% endif %}
+                        
+                    </ul>
+                    
+                    <div class="input-group mt-3">
+                        
+                        <div class="input-group-prepend px-1">
+                            <span class="input-group-text inputLabel">Category</span>
+                        </div>
+                        
+                        <select class="form-control userInput labeledInput" name="category" required >
+                            
+                            <option value="" disabled selected hidden >- select category -</option>
+                            
+                            {% for category in incomeCategories %}
+                                
+                                {% if income.category is defined and income.category == category.income_category %}
+                                    <option selected>{{ category.income_category }}</option>
+                                {% else %}
+                                    <option>{{ category.income_category }}</option>
+                                {% endif %}
+                                
+                            {% endfor %}
+                            
+                        </select>
+                        
+                    </div>
+                    
+                    <ul class="text-danger text-left mt-1 pl-1 error" id="categoryError" >
+                        
+                        {% if income.validationErrors['categoryE1'] is defined %}
+                            <li>{{ income.validationErrors['categoryE1'] }}</li>
+                        {% endif %}
+                        
+                    </ul>
+                    
+                    <div class="input-group mt-3">
+                        
+                        <div class="input-group-prepend px-1">
+                            <span class="input-group-text inputLabel">Commments<br />(optional)</span>
+                        </div>
+                        
+                        <textarea class="form-control userInput labeledInput" name="comment" maxlength="100" rows="5">{{ income.comment }}</textarea>
+                        
+                    </div>
+                    
+                    <ul class="text-danger text-left mt-1 pl-1 error" id="commentError" >
+                        
+                        {% if income.validationErrors['commentE1'] is defined %}
+                            <li>{{ income.validationErrors['commentE1'] }}</li>
+                        {% endif %}
+                        
+                    </ul>
+                    
+                    <div class="col-md-11">
+                        
+                        <button class="btn btn-lg mt-3 mb-2 mx-1 signButton" type="submit">
+                            <i class="icon-floppy"></i> Save
+                        </button>
+                        
+                        <a data-toggle="modal" data-target="#discardIncomeModal">
+                            <button class="btn btn-lg mt-3 mb-2 mx-1 signButton">
+                                <i class="icon-cancel-circled"></i> Cancel
+                            </button>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+        </form>
+        
+    </section>
+    
+    <div class="modal hide fade in" data-backdrop="static" id="discardIncomeModal">
+        
+        <div class="modal-dialog col">
+            
+            <div class="modal-content">
+                
+                <div class="modal-header">
+                    <h3 class="modal-title text-danger">Quit Adding Income?</h3>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                
+                <div class="modal-body">
+                    <p>Data you have entered so far will not be saved.</p>
+                </div>
+                
+                <div class="modal-footer">
+                    <a href="/menu/main" type="button" class="btn signButton">YES</a>
+                    <button type="button" class="btn signButton" data-dismiss="modal">NO</button>
+                </div>
+                
+            </div>
+			
+        </div>
+        
+    </div>
+    
+{% endblock %}
+
+{% block footer %}
+    {{ parent() }}
+{% endblock %}
+
+{% block links %}
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js" integrity="sha256-+BEKmIvQ6IsL8sHcvidtDrNOdZO3C9LtFPtF2H0dOHI=" crossorigin="anonymous"></script>
+    <script src="/js/mybudget.js"></script>
+    
+{% endblock %}

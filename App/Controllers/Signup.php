@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use \Core\View;
 use \App\Models\User;
+use \App\Models\Categories;
 
 class Signup extends \Core\Controller
 {
@@ -18,7 +19,10 @@ class Signup extends \Core\Controller
         
         if($user -> saveUserToDB()) {
             
+            Categories::assignDefaultCategoriesToNewUser();
+            
             $user -> sendActivationEmail();
+            
             $this -> redirect('/signup/success');
             
         } else {
