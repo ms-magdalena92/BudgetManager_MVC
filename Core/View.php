@@ -30,6 +30,7 @@ class View
             $twig = new \Twig\Environment($loader);
             $twig -> addGlobal('current_user', \App\Auth::getLoggedUser());
             $twig -> addGlobal('flash_messages', \App\Flash::getFlashMsg());
+            $twig -> addGlobal('current_date', \App\Date::getCurrentDate());
         }
         
         return $twig -> render($template, $args);
