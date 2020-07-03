@@ -34,6 +34,23 @@ $.validator.addMethod('validPassword',
     
     'Password must contain at least one letter and at least one number.'
 );
+
+$.validator.addMethod('validComment',
+    function(value, element, param) {
+        
+        if (value != '') {
+            
+            if (value.match(/^[A-ZĄĘÓŁŚŻŹĆŃa-ząęółśżźćń 0-9]+$/)) {
+                
+                return true;
+            }
+            return false;
+        }
+        return true;
+    },
+    
+    'Comment can contain up to 100 characters - only letters and numbers allowed.'
+);
 		
 $(document).ready(function() {
     $('#signupForm').validate({
@@ -95,6 +112,63 @@ $(document).ready(function() {
             }
             if(element.attr('name') == 'passwordConfirm') {
                 error.appendTo('#passwordConfirmError');
+            }
+        }	
+    });
+});
+
+
+
+$(document).ready(function() {
+    $('#itemsForm').validate({
+        errorElement: 'li',
+        rules: {
+            amount: {
+                required: true,
+                number: true,
+                min: 0,
+                max: 999999.99,
+                step: 0.01
+            },
+            date: {
+                required: true,
+                date: true
+            },
+            category: {
+                required: true
+            },
+            comment: {
+                validComment: true,
+                maxlength: 100
+            }
+        },
+        messages: {
+            amount: {
+                required: 'Income amount is required.',
+                number: 'Enter valid positive amount - maximum 6 integer digits and 2 decimal places.',
+                min: 'Enter valid positive amount - maximum 6 integer digits and 2 decimal places.',
+                max: 'Enter valid positive amount - maximum 6 integer digits and 2 decimal places.'
+            },
+            date: {
+                required: 'Date is required.'
+            },
+            category: {
+                required: 'Income category is required.'
+            }
+        },
+        errorPlacement: function(error,element){
+            
+            if(element.attr('name') == 'amount') {
+                error.appendTo('#amountError');
+            }
+            if(element.attr('name') == 'date') {
+                error.appendTo('#dateError');
+            }
+            if(element.attr('name') == 'category') {
+                error.appendTo('#categoryError');
+            }
+            if(element.attr('name') == 'comment') {
+                error.appendTo('#commentError');
             }
         }	
     });
