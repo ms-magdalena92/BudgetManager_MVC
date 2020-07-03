@@ -6,7 +6,8 @@ html {
 
 body {
     /* Background pattern from Toptal Subtle Patterns */
-    background-image: url("/css/img/white_wave.png");
+    /*background-image: url("/css/img/white_wave.png");*/
+    background-color: #f2f2f2;
     color: #404040;
     font-family: 'Roboto', sans-serif;
     font-size: 17px;
@@ -227,6 +228,11 @@ a.dropdown-item:hover {
 
 .inputLabel {
     background-color: #f2f2f2;
+}
+
+.menu {
+    text-align: center;
+    background-color: #dfff80;
 }
 
 @media (max-width: 767px) {
