@@ -43,4 +43,34 @@ class Categories extends \Core\Model
         
         return $stmt -> fetchAll();
     }
+    
+    public static function getCurrentUserExpenseCategories()
+    {
+        $db = static::getDBconnection();
+        
+        $sql = 'SELECT ec.expense_category
+                FROM expense_categories ec NATURAL JOIN user_expense_category uec
+                WHERE uec.user_id = :loggedUserId';
+        
+        $stmt = $db -> prepare($sql);
+        $stmt -> bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt -> execute();
+        
+        return $stmt -> fetchAll();
+    }
+    
+    public static function getCurrentUserPaymentMethods()
+    {
+        $db = static::getDBconnection();
+        
+        $sql = 'SELECT pm.payment_method
+                FROM payment_methods pm NATURAL JOIN user_payment_method upm
+                WHERE upm.user_id = :loggedUserId';
+        
+        $stmt = $db -> prepare($sql);
+        $stmt -> bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt -> execute();
+        
+        return $stmt -> fetchAll();
+    }
 }

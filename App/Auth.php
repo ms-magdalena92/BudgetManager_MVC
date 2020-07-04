@@ -65,7 +65,16 @@ class Auth
     
     public static function getReturnToPage()
     {
-        return $_SESSION['requested_page'] ?? '/menu/main';
+        if(isset($_SESSION['requested_page'])) {
+        
+            $requestedPage = $_SESSION['requested_page'];
+            
+            unset($_SESSION['requested_page']);
+            
+            return $requestedPage;
+        }
+        
+        return '/menu/main';
     }
     
     protected static function loginFromRememberedCookie()

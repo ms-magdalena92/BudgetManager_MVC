@@ -137,6 +137,9 @@ $(document).ready(function() {
             category: {
                 required: true
             },
+            payment: {
+                required: true
+            },
             comment: {
                 validComment: true,
                 maxlength: 100
@@ -144,7 +147,7 @@ $(document).ready(function() {
         },
         messages: {
             amount: {
-                required: 'Income amount is required.',
+                required: 'Amount is required.',
                 number: 'Enter valid positive amount - maximum 6 integer digits and 2 decimal places.',
                 min: 'Enter valid positive amount - maximum 6 integer digits and 2 decimal places.',
                 max: 'Enter valid positive amount - maximum 6 integer digits and 2 decimal places.'
@@ -153,8 +156,11 @@ $(document).ready(function() {
                 required: 'Date is required.'
             },
             category: {
-                required: 'Income category is required.'
-            }
+                required: 'Category is required.'
+            },
+            payment: {
+                required: 'Payment method is required.'
+            },
         },
         errorPlacement: function(error,element){
             
@@ -169,6 +175,9 @@ $(document).ready(function() {
             }
             if(element.attr('name') == 'comment') {
                 error.appendTo('#commentError');
+            }
+            if(element.attr('name') == 'payment') {
+                error.appendTo('#paymentError');
             }
         }	
     });
