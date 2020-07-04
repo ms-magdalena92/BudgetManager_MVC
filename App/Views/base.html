@@ -85,9 +85,9 @@
                                 
                                 <div class="dropdown-menu bg-transparent border-0 m-0 p-0">
                                     
-                                    <a class="dropdown-item" href="">Current Month</a>
-                                    <a class="dropdown-item" href="">Last Month</a>
-                                    <a class="dropdown-item" href="">Current Year</a>
+                                    <a class="dropdown-item" href="/show-balance/current-month">Current Month</a>
+                                    <a class="dropdown-item" href="/show-balance/last-month">Last Month</a>
+                                    <a class="dropdown-item" href="/show-balance/current-year">Current Year</a>
                                     <a class="dropdown-item" href="#" data-toggle="modal" data-target="#dateModal">Custom</a>
                                     
                                 </div>
@@ -137,7 +137,7 @@
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
                         
-                        <form class="col py-3 mx-auto">
+                        <form class="col py-3 mx-auto" method="post" action="/show-balance/custom-period">
                             
                             <div class="modal-body">
                                 
@@ -147,13 +147,13 @@
                                     
                                     <div class="form-group my-2">
                                         <label for="startDate">Enter start date
-                                            <input class="form-control  userInput labeledInput" id="startDate" type="date" name="userStartDate" required>
+                                            <input class="form-control  userInput labeledInput" value="{{ current_date }}" type="date" name="startDate" required>
                                         </label>
                                     </div>
                                     
                                     <div class="form-group my-2">
                                         <label for="endDate">Enter end date
-                                            <input class="form-control userInput labeledInput" id="endDate" type="date" name="userEndDate" required>
+                                            <input class="form-control userInput labeledInput" value="{{ current_date }}" type="date" name="endDate" required>
                                         </label>
                                     </div>
                                     

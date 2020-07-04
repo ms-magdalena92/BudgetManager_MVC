@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+
+{% block title %}
+    View Balance
+{% endblock %}
+
+{% block header %}
+    {{ parent() }}
+{% endblock %}
+
+{% block main %}
+    
+    {{ parent() }}
+    
+    <section class="container-fluid mb-4 py-3 square2">
+        
+        <div class="row py-3">
+            
+            <div class="col-12 timePeriod square pt-3 pb-2">
+                
+                <h5><span class="text-nowrap">{{ balance.startDate|date("d M Y") }}</span>  -  <span class="text-nowrap">{{ balance.endDate|date("d M Y") }}</span></h5>
+                
+                <div class="btn-group m-2 mr-4 dateButton">
+                    
+                    <button type="button" class="btn"><i class="icon-calendar"></i> Choose Date</button>
+                    
+                    <button type="button" class="btn dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="sr-only">Expand the list</span>
+                    </button>
+                    
+                    <div class="dropdown-menu bg-transparent border-0 m-0 p-0 dropdown-menu-right">
+                        
+                        <a class="dropdown-item" href="/show-balance/current-month">Current Month</a>
+                        <a class="dropdown-item" href="/show-balance/last-month">Last Month</a>
+                        <a class="dropdown-item" href="/show-balance/current-year">Current Year</a>
+                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#dateModal">Custom</a>
+                        
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+        </div>
+        
+        <div class="row justify-content-center" id="tables">
+            
+            <div class="table-responsive col-md-6" id="tableIncomes">
+                
+                <table class="table-sm col-lg-10 mx-auto my-2">
+                    
+                    <tbody>
+                        
+                        <thead class="thead-dark">
+                            <caption>Incomes</caption>
+                            <tr>
+                                <th class="category">Category</th>
+                                <th class="amount">Amount</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        
+                        {% for summedIncome in balance.groupedIncomes %}
+                            
+                            <tr class="summary">
+                                <td class="category">{{ summedIncome['income_category'] }}</td>
+                                <td class="sum">{{ summedIncome['income_amount'] }} PLN</td>
+                            </tr>
+                            
+                            {% for income in balance.detailedIncomes %}
+                                
+                                {% if income['category_id'] == summedIncome['category_id'] %}
+                                    
+                                    <tr>
+                                        <td class="date">{{ income['income_date'] }}</td>
+                                        <td class="amount">{{ income['income_amount'] }} PLN</td>
+                                        <td class="comment">{{ income['income_comment'] }}</td>
+                                    </tr>
+                                    
+                                {% endif %}
+                                
+                            {% endfor %}
+                            
+                        {% endfor %}
+                            
+                        <tr class="summary">
+                            <td class="total">TOTAL</td>
+                            <td class="sum">Total PLN</td>
+                        </tr>
+                        
+                    </tbody>
+                    
+                </table>
+                
+            </div>
+				
+            <div class="table-responsive col-md-6" id="tableExpenses">
+                
+                <table class="table-sm col-lg-10 mx-auto my-2">
+                    
+                    <tbody>
+                        
+                        <thead class="thead-dark">
+                            <caption id="expenseCaption">Expenses</caption>
+                            <tr>
+                                <th class="category">Category</th>
+                                <th class="amount">Amount</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        
+                        {% for summedExpense in balance.groupedExpenses %}
+                            
+                            <tr class="summary">
+                                <td class="category">{{ summedExpense['expense_category'] }}</td>
+                                <td class="sum">{{ summedExpense['expense_amount'] }} PLN</td>
+                            </tr>
+                            
+                            {% for expense in balance.detailedExpenses %}
+                                
+                                {% if expense['category_id'] == summedExpense['category_id'] %}
+                                    
+                                    <tr>
+                                        <td class="date">{{ expense['expense_date'] }}</td>
+                                        <td class="amount">{{ expense['expense_amount'] }} PLN</td>
+                                        <td class="payment">{{ expense['payment_method'] }}</td>
+                                        <td class="comment">{{ expense['expense_comment'] }}</td>
+                                    </tr>
+                                    
+                                {% endif %}
+                                
+                            {% endfor %}
+                            
+                        {% endfor %}
+                        
+                        <tr class="summary">
+                            <td class="total">TOTAL</td>
+                            <td class="sum">Total PLN</td>
+                        </tr>
+                        
+                    </tbody>
+                    
+                </table>
+                
+            </div>
+            
+        </div>
+        
+    </section>
+    
+{% endblock %}
+
+{% block footer %}
+    {{ parent() }}
+{% endblock %}
+
+{% block links %}
+    
+    <script src="/js/mybudget.js"></script>
+    
+{% endblock %}
