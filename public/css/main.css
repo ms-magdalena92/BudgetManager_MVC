@@ -235,8 +235,121 @@ a.dropdown-item:hover {
     background-color: #dfff80;
 }
 
+.name {
+    font-family: 'Baloo Paaji 2', cursive;
+    font-size: 1.6em;
+    color: #595959;
+}
+
+table {
+    background-color: rgba(255, 255, 255, 0.7);
+    border-collapse:separate; 
+    border-spacing: 0 8px;
+    border-radius: 5px;
+}
+
+caption {
+    text-align: center;
+    caption-side: top;
+    background-color: #d5ff80;
+    border-radius: 5px;
+    font-size: 1.15em;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #404040;
+}
+
+#expenseCaption {
+    background-color: #ffb84d;
+}
+
+th {
+    text-align: left;
+    font-size: 1.05em;
+    overflow: hidden;
+    overflow-wrap: normal;
+    border-bottom: 1px solid #b3b3b3;
+}
+
+td.amount,
+td.sum,
+td.date {
+    white-space: nowrap;
+}
+
+td {
+    text-align: left;
+    font-size: 0.85em;
+    border-right: 1px solid #b3b3b3;
+}
+
+td.comment {
+    border: none;
+}
+
+tr.summary > td {
+    font-size: 0.95em;
+    font-weight: 700;
+    border: none;
+}
+
+.amount,
+td.sum {
+    text-align: right;
+}
+
+tr:last-child {
+    color: #739900;
+}
+
+.box {
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 5px;
+}
+
+#balance {
+    font-weight: 700;
+}
+
+#result {
+    font-size: 1.2em;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+}
+
+.timePeriod {
+    position: relative;
+}
+
+.dateButton > button:focus {
+    box-shadow: none;
+}
+
+.modal {
+    min-width: 300px;
+    overflow:  auto;
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+    ul > li {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+}
+
 @media (max-width: 767px) {
     #title {
         font-size: 2.5em;
+    }
+}
+
+@media (min-width: 767px) {
+    .dateButton {
+        position: absolute;
+        top: 0;
+        right: 0;
     }
 }
