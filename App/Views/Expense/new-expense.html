@@ -8,6 +8,10 @@
     {{ parent() }}
 {% endblock %}
 
+{% block onload %}
+    validateItemsForm()
+{% endblock %}
+
 {% block main %}
     
     {{ parent() }}

@@ -12,6 +12,10 @@
     {{ parent() }}
 {% endblock %}
 
+{% block onload %}
+    signForm();
+{% endblock %}
+
 {% block main %}
     
     <section class="container-fluid square my-4 py-4">
