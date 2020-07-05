@@ -4,7 +4,7 @@ namespace App;
 
 class Config
 {
-    const SHOW_ERRORS = true;
+    const SHOW_ERRORS = false;
     
     const DB_HOST = 'localhost';
     
