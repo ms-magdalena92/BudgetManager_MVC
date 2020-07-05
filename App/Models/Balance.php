@@ -22,8 +22,10 @@ class Balance extends \Core\Model
         
         $this -> getGroupedIncomes();
         $this -> getAllIncomes();
+        $this -> countTotalIncome();
         $this -> getGroupedExpenses();
         $this -> getAllExpenses();
+        $this -> countTotalExpense();
     }
     
     protected function getGroupedIncomes()
@@ -98,5 +100,31 @@ class Balance extends \Core\Model
         $stmt -> execute();
         
         $this -> detailedExpenses = $stmt -> fetchAll();
+    }
+    
+    protected function countTotalIncome()
+    {
+        $this -> totalIncome = 0;
+        
+        if(!empty($this -> groupedIncomes)) {
+            
+            foreach ($this -> groupedIncomes as $income) {
+                
+                $this -> totalIncome += $income['income_amount'];
+            }
+        }
+    }
+    
+    protected function countTotalExpense()
+    {
+        $this -> totalExpense = 0;
+        
+        if(!empty($this -> groupedExpenses)) {
+            
+            foreach ($this -> groupedExpenses as $expense) {
+                
+                $this -> totalExpense += $expense['expense_amount'];
+            }
+        }
     }
 }
