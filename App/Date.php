@@ -18,4 +18,14 @@ class Date
     {
         return date('Y-m-t');
     }
+    
+    public static function getLastMonthStartDate()
+    {
+        return date('Y-m-01', strtotime("last month"));
+    }
+    
+    public static function getLastMonthEndDate()
+    {
+        return date('Y-m-t', strtotime("last month"));
+    }
 }

@@ -23,6 +23,14 @@ class Balance extends \Core\Model
         $this -> getBalanceData();
     }
     
+    public function getLastMonthData()
+    {
+        $this -> startDate = Date::getLastMonthStartDate();
+        $this -> endDate = Date::getLastMonthEndDate();
+        
+        $this -> getBalanceData();
+    }
+    
     protected function getBalanceData()
     {
         $this -> getGroupedIncomes();

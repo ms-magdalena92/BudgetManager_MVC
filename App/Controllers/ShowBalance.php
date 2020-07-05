@@ -14,7 +14,14 @@ class ShowBalance extends Authenticated
         $currentMonth -> getCurrentMonthData();
         
         View::renderTemplate('Balance/show-balance.html', ['balance' => $currentMonth]);
+    }
+    
+    public function lastMonthAction()
+    {
+        $lastMonth = new Balance();
         
-        //var_dump($currentMonth);
+        $lastMonth -> getLastMonthData();
+        
+        View::renderTemplate('Balance/show-balance.html', ['balance' => $lastMonth]);
     }
 }
