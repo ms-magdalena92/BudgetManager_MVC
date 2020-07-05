@@ -200,3 +200,72 @@ $(".reveal").on('click',function() {
         $("#toggler").addClass("icon-eye");
     }
 });
+
+function drawChart(incomes, expenses) {
+    
+    google.charts.load('current', {'packages':['corechart']});
+    
+    if(Array.isArray(incomes) && incomes.length) {
+        
+        google.charts.setOnLoadCallback(drawIncomesChart);
+    }
+                
+    if(Array.isArray(expenses) && expenses.length) {
+        
+        google.charts.setOnLoadCallback(drawExpensesChart);
+    }
+    
+    function drawIncomesChart() {
+        
+        var incomesData = new google.visualization.DataTable();
+        incomesData.addColumn('string', 'Category');
+        incomesData.addColumn('number', 'Amount');
+        
+		for (var i = 0; i < incomes.length; i++) {
+            
+            incomesData.addRow([incomes[i].income_category, parseFloat(incomes[i].income_amount)]);
+        }
+        
+        var incomesOptions = {
+            title: 'Income',
+            colors: ['#c4ff4d', '#ddff99', '#b3ff1a', '#77b300', '#558000'],
+            backgroundColor: { fill:'transparent' },
+            chartArea:{top:30,bottom:10,width:'100%',height:'100%'},
+            fontSize: 17,
+            legend: {position: 'right', textStyle: {color: '#404040', fontSize: 17}},
+            titleTextStyle: {color: '#404040', fontSize: 17},
+            pieSliceTextStyle: {color: '#404040', fontSize: 17},
+            tooltip: {textStyle: {color: '#404040', fontSize: 15}}
+        };
+        
+        var incomesChart = new google.visualization.PieChart(document.getElementById('piechart1'));
+        incomesChart.draw(incomesData, incomesOptions);
+    }
+    
+    function drawExpensesChart() {
+        
+        var expensesData = new google.visualization.DataTable();
+        expensesData.addColumn('string', 'Category');
+        expensesData.addColumn('number', 'Amount');
+        
+        var expensesOptions = {
+            title: 'Expenses',
+            colors: ['#ffad33', '#ffc266', '#ffd699', '#ff9900', '#e68a00'],
+            backgroundColor: { fill:'transparent' },
+            chartArea:{top:30,bottom:10,width:'100%',height:'100%'},
+            fontSize: 17,
+            legend: {position: 'right', textStyle: {color: '#404040', fontSize: 17}},
+            titleTextStyle: {color: '#404040', fontSize: 17},
+            pieSliceTextStyle: {color: '#404040', fontSize: 17},
+            tooltip: {textStyle: {color: '#404040', fontSize: 15}}
+        };
+        
+        for (var i = 0; i < expenses.length; i++) {
+            
+            expensesData.addRow([expenses[i].expense_category, parseFloat(expenses[i].expense_amount)]);
+        }
+        
+        var expensesChart = new google.visualization.PieChart(document.getElementById('piechart2'));
+        expensesChart.draw(expensesData, expensesOptions);
+    }
+}
