@@ -12,6 +12,10 @@
     {{ parent() }}
 {% endblock %}
 
+{% block onload %}
+    showHidePassword();
+{% endblock %}
+
 {% block main %}
     
     <section class="container-fluid square my-4 py-4">
@@ -79,7 +83,6 @@
 
 {% block links %}
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js" integrity="sha256-+BEKmIvQ6IsL8sHcvidtDrNOdZO3C9LtFPtF2H0dOHI=" crossorigin="anonymous"></script>
     <script src="/js/mybudget.js"></script>
     
 {% endblock %}
