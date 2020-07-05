@@ -20,9 +20,15 @@ class Balance extends \Core\Model
         $this -> startDate = Date::getCurrentMonthStartDate();
         $this -> endDate = Date::getCurrentMonthEndDate();
         
+        $this -> getBalanceData();
+    }
+    
+    protected function getBalanceData()
+    {
         $this -> getGroupedIncomes();
         $this -> getAllIncomes();
         $this -> countTotalIncome();
+        
         $this -> getGroupedExpenses();
         $this -> getAllExpenses();
         $this -> countTotalExpense();
