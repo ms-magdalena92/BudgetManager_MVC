@@ -147,6 +147,25 @@
             
         </div>
         
+        <div class="row col-sm-6 col-lg-4 justify-content-center mt-5 mb-2 mx-auto box">
+            
+            <div id="result">
+                <span id="balance">BALANCE:</span>&emsp;
+                <span class="text-nowrap">{{ (balance.totalIncome - balance.totalExpense)| number_format(2, '.', '') }} PLN</span>
+            </div>
+            
+        </div>
+        
+        {% if balance.totalIncome - balance.totalExpense >= 0 %}
+            
+            <div class="ml-3 text-success" id="result">Great!  You Manage Your Finances Very Well!</div>
+            
+        {% else %}
+            
+            <div class="ml-3 text-danger" id="result">Watch Out! You Are Getting Into Debt!!</div>
+            
+        {% endif %}
+        
     </section>
     
 {% endblock %}
