@@ -69,19 +69,19 @@
                         
                         <ul class="navbar-nav mx-auto">
                             
-                            <li class="col-lg-2 mr-1 nav-item">
+                            <li class="col-lg-2 mr-1 nav-item {{ current_view == 'Menu' ? 'disabled' : '' }}">
                                 <a class="nav-link" href="/menu/main"><i class="icon-home"></i> Home</a>
                             </li>
                             
-                            <li class="col-lg-2 mr-1 nav-item">
-                                <a class="nav-link" href="/incomes/new"><i class="icon-money-1"></i> Add Income</a>
+                            <li class="col-lg-2 mr-1 nav-item {{ current_view == 'Income' ? 'disabled' : '' }}">
+                                <a class="nav-link" href="/incomes/new"><i class="icon-money-1"></i>Add Income</a>
                             </li>
                             
-                            <li class="col-lg-2 mr-1 nav-item">
+                            <li class="col-lg-2 mr-1 nav-item {{ current_view == 'Expense' ? 'disabled' : '' }}">
                                 <a class="nav-link" href="/expenses/new"><i class="icon-dollar"></i> Add Expense</a>
                             </li>
                             
-                            <li class="col-lg-2 mr-1 nav-item dropdown">
+                            <li class="col-lg-2 mr-1 nav-item dropdown {{ current_view == 'Balance' ? 'disabled' : '' }}">
                                 
                                 <a class="nav-link" href="" role="button"><i class="icon-chart-pie"></i> View Balance</a>
                                 

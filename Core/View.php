@@ -24,13 +24,17 @@ class View
     {
         static $twig = null;
         
+        $currentView = strstr($template, '/', true);
+        
         if ($twig === null) {
             
             $loader = new \Twig\Loader\FilesystemLoader('../App/Views');
             $twig = new \Twig\Environment($loader);
+            
             $twig -> addGlobal('current_user', \App\Auth::getLoggedUser());
             $twig -> addGlobal('flash_messages', \App\Flash::getFlashMsg());
             $twig -> addGlobal('current_date', \App\Date::getCurrentDate());
+            $twig -> addGlobal('current_view', $currentView);
         }
         
         return $twig -> render($template, $args);
