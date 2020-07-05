@@ -28,4 +28,14 @@ class Date
     {
         return date('Y-m-t', strtotime("last month"));
     }
+    
+    public static function getCurrentYearStartDate()
+    {
+        return date('Y-01-01');
+    }
+    
+    public static function getCurrentYearEndDate()
+    {
+        return date('Y-12-31');
+    }
 }

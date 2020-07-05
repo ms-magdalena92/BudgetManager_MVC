@@ -31,6 +31,14 @@ class Balance extends \Core\Model
         $this -> getBalanceData();
     }
     
+    public function getCurrentYearData()
+    {
+        $this -> startDate = Date::getCurrentYearStartDate();
+        $this -> endDate = Date::getCurrentYearEndDate();
+        
+        $this -> getBalanceData();
+    }
+    
     protected function getBalanceData()
     {
         $this -> getGroupedIncomes();

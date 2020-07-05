@@ -24,4 +24,13 @@ class ShowBalance extends Authenticated
         
         View::renderTemplate('Balance/show-balance.html', ['balance' => $lastMonth]);
     }
+    
+    public function currentYearAction()
+    {
+        $currentYear = new Balance();
+        
+        $currentYear -> getCurrentYearData();
+        
+        View::renderTemplate('Balance/show-balance.html', ['balance' => $currentYear]);
+    }
 }
