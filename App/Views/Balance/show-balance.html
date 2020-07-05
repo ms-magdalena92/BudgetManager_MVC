@@ -8,6 +8,19 @@
     {{ parent() }}
 {% endblock %}
 
+{% block head_links %}
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block onload %}
+    drawChart({{ balance.groupedIncomes|json_encode }}, {{ balance.groupedExpenses|json_encode }})
+{% endblock %}
+
+{% block onresize %}
+    drawChart({{ balance.groupedIncomes|json_encode }}, {{ balance.groupedExpenses|json_encode }})
+{% endblock %}
+
 {% block main %}
     
     {{ parent() }}
@@ -163,6 +176,18 @@
         {% else %}
             
             <div class="ml-3 text-danger" id="result">Watch Out! You Are Getting Into Debt!!</div>
+            
+        {% endif %}
+        
+        {% if balance.groupedIncomes is not empty %}
+            
+            <div class="col-sm-8 col-lg-6 mt-4 mb-2 pt-2 pb-4 mx-auto box"><div id="piechart1"></div></div>
+            
+        {% endif %}
+        
+        {% if balance.groupedExpenses is not empty %}
+            
+            <div class="col-sm-8 col-lg-6 my-3 pt-2 pb-4 mx-auto box"><div id="piechart2"></div></div>
             
         {% endif %}
         
