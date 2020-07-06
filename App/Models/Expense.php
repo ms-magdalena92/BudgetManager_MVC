@@ -24,10 +24,10 @@ class Expense extends \Core\Model
             
             $sql = 'INSERT INTO expenses (user_id, expense_amount, expense_date, payment_method_id, category_id, expense_comment)
                     VALUES (:user_id, :expense_amount, :expense_date,
-                    (SELECT category_id FROM expense_categories
-                    WHERE expense_category=:expense_category),
                     (SELECT payment_method_id FROM payment_methods
                     WHERE payment_method=:payment_method),
+                    (SELECT category_id FROM expense_categories
+                    WHERE expense_category=:expense_category),
 					:expense_comment)';
             
             $db = static::getDBconnection();
