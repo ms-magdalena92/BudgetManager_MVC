@@ -243,10 +243,11 @@ function drawChart(incomes, expenses)
         
         var incomesOptions = {
             title: 'Income',
-            colors: ['#c4ff4d', '#ddff99', '#b3ff1a', '#77b300', '#558000'],
+            colors: ['#ffad33', '#ffc266', '#ffd699', '#ff9900', '#e68a00'],
             backgroundColor: { fill:'transparent' },
             chartArea:{top:30,bottom:10,width:'100%',height:'100%'},
             fontSize: 17,
+            fontName: 'Nunito',
             legend: {position: 'right', textStyle: {color: '#404040', fontSize: 17}},
             titleTextStyle: {color: '#404040', fontSize: 17},
             pieSliceTextStyle: {color: '#404040', fontSize: 17},
@@ -269,6 +270,7 @@ function drawChart(incomes, expenses)
             backgroundColor: { fill:'transparent' },
             chartArea:{top:30,bottom:10,width:'100%',height:'100%'},
             fontSize: 17,
+            fontName: 'Nunito',
             legend: {position: 'right', textStyle: {color: '#404040', fontSize: 17}},
             titleTextStyle: {color: '#404040', fontSize: 17},
             pieSliceTextStyle: {color: '#404040', fontSize: 17},
