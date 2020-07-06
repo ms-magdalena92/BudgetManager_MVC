@@ -25,11 +25,11 @@
     
     {{ parent() }}
     
-    <section class="container-fluid mb-4 py-3 square2">
+    <section class="container-fluid mb-4 py-3">
         
         <div class="row py-3">
             
-            <div class="col-12 timePeriod square pt-3 pb-2">
+            <div class="col-12 pt-3 pb-2 square">
                 
                 <h5><span class="text-nowrap">{{ balance.startDate|date("d M Y") }}</span>  -  <span class="text-nowrap">{{ balance.endDate|date("d M Y") }}</span></h5>
                 
@@ -65,7 +65,7 @@
                     <tbody>
                         
                         <thead class="thead-dark">
-                            <caption>Incomes</caption>
+                            <caption class="py-2">Incomes</caption>
                             <tr>
                                 <th class="category">Category</th>
                                 <th class="amount">Amount</th>
@@ -114,7 +114,7 @@
                     <tbody>
                         
                         <thead class="thead-dark">
-                            <caption id="expenseCaption">Expenses</caption>
+                            <caption class="py-2">Expenses</caption>
                             <tr>
                                 <th class="category">Category</th>
                                 <th class="amount">Amount</th>
@@ -169,13 +169,15 @@
             
         </div>
         
-        {% if balance.totalIncome - balance.totalExpense >= 0 %}
+        {% if balance.totalIncome - balance.totalExpense > 0 %}
             
-            <div class="ml-3 text-success" id="result">Great!  You Manage Your Finances Very Well!</div>
+            <div class="ml-3 mb-4 text-success" id="result">Great!  You Manage Your Finances Very Well!</div>
             
-        {% else %}
+        {% endif %}
+        
+        {% if balance.totalIncome - balance.totalExpense < 0 %}
             
-            <div class="ml-3 text-danger" id="result">Watch Out! You Are Getting Into Debt!!</div>
+            <div class="ml-3 mb-4 text-danger" id="result">Watch Out! You Are Getting Into Debt!!</div>
             
         {% endif %}
         
