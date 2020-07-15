@@ -14,7 +14,7 @@
 {% endblock %}
 
 {% block onload %}
-    drawChart({{ balance.groupedIncomes|json_encode }}, {{ balance.groupedExpenses|json_encode }})
+    drawChart({{ balance.groupedIncomes|json_encode }}, {{ balance.groupedExpenses|json_encode }}), expandTableRows()
 {% endblock %}
 
 {% block onresize %}
@@ -75,9 +75,12 @@
                         
                         {% for summedIncome in balance.groupedIncomes %}
                             
-                            <tr class="summary">
+                            <tr class="summary header">
                                 <td class="category">{{ summedIncome['income_category'] }}</td>
                                 <td class="sum">{{ summedIncome['income_amount'] }} PLN</td>
+                                <td>
+                                    <button class="btn dropdown-toggle disabled"></button>
+                                </td>
                             </tr>
                             
                             {% for income in balance.detailedIncomes %}
@@ -125,9 +128,13 @@
                         
                         {% for summedExpense in balance.groupedExpenses %}
                             
-                            <tr class="summary">
+                            <tr class="summary header">
                                 <td class="category">{{ summedExpense['expense_category'] }}</td>
                                 <td class="sum">{{ summedExpense['expense_amount'] }} PLN</td>
+                                <td></td>
+                                <td>
+                                    <button class="btn dropdown-toggle disabled"></button>
+                                </td>
                             </tr>
                             
                             {% for expense in balance.detailedExpenses %}
