@@ -285,6 +285,15 @@ td.comment {
     border: none;
 }
 
+tr {
+    display: none;
+}
+
+tr.header {
+    display: table-row;
+    cursor: pointer;
+}
+
 tr.summary > td {
     font-size: 0.95em;
     font-weight: 700;
@@ -298,6 +307,7 @@ td.sum {
 
 tr:last-child {
     color: #fba100;
+    display: table-row !important;
 }
 
 .box {
