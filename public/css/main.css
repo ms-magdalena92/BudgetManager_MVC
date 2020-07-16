@@ -339,8 +339,30 @@ tr:last-child {
     overflow:  auto;
 }
 
+.side {
+    background-color: #c7c4d4;
+}
+
+ul.side > li:hover {
+    cursor: pointer;
+}
+
+ul.side > li.disabled {
+    background-color: #6c648b;
+    pointer-events: none;
+}
+
+ul.side > li > a {
+    color: #404040 !important;
+}
+
+ul.side > h5  {
+    color: #595959;
+    font-size: 1.15em;
+}
+
 @media (min-width: 992px) and (max-width: 1199px) {
-    ul > li {
+    ul.navbar-nav > li {
         display: flex;
         flex-direction: row;
         align-items: center;

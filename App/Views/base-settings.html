@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block main %}
+    
+    {{ parent() }}
+    
+    <section class="container-fluid my-4 py-3">
+        
+        <div class="row no-gutters">
+
+            <div class="col-sm-4 col-md-3 col-lg-2 mx-0">
+                
+                <ul class="nav flex-column px-1 py-2 side">
+
+                    <h5>Profile Settings</h6>
+                    <li class="nav-item {{ current_page == '/profile.html' ? 'disabled' : '' }}">
+                        <a class="nav-link" href="/settings/profile">User</a>
+                    </li>
+                    <li class="nav-item {{ current_page == '/account.html' ? 'disabled' : '' }}">
+                        <a class="nav-link" href="/settings/account">Account</a>
+                    </li>
+                    
+                    <h5>Category Settings</h6>
+                    <li class="nav-item {{ current_page == '/income-categories.html' ? 'disabled' : '' }}">
+                        <a class="nav-link" href="/settings/income-categories">Income</a>
+                    </li>
+                    <li class="nav-item {{ current_page == '/expense-categories.html' ? 'disabled' : '' }}">
+                        <a class="nav-link" href="/settings/expense-categories">Expense</a>
+                    </li>
+                    <li class="nav-item {{ current_page == '/payment-methods.html' ? 'disabled' : '' }}">
+                        <a class="nav-link" href="/settings/payment-methods">Payment Methods</a>
+                    </li>
+
+                </ul>
+
+            </div>
+
+            {% block settings %}
+            {% endblock %}
+            
+        </div>
+        
+    </section>
+    
+{% endblock %}
