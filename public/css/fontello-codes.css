@@ -17,6 +17,7 @@
 .icon-eye-off:before { content: '\e80f'; } /* '' */
 .icon-edit:before { content: '\e810'; } /* '' */
 .icon-delete:before { content: '\e811'; } /* '' */
+.icon-plus:before { content: '\e812'; } /* '' */
 .icon-mail-alt:before { content: '\f0e0'; } /* '' */
 .icon-chart-pie:before { content: '\f200'; } /* '' */
 .icon-user-plus:before { content: '\f234'; } /* '' */

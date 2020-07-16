@@ -361,6 +361,15 @@ ul.side > h5  {
     font-size: 1.15em;
 }
 
+div.input-group-append > button {
+    background-color: #ffc266;
+    border: 1px solid #cccccc;
+}
+
+div.input-group-append > button:hover {
+    background-color: #ffad33;
+}
+
 @media (min-width: 992px) and (max-width: 1199px) {
     ul.navbar-nav > li {
         display: flex;

@@ -1,0 +1,27 @@
+{% extends "base-settings.html" %}
+
+{% block title %}
+    Income Categories
+{% endblock %}
+
+{% block settings %}
+    
+    <div class="col bg-light text-left mx-1 mt-4 mt-sm-0 mx-sm-0 py-3 px-2 pl-sm-5">
+
+        <label class="pl-3 font-weight-bold">Income Categories</label>
+
+        {% for category in incomeCategories %}
+            <div class="col-lg-6 input-group mx-0 my-2">
+                <input class="form-control" type="text" value="{{ category.income_category }}" disabled >
+                <div class="input-group-append">
+                    <button class="btn signButton" type="button"><i class="icon-edit"></i></button>
+                    <button class="btn signButton" type="button"><i class="icon-delete"></i></button>
+                </div>
+            </div>
+        {% endfor %}
+        
+        <button class="btn ml-3 mt-3 signButton" type="button"><i class="icon-plus"></i> New Category</button>
+        
+    </div>
+    
+{% endblock %}
