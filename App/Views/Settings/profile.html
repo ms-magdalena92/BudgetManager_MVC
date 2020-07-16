@@ -1,0 +1,37 @@
+{% extends "base-settings.html" %}
+
+{% block title %}
+    Profile
+{% endblock %}
+
+{% block settings %}
+    
+    <div class="col bg-light text-left mx-1 mt-4 mt-sm-0 mx-sm-0 py-3 px-2 pl-sm-5">
+        
+        <label class="pl-3 font-weight-bold" for="currentName">Name</label>
+        <div class="col-lg-6 input-group mx-0">
+            <input class="form-control" id="currentName" type="text" value="{{ current_user.username }}" disabled >
+            <div class="input-group-append">
+                <button class="btn signButton" type="button"><i class="icon-edit"></i></button>
+            </div>
+        </div>
+        
+        <label class="pl-3 mt-3 font-weight-bold" for="currentEmail">E-mail</label>
+        <div class="col-lg-6 input-group">
+            <input class="form-control" id="currentEmail" type="text" value="{{ current_user.email }}" disabled >
+            <div class="input-group-append">
+                <button class="btn signButton" type="button"><i class="icon-edit"></i></button>
+            </div>
+        </div>
+        
+        <label class="pl-3 mt-3 font-weight-bold" for="currentPassword">Password</label>
+        <div class="col-lg-6 input-group">
+            <input class="form-control" id="currentPassword" type="text" value="••••••••" disabled >
+            <div class="input-group-append">
+                <button class="btn signButton" type="button"><i class="icon-edit"></i></button>
+            </div>
+        </div>
+
+    </div>
+    
+{% endblock %}

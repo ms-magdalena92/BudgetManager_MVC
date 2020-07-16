@@ -96,21 +96,20 @@
                                 
                             </li>
                             
-                            <li class="col-lg-2 mr-1 nav-item dropdown">
+                            <li class="col-lg-2 mr-1 nav-item dropdown {{ current_view == 'Settings' ? 'disabled' : '' }}">
                                 
                                 <a class="nav-link" href="" role="button"><i class="icon-cog-alt"></i> Settings</a>
                                 
                                 <div class="dropdown-menu bg-transparent border-0 m-0 p-0">
                                     
                                     <h6 class="dropdown-header">Profile settings</h6>
-                                    <a class="dropdown-item" href="">Name</a>
-                                    <a class="dropdown-item" href="">Password</a>
-                                    <a class="dropdown-item" href="">E-mail Adress</a>
+                                    <a class="dropdown-item" href="/settings/profile">User</a>
+                                    <a class="dropdown-item" href="/settings/account">Account</a>
                                     
                                     <h6 class="dropdown-header">Category settings</h6>
-                                    <a class="dropdown-item" href="">Income</a>
-                                    <a class="dropdown-item" href="">Expense</a>
-                                    <a class="dropdown-item" href="">Payment Methods</a>
+                                    <a class="dropdown-item" href="/settings/income-categories">Income</a>
+                                    <a class="dropdown-item" href="/settings/expense-categories">Expense</a>
+                                    <a class="dropdown-item" href="/settings/payment-methods">Payment Methods</a>
                                     
                                 </div>
                                 

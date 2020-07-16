@@ -25,6 +25,7 @@ class View
         static $twig = null;
         
         $currentView = strstr($template, '/', true);
+        $currentPage = strstr($template, '/');
         
         if ($twig === null) {
             
@@ -35,6 +36,7 @@ class View
             $twig -> addGlobal('flash_messages', \App\Flash::getFlashMsg());
             $twig -> addGlobal('current_date', \App\Date::getCurrentDate());
             $twig -> addGlobal('current_view', $currentView);
+            $twig -> addGlobal('current_page', $currentPage);
         }
         
         return $twig -> render($template, $args);
