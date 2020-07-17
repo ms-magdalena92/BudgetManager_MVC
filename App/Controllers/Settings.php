@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use \Core\View;
-use \App\Models\Categories;
+use \App\Models\Category;
 
 class Settings extends Authenticated
 {
@@ -14,7 +14,7 @@ class Settings extends Authenticated
 
     public function incomeCategoriesAction()
     {
-        $incomeCategories = Categories::getCurrentUserIncomeCategories();
+        $incomeCategories = Category::getCurrentUserIncomeCategories();
 
         View::renderTemplate('Settings/income-categories.html', [
             'incomeCategories' => $incomeCategories
@@ -25,7 +25,7 @@ class Settings extends Authenticated
     {
         if(isset($_POST['categoryType']) &&  $_POST['categoryType'] == 'income') {
             
-            $categoryExists = !Categories::incomeCategoryExists($_POST['categoryName']);
+            $categoryExists = !Category::incomeCategoryExists($_POST['categoryNewName']);
         }
 
         header('Content-Type: application/json');

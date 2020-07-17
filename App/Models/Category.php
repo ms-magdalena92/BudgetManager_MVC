@@ -4,8 +4,9 @@ namespace App\Models;
 
 use PDO;
 
-class Categories extends \Core\Model
+class Category extends \Core\Model
 {
+    
     public static function assignDefaultCategoriesToNewUser()
     {
         $db = static::getDBconnection();
@@ -33,7 +34,7 @@ class Categories extends \Core\Model
     {
         $db = static::getDBconnection();
         
-        $sql = 'SELECT ic.income_category
+        $sql = 'SELECT ic.income_category, ic.category_id
                 FROM income_categories ic NATURAL JOIN user_income_category uic
                 WHERE uic.user_id = :loggedUserId';
         
