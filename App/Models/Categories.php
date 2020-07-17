@@ -73,4 +73,20 @@ class Categories extends \Core\Model
         
         return $stmt -> fetchAll();
     }
+
+    public static function incomeCategoryExists($categoryName)
+    {
+        $db = static::getDBconnection();
+        
+        $sql = 'SELECT *
+                FROM user_income_category uic NATURAL JOIN income_categories ic
+                WHERE uic.user_id = :loggedUserId AND ic.income_category = :income_category';
+        
+        $stmt = $db -> prepare($sql);
+        $stmt -> bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt -> bindValue(':income_category', $categoryName, PDO::PARAM_STR);
+        $stmt -> execute();
+        
+        return $stmt -> fetchAll();
+    }
 }

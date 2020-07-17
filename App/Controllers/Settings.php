@@ -20,4 +20,16 @@ class Settings extends Authenticated
             'incomeCategories' => $incomeCategories
         ]);
     }
+
+    public function validateCategoryAction()
+    {
+        if(isset($_POST['categoryType']) &&  $_POST['categoryType'] == 'income') {
+            
+            $categoryExists = !Categories::incomeCategoryExists($_POST['categoryName']);
+        }
+
+        header('Content-Type: application/json');
+        
+        echo json_encode($categoryExists);
+    }
 }

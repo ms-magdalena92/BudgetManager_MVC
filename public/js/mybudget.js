@@ -298,3 +298,63 @@ function expandTableRows()
     });
 }
 
+function validateCategoryForm()
+{
+    $(document).on('click', '#editButton', function() {
+        var category = $(this).attr('data-category-name');
+        $('#categoryInput').val(category);
+        $('#categoryNameError').empty();
+    });
+    
+    $.validator.addMethod('validName',
+        function(value, element, param) {
+            
+            if (value != '') {
+                
+                if (value.match(/^[A-ZĄĘÓŁŚŻŹĆŃa-ząęółśżźćń 0-9]+$/)) {
+                    
+                    return true;
+                }
+                return false;
+            }
+            return true;
+        },
+        
+        'Category name can contain up to 50 characters - only letters and numbers allowed.'
+    );
+    
+    $(document).ready(function() {
+
+        $('#categoryForm').validate({
+            errorElement: 'li',
+            rules: {
+                categoryName: {
+                    validName: true,
+                    minlength: 2,
+                    maxlength: 50,
+                    remote: {
+                        url: '/settings/validate-category',
+                        type: 'post',
+                        data: {
+                            categoryType: function() {
+                                return $('#categoryInput').attr('data-category-type');
+                            }
+                        }
+                    }
+                }
+            },
+            messages: {
+                categoryName: {
+                    required: 'Name is required.',
+                    remote: 'Name already exists.'
+                }
+            },
+            errorPlacement: function(error,element){
+                
+                if(element.attr('name') == 'categoryName') {
+                    error.appendTo('#categoryNameError');
+                }
+            }
+        });
+    });
+}
