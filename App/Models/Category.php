@@ -84,7 +84,7 @@ class Category extends \Core\Model
         return $stmt -> fetchAll();
     }
 
-    public static function incomeCategoryExists($categoryName)
+    public static function userIncomeCategoryExists($categoryName)
     {
         $db = static::getDBconnection();
         
@@ -105,13 +105,25 @@ class Category extends \Core\Model
         $this -> validateCategoryData();
         
         if(empty($this -> validationErrors)) {
+            
+            $this -> categoryNewId = $this -> categoryExistsInIncomeCategories();
+
+            if(!$this -> categoryNewId) {
+                
+                $this -> addNewIncomeCategory();
+                $this -> categoryNewId = $this -> categoryExistsInIncomeCategories();
+            }
+
+            $this -> assignIncomeCategoryToUser();
+            $this -> removeIncomeCategoryAssignmentFromUser();
+
             return true;
         }
         
         return false;
     }
     
-    public function validateCategoryData()
+    protected function validateCategoryData()
     {
         if(isset($this -> categoryNewName)) {
             
@@ -130,10 +142,63 @@ class Category extends \Core\Model
                 $this -> validationErrors[] = 'Name must contain letters and numbers only, special characters not allowed.';
             }
 
-            if(self::incomeCategoryExists($this -> categoryNewName)) {
+            if(self::userIncomeCategoryExists($this -> categoryNewName)) {
                 
                 $this -> validationErrors[] = 'Name already exists.';
             }
         }
+    }
+
+    protected function categoryExistsInIncomeCategories()
+    {
+        $db = static::getDBconnection();
+        
+        $sql = 'SELECT category_id
+                FROM income_categories
+                WHERE income_category = :income_category';
+        
+        $stmt = $db -> prepare($sql);
+        $stmt -> bindValue(':income_category', $this -> categoryNewName, PDO::PARAM_STR);
+        $stmt -> execute();
+        
+        return $stmt -> fetch();
+    }
+
+    public function addNewIncomeCategory()
+    {
+        $db = static::getDBconnection();
+        
+        $sql = 'INSERT INTO income_categories (income_category)
+                VALUES (:categoryName)';
+        
+        $stmt = $db -> prepare($sql);
+        $stmt -> bindValue(':categoryName', strtolower($this -> categoryNewName), PDO::PARAM_STR);
+        $stmt -> execute();
+    }
+
+    protected function assignIncomeCategoryToUser()
+    {
+        $db = static::getDBconnection();
+        
+        $sql = 'INSERT INTO user_income_category (user_id, category_id)
+                VALUES (:loggedUserId, :categoryNewId)';
+        
+        $stmt = $db -> prepare($sql);
+        $stmt -> bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt -> bindValue(':categoryNewId', $this -> categoryNewId['category_id'], PDO::PARAM_INT);
+        $stmt -> execute();
+    }
+
+    protected function removeIncomeCategoryAssignmentFromUser()
+    {
+        $db = static::getDBconnection();
+        
+        $sql = 'DELETE FROM user_income_category
+                WHERE user_id = :loggedUserId AND category_id = :categoryOldId';
+        
+        $stmt = $db -> prepare($sql);
+        $stmt -> bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt -> bindValue(':categoryOldId', $this -> categoryOldId, PDO::PARAM_STR);
+        $stmt -> execute();
     }
 }

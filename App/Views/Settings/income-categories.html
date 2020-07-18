@@ -85,6 +85,7 @@ validateCategoryForm();
             $(document).ready(function(){ 
                 $('#editCategoryModal').modal('show');
                 $('input[name="categoryNewName"]').val('{{ incomeCategory.categoryNewName }}');
+                $('input[name="categoryOldId"]').val('{{ incomeCategory.categoryOldId }}');
             });
         </script>
     {% endif %}

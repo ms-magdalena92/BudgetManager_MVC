@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use \Core\View;
 use \App\Models\Category;
+use \App\Models\Income;
 use \App\Flash;
 
 class Settings extends Authenticated
@@ -31,7 +32,7 @@ class Settings extends Authenticated
     {
         if(isset($_POST['categoryType']) &&  $_POST['categoryType'] == 'income') {
             
-            $categoryExists = !Category::incomeCategoryExists($_POST['categoryNewName']);
+            $categoryExists = !Category::userIncomeCategoryExists($_POST['categoryNewName']);
         }
 
         header('Content-Type: application/json');
@@ -44,7 +45,9 @@ class Settings extends Authenticated
         $incomeCategory = new Category($_POST);
         
         if($incomeCategory -> editIncomeCategory()) {
-            
+
+            Income::updateIncomesAssignedToEditedCategory($incomeCategory);
+
             Flash::addFlashMsg('Your category has been successfully edited.');
             $this -> redirect('/settings/income-categories');
             

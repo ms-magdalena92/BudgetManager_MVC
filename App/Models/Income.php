@@ -83,4 +83,20 @@ class Income extends \Core\Model
             }
         }
     }
+
+    public static function updateIncomesAssignedToEditedCategory($incomeCategory)
+    {
+        $db = static::getDBconnection();
+        
+        $sql = 'UPDATE incomes
+                SET category_id = :categoryNewId
+                WHERE user_id = :loggedUserId AND category_id = :categoryOldId';
+        
+        $stmt = $db -> prepare($sql);
+        $stmt -> bindValue(':categoryNewId', $incomeCategory -> categoryNewId['category_id'], PDO::PARAM_INT);
+        $stmt -> bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt -> bindValue(':categoryOldId', $incomeCategory -> categoryOldId, PDO::PARAM_INT);
+        
+        $stmt -> execute();
+    }
 }
