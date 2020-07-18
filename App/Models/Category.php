@@ -6,7 +6,16 @@ use PDO;
 
 class Category extends \Core\Model
 {
+    public $validationErrors = [];
     
+    public function __construct($data = [])
+    {
+        foreach($data as $key => $value) {
+            
+            $this -> $key = $value;
+        };
+    }
+
     public static function assignDefaultCategoriesToNewUser()
     {
         $db = static::getDBconnection();
@@ -89,5 +98,42 @@ class Category extends \Core\Model
         $stmt -> execute();
         
         return $stmt -> fetchAll();
+    }
+
+    public function editIncomeCategory()
+    {
+        $this -> validateCategoryData();
+        
+        if(empty($this -> validationErrors)) {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    public function validateCategoryData()
+    {
+        if(isset($this -> categoryNewName)) {
+            
+            if($this -> categoryNewName == '') {
+                
+                $this -> validationErrors[] = 'Name is required.';
+            }
+            
+            if(strlen($this -> categoryNewName) < 2 || strlen($this -> categoryNewName) > 50) {
+                
+                $this -> validationErrors[] = 'Name needs to be between 2 to 50 characters.';
+            }
+            
+            if(!preg_match('/^[A-ZĄĘÓŁŚŻŹĆŃa-ząęółśżźćń 0-9]+$/', $this -> categoryNewName)) {
+                
+                $this -> validationErrors[] = 'Name must contain letters and numbers only, special characters not allowed.';
+            }
+
+            if(self::incomeCategoryExists($this -> categoryNewName)) {
+                
+                $this -> validationErrors[] = 'Name already exists.';
+            }
+        }
     }
 }
