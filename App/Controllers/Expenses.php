@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use \Core\View;
-use \App\Models\Categories;
+use \App\Models\Category;
 use \App\Models\Expense;
 use \App\Flash;
 
@@ -16,8 +16,8 @@ class Expenses extends Authenticated
     {
         parent::before();
         
-        $this -> expenseCategories = Categories::getCurrentUserExpenseCategories();
-        $this -> paymentMethods = Categories::getCurrentUserPaymentMethods();
+        $this -> expenseCategories = Category::getCurrentUserExpenseCategories();
+        $this -> paymentMethods = Category::getCurrentUserPaymentMethods();
     }
     
     public function newAction()

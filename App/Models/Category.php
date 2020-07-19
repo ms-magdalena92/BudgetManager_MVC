@@ -4,8 +4,18 @@ namespace App\Models;
 
 use PDO;
 
-class Categories extends \Core\Model
+class Category extends \Core\Model
 {
+    public $validationErrors = [];
+    
+    public function __construct($data = [])
+    {
+        foreach($data as $key => $value) {
+            
+            $this -> $key = $value;
+        };
+    }
+
     public static function assignDefaultCategoriesToNewUser()
     {
         $db = static::getDBconnection();
@@ -33,7 +43,7 @@ class Categories extends \Core\Model
     {
         $db = static::getDBconnection();
         
-        $sql = 'SELECT ic.income_category
+        $sql = 'SELECT ic.income_category, ic.category_id
                 FROM income_categories ic NATURAL JOIN user_income_category uic
                 WHERE uic.user_id = :loggedUserId';
         
@@ -72,5 +82,26 @@ class Categories extends \Core\Model
         $stmt -> execute();
         
         return $stmt -> fetchAll();
+    }
+
+    protected function validateCategoryData()
+    {
+        if(isset($this -> categoryNewName)) {
+            
+            if($this -> categoryNewName == '') {
+                
+                $this -> validationErrors[] = 'Name is required.';
+            }
+            
+            if(strlen($this -> categoryNewName) < 2 || strlen($this -> categoryNewName) > 50) {
+                
+                $this -> validationErrors[] = 'Name needs to be between 2 to 50 characters.';
+            }
+            
+            if(!preg_match('/^[A-ZĄĘÓŁŚŻŹĆŃa-ząęółśżźćń 0-9]+$/', $this -> categoryNewName)) {
+                
+                $this -> validationErrors[] = 'Name must contain letters and numbers only, special characters not allowed.';
+            }
+        }
     }
 }

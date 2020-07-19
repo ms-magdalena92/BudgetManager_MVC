@@ -298,3 +298,80 @@ function expandTableRows()
     });
 }
 
+function validateCategoryForm()
+{
+    $(document).on('click', '#deleteButton', function() {
+
+        var categoryId = $(this).attr('data-category-id');
+        $('#deleteCategoryModal input[name="categoryOldId"]').val(categoryId);
+    });
+    
+    $(document).on('click', '#editButton', function() {
+
+        var categoryName = $(this).attr('data-category-name');
+        var categoryId = $(this).attr('data-category-id');
+        $('#editCategoryModal input[name="categoryNewName"]').val(categoryName);
+        $('#editCategoryModal input[name="categoryOldId"]').val(categoryId);
+        $('.error').empty();
+    });
+
+    $(document).on('click', '#addButton', function() {
+
+        $('.error').empty();
+    });
+    
+    $.validator.addMethod('validName',
+        function(value, element, param) {
+            
+            if (value != '') {
+                
+                if (value.match(/^[A-ZĄĘÓŁŚŻŹĆŃa-ząęółśżźćń 0-9]+$/)) {
+                    
+                    return true;
+                }
+                return false;
+            }
+            return true;
+        },
+        
+        'Name can contain up to 50 characters - only letters and numbers allowed.'
+    );
+    
+    $(document).ready(function() {
+
+        $('form').each(function() {
+            $(this).validate({
+                errorElement: 'li',
+                rules: {
+                    categoryNewName: {
+                        validName: true,
+                        minlength: 2,
+                        maxlength: 50,
+                        remote: {
+                            url: '/settings/validate-category',
+                            type: 'post',
+                            data: {
+                                categoryType: function() {
+                                    return $('input[name="categoryNewName"]').attr('data-category-type');
+                                }
+                            }
+                        }
+                    }
+                },
+                messages: {
+                    categoryNewName: {
+                        required: 'Name is required.',
+                        remote: 'Name already exists.'
+                    }
+                },
+                errorPlacement: function(error,element){
+                    
+                    if(element.attr('name') == 'categoryNewName') {
+                        
+                        error.appendTo('.categoryNameError');
+                    }
+                }
+            });
+        });
+    });
+}

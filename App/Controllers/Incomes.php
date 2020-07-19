@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use \Core\View;
-use \App\Models\Categories;
+use \App\Models\Category;
 use \App\Models\Income;
 use \App\Flash;
 
@@ -15,7 +15,7 @@ class Incomes extends Authenticated
     {
         parent::before();
         
-        $this -> incomeCategories = Categories::getCurrentUserIncomeCategories();
+        $this -> incomeCategories = Category::getCurrentUserIncomeCategories();
     }
     
     public function newAction()
