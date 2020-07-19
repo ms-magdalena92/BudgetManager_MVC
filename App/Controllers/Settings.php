@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use \Core\View;
 use \App\Models\Category;
+use \App\Models\IncomeCategory;
 use \App\Models\Income;
 use \App\Flash;
 
@@ -32,7 +33,7 @@ class Settings extends Authenticated
     {
         if(isset($_POST['categoryType']) &&  $_POST['categoryType'] == 'income') {
             
-            $categoryExists = !Category::userIncomeCategoryExists($_POST['categoryNewName']);
+            $categoryExists = !IncomeCategory::incomeCategoryIsAssignedToUser($_POST['categoryNewName']);
         }
 
         header('Content-Type: application/json');
@@ -42,7 +43,7 @@ class Settings extends Authenticated
 
     public function editIncomeCategoryAction()
     {
-        $incomeCategory = new Category($_POST);
+        $incomeCategory = new IncomeCategory($_POST);
         
         if($incomeCategory -> editIncomeCategory()) {
 
@@ -60,5 +61,17 @@ class Settings extends Authenticated
                 'incomeCategory' => $incomeCategory
             ]);
         }
+    }
+
+    public function deleteIncomeCategoryAction()
+    {
+        $incomeCategory = new IncomeCategory($_POST);
+        
+        $incomeCategory -> deleteIncomeCategory();
+        
+        Income::deleteIncomesAssignedToDeletedCategory($incomeCategory);
+
+        Flash::addFlashMsg('Your category has been successfully deleted.');
+        $this -> redirect('/settings/income-categories');
     }
 }

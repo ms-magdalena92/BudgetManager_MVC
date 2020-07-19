@@ -19,7 +19,7 @@ validateCategoryForm();
                 <input class="form-control" type="text" value="{{ category.income_category }}" disabled >
                 <div class="input-group-append">
                     <button class="btn signButton" type="button" id="editButton" data-category-id="{{ category.category_id }}" data-category-name="{{ category.income_category }}" data-toggle="modal" data-target="#editCategoryModal"><i class="icon-edit"></i></button>
-                    <button class="btn signButton" type="button"><i class="icon-delete"></i></button>
+                    <button class="btn signButton" type="button" id="deleteButton" data-category-id="{{ category.category_id }}" data-toggle="modal" data-target="#deleteCategoryModal"><i class="icon-delete"></i></button>
                 </div>
             </div>
         {% endfor %}
@@ -69,7 +69,45 @@ validateCategoryForm();
                     
                     <div class="modal-footer">
                         <button class="btn signButton" type="submit">Save</button>
-                        <button type="button" class="btn signButton" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn signButton" data-dismiss="modal">Cancel</button>
+                    </div>
+                    
+                </form>
+                
+            </div>
+            
+        </div>
+        
+    </div>
+
+    <div class="modal fade" role='dialog' id="deleteCategoryModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                
+                <div class="modal-header">
+                    <h3 class="modal-title">Deleting Income Category</h3>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                
+                <form class="col" method="post" action="/settings/delete-income-category">
+                    
+                    <div class="modal-body">
+                        
+                        <div class="row py-1 text-left">
+                            
+                            <p class="text-muted"><span class="text-danger font-weight-bold">Warning!</span> If you delete the category all of your incomes assigned to this category will be automatically deleted.</p>
+                            <p class="mt-2 font-weight-bold">Are you sure you want to delete the category?</p>
+                            <div class="form-group mb-0 mt-2 text-left">
+                                    <input type="hidden" name="categoryOldId">
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button class="btn btn-danger" type="submit">Delete</button>
+                        <button type="button" class="btn signButton" data-dismiss="modal">Cancel</button>
                     </div>
                     
                 </form>

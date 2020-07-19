@@ -300,12 +300,18 @@ function expandTableRows()
 
 function validateCategoryForm()
 {
+    $(document).on('click', '#deleteButton', function() {
+
+        var categoryId = $(this).attr('data-category-id');
+        $('#deleteCategoryModal input[name="categoryOldId"]').val(categoryId);
+    });
+    
     $(document).on('click', '#editButton', function() {
 
         var categoryName = $(this).attr('data-category-name');
         var categoryId = $(this).attr('data-category-id');
-        $('input[name="categoryNewName"]').val(categoryName);
-        $('input[name="categoryOldId"]').val(categoryId);
+        $('#editCategoryModal input[name="categoryNewName"]').val(categoryName);
+        $('#editCategoryModal input[name="categoryOldId"]').val(categoryId);
         $('#categoryNameError').empty();
     });
     
