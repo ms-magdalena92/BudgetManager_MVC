@@ -312,7 +312,12 @@ function validateCategoryForm()
         var categoryId = $(this).attr('data-category-id');
         $('#editCategoryModal input[name="categoryNewName"]').val(categoryName);
         $('#editCategoryModal input[name="categoryOldId"]').val(categoryId);
-        $('#categoryNameError').empty();
+        $('.error').empty();
+    });
+
+    $(document).on('click', '#addButton', function() {
+
+        $('.error').empty();
     });
     
     $.validator.addMethod('validName',
@@ -334,36 +339,39 @@ function validateCategoryForm()
     
     $(document).ready(function() {
 
-        $('#categoryForm').validate({
-            errorElement: 'li',
-            rules: {
-                categoryNewName: {
-                    validName: true,
-                    minlength: 2,
-                    maxlength: 50,
-                    remote: {
-                        url: '/settings/validate-category',
-                        type: 'post',
-                        data: {
-                            categoryType: function() {
-                                return $('input[name="categoryNewName"]').attr('data-category-type');
+        $('form').each(function() {
+            $(this).validate({
+                errorElement: 'li',
+                rules: {
+                    categoryNewName: {
+                        validName: true,
+                        minlength: 2,
+                        maxlength: 50,
+                        remote: {
+                            url: '/settings/validate-category',
+                            type: 'post',
+                            data: {
+                                categoryType: function() {
+                                    return $('input[name="categoryNewName"]').attr('data-category-type');
+                                }
                             }
                         }
                     }
+                },
+                messages: {
+                    categoryNewName: {
+                        required: 'Name is required.',
+                        remote: 'Name already exists.'
+                    }
+                },
+                errorPlacement: function(error,element){
+                    
+                    if(element.attr('name') == 'categoryNewName') {
+                        
+                        error.appendTo('.categoryNameError');
+                    }
                 }
-            },
-            messages: {
-                categoryNewName: {
-                    required: 'Name is required.',
-                    remote: 'Name already exists.'
-                }
-            },
-            errorPlacement: function(error,element){
-                
-                if(element.attr('name') == 'categoryNewName') {
-                    error.appendTo('#categoryNameError');
-                }
-            }
+            });
         });
     });
 }

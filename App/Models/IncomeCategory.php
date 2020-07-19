@@ -37,7 +37,7 @@ class IncomeCategory extends Category
 
             if(!$this -> categoryNewId) {
                 
-                $this -> addNewIncomeCategory();
+                $this -> saveNewIncomeCategory();
                 $this -> categoryNewId = $this -> categoryExistsInIncomeCategories();
             }
 
@@ -65,7 +65,7 @@ class IncomeCategory extends Category
         return $stmt -> fetch();
     }
 
-    public function addNewIncomeCategory()
+    public function saveNewIncomeCategory()
     {
         $db = static::getDBconnection();
         
@@ -106,5 +106,32 @@ class IncomeCategory extends Category
     public function deleteIncomeCategory()
     {
         self::removeIncomeCategoryAssignmentFromUser();
+    }
+
+    public function addNewIncomeCategory()
+    {
+        $this -> validateCategoryData();
+
+        if(self::incomeCategoryIsAssignedToUser($this -> categoryNewName)) {
+                
+            $this -> validationErrors[] = 'Name already exists.';
+        }
+        
+        if(empty($this -> validationErrors)) {
+            
+            $this -> categoryNewId = $this -> categoryExistsInIncomeCategories();
+
+            if(!$this -> categoryNewId) {
+                
+                $this -> saveNewIncomeCategory();
+                $this -> categoryNewId = $this -> categoryExistsInIncomeCategories();
+            }
+
+            $this -> assignIncomeCategoryToUser();
+
+            return true;
+        }
+        
+        return false;
     }
 }

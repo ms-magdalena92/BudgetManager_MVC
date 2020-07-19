@@ -68,10 +68,30 @@ class Settings extends Authenticated
         $incomeCategory = new IncomeCategory($_POST);
         
         $incomeCategory -> deleteIncomeCategory();
-        
+
         Income::deleteIncomesAssignedToDeletedCategory($incomeCategory);
 
         Flash::addFlashMsg('Your category has been successfully deleted.');
         $this -> redirect('/settings/income-categories');
+    }
+
+    public function addIncomeCategoryAction()
+    {
+        $incomeCategory = new IncomeCategory($_POST);
+        
+        if($incomeCategory -> addNewIncomeCategory()) {
+
+            Flash::addFlashMsg('Your new category has been successfully added.');
+            $this -> redirect('/settings/income-categories');
+            
+        } else {
+            
+            $incomeCategories = self::getIncomeCategories();
+
+            View::renderTemplate('Settings/income-categories.html', [
+                'incomeCategories' => $incomeCategories,
+                'incomeCategory' => $incomeCategory
+            ]);
+        }
     }
 }
