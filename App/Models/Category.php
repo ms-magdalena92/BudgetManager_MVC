@@ -73,7 +73,7 @@ class Category extends \Core\Model
     {
         $db = static::getDBconnection();
         
-        $sql = 'SELECT pm.payment_method
+        $sql = 'SELECT pm.payment_method, pm.payment_method_id
                 FROM payment_methods pm NATURAL JOIN user_payment_method upm
                 WHERE upm.user_id = :loggedUserId';
         

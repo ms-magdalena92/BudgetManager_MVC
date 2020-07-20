@@ -1,0 +1,198 @@
+{% extends "base-settings.html" %}
+
+{% block title %}
+    Payment Methods
+{% endblock %}
+
+{% block onload %}
+validateCategoryForm();
+{% endblock %}
+
+{% block settings %}
+    
+    <div class="col bg-light text-left mx-1 mt-4 mt-sm-0 mx-sm-0 py-4 px-2 pl-sm-5">
+
+        <label class="pl-3 font-weight-bold">Your Payment Methods</label>
+
+        {% for method in paymentMethods %}
+            <div class="col-lg-6 input-group mx-0 my-2">
+                <input class="form-control" type="text" value="{{ method.payment_method }}" disabled >
+                <div class="input-group-append">
+                    <button class="btn signButton" type="button" id="editButton" data-category-id="{{ method.payment_method_id }}" data-category-name="{{ method.payment_method }}" data-toggle="modal" data-target="#editCategoryModal"><i class="icon-edit"></i></button>
+                    <button class="btn signButton" type="button" id="deleteButton" data-category-id="{{ method.payment_method_id }}" data-toggle="modal" data-target="#deleteCategoryModal"><i class="icon-delete"></i></button>
+                </div>
+            </div>
+        {% endfor %}
+        
+        <button class="btn ml-3 mt-3 signButton" type="button" id="addButton" data-toggle="modal" data-target="#addCategoryModal"><i class="icon-plus"></i> New Payment Method</button>
+        
+    </div>
+    
+    <div class="modal fade" role='dialog' id="editCategoryModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                
+                <div class="modal-header">
+                    <h3 class="modal-title">Editing Payment Method</h3>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                
+                <form class="col" method="post" action="/settings/edit-payment-method">
+                    
+                    <div class="modal-body">
+                        
+                        <div class="row py-1">
+                            
+                            <p class="text-muted">Please enter new name for the selected payment method.</p>
+
+                            <div class="form-group mb-0 mt-2 text-left">
+                                <label class="font-weight-bold" for="category">Payment Method Name</label>
+                                    <input class="form-control mt-1 userInput" type="text" data-category-type="payment_method" name="categoryNewName" required>
+                                    <input type="hidden" name="categoryOldId">
+                            </div>
+
+                            <ul class="text-danger text-left pl-1 mt-2 error categoryNameError">
+
+                                {% if paymentMethod.validationErrors is not empty %}
+
+                                    {% for error in paymentMethod.validationErrors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                    
+                                {% endif %}
+
+                            </ul>
+                            
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button class="btn signButton" type="submit">Save</button>
+                        <button type="button" class="btn signButton" data-dismiss="modal">Cancel</button>
+                    </div>
+                    
+                </form>
+                
+            </div>
+            
+        </div>
+        
+    </div>
+
+    <div class="modal fade" role='dialog' id="deleteCategoryModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                
+                <div class="modal-header">
+                    <h3 class="modal-title">Deleting Payment Method</h3>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                
+                <form class="col" method="post" action="/settings/delete-payment-method">
+                    
+                    <div class="modal-body">
+                        
+                        <div class="row py-1 text-left">
+                            
+                            <p class="text-muted"><span class="text-danger font-weight-bold">Warning!</span> If you delete the payment method all of your incomes assigned to this method will be automatically deleted.</p>
+                            <p class="mt-2 font-weight-bold">Are you sure you want to delete the payment method?</p>
+                            <div class="form-group mb-0 mt-2 text-left">
+                                    <input type="hidden" name="categoryOldId">
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button class="btn btn-danger" type="submit">Delete</button>
+                        <button type="button" class="btn signButton" data-dismiss="modal">Cancel</button>
+                    </div>
+                    
+                </form>
+                
+            </div>
+            
+        </div>
+        
+    </div>
+
+    <div class="modal fade" role='dialog' id="addCategoryModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                
+                <div class="modal-header">
+                    <h3 class="modal-title">Adding Payment Method</h3>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                
+                <form class="col" method="post" action="/settings/add-payment-method">
+                    
+                    <div class="modal-body">
+                        
+                        <div class="row py-1">
+                            
+                            <p class="text-muted">Please enter name for new payment method.</p>
+
+                            <div class="form-group mb-0 mt-2 text-left">
+                                <label class="font-weight-bold" for="category">Payment Method Name</label>
+                                    <input class="form-control mt-1 userInput" type="text" data-category-type="payment_method" name="categoryNewName" required>
+                            </div>
+
+                            <ul class="text-danger text-left pl-1 mt-2 error categoryNameError">
+
+                                {% if paymentMethod.validationErrors is not empty %}
+
+                                    {% for error in paymentMethod.validationErrors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                    
+                                {% endif %}
+
+                            </ul>
+                            
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button class="btn signButton" type="submit">Save</button>
+                        <button type="button" class="btn signButton" data-dismiss="modal">Cancel</button>
+                    </div>
+                    
+                </form>
+                
+            </div>
+            
+        </div>
+        
+    </div>
+
+    {% if paymentMethod.categoryOldId is defined and paymentMethod.validationErrors is not empty %}
+        <script type="text/javascript">
+            $(document).ready(function(){ 
+                $('#editCategoryModal').modal('show');
+                $('#editCategoryModal input[name="categoryNewName"]').val('{{ paymentMethod.categoryNewName }}');
+                $('#editCategoryModal input[name="categoryOldId"]').val('{{ paymentMethod.categoryOldId }}');
+            });
+        </script>
+    {% endif %}
+
+    {% if paymentMethod.categoryOldId is not defined and paymentMethod.validationErrors is not empty %}
+        <script type="text/javascript">
+            $(document).ready(function(){ 
+                $('#addCategoryModal').modal('show');
+                $('#addCategoryModal input[name="categoryNewName"]').val('{{ paymentMethod.categoryNewName }}');
+            });
+        </script>
+    {% endif %}
+    
+{% endblock %}
+
+{% block links %}
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js" integrity="sha256-+BEKmIvQ6IsL8sHcvidtDrNOdZO3C9LtFPtF2H0dOHI=" crossorigin="anonymous"></script>
+    <script src="/js/mybudget.js"></script>
+    
+{% endblock %}
