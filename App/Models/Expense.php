@@ -92,4 +92,34 @@ class Expense extends \Core\Model
             }
         }
     }
+
+    public static function updateExpensesAssignedToEditedPaymentMethod($paymentMethod)
+    {
+        $db = static::getDBconnection();
+        
+        $sql = 'UPDATE expenses
+                SET payment_method_id = :paymentMethodNewId
+                WHERE user_id = :loggedUserId AND payment_method_id = :paymentMethodOldId';
+        
+        $stmt = $db -> prepare($sql);
+        $stmt -> bindValue(':paymentMethodNewId', $paymentMethod -> categoryNewId['payment_method_id'], PDO::PARAM_INT);
+        $stmt -> bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt -> bindValue(':paymentMethodOldId', $paymentMethod -> categoryOldId, PDO::PARAM_INT);
+        
+        $stmt -> execute();
+    }
+
+    public static function deleteExpensesAssignedToDeletedPaymentMethod($paymentMethod)
+    {
+        $db = static::getDBconnection();
+        
+        $sql = 'DELETE FROM expenses
+                WHERE user_id = :loggedUserId AND payment_method_id = :paymentMethodOldId';
+        
+        $stmt = $db -> prepare($sql);
+        $stmt -> bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt -> bindValue(':paymentMethodOldId', $paymentMethod -> categoryOldId, PDO::PARAM_INT);
+        
+        $stmt -> execute();
+    }
 }

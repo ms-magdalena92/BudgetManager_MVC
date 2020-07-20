@@ -5,7 +5,9 @@ namespace App\Controllers;
 use \Core\View;
 use \App\Models\Category;
 use \App\Models\IncomeCategory;
+use \App\Models\PaymentMethod;
 use \App\Models\Income;
+use \App\Models\Expense;
 use \App\Flash;
 
 class Settings extends Authenticated
@@ -13,6 +15,11 @@ class Settings extends Authenticated
     protected static function getIncomeCategories()
     {
         return Category::getCurrentUserIncomeCategories();
+    }
+
+    protected static function getPaymentMethods()
+    {
+        return Category::getCurrentUserPaymentMethods();
     }
     
     public function profileAction()
@@ -34,6 +41,11 @@ class Settings extends Authenticated
         if(isset($_POST['categoryType']) &&  $_POST['categoryType'] == 'income') {
             
             $categoryExists = !IncomeCategory::incomeCategoryIsAssignedToUser($_POST['categoryNewName']);
+        }
+
+        if(isset($_POST['categoryType']) &&  $_POST['categoryType'] == 'payment_method') {
+            
+            $categoryExists = !PaymentMethod::paymentMethodIsAssignedToUser($_POST['categoryNewName']);
         }
 
         header('Content-Type: application/json');
@@ -91,6 +103,69 @@ class Settings extends Authenticated
             View::renderTemplate('Settings/income-categories.html', [
                 'incomeCategories' => $incomeCategories,
                 'incomeCategory' => $incomeCategory
+            ]);
+        }
+    }
+
+    public function paymentMethodsAction()
+    {
+        $paymentMethods = self::getPaymentMethods();
+
+        View::renderTemplate('Settings/payment-methods.html', [
+            'paymentMethods' => $paymentMethods
+        ]);
+    }
+
+    public function editPaymentMethodAction()
+    {
+        $paymentMethod = new PaymentMethod($_POST);
+        
+        if($paymentMethod -> editPaymentMethod()) {
+
+            Expense::updateExpensesAssignedToEditedPaymentMethod($paymentMethod);
+
+            Flash::addFlashMsg('Your payment method has been successfully edited.');
+            $this -> redirect('/settings/payment-methods');
+            
+        } else {
+            
+            $paymentMethods = self::getpaymentMethods();
+
+            View::renderTemplate('Settings/payment-methods.html', [
+                'paymentMethods' => $paymentMethods,
+                'paymentMethod' => $paymentMethod
+            ]);
+        }
+    }
+
+    public function deletePaymentMethodAction()
+    {
+        $paymentMethod = new PaymentMethod($_POST);
+        
+        $paymentMethod -> deletePaymentMethod();
+
+        Expense::deleteExpensesAssignedToDeletedPaymentMethod($paymentMethod);
+
+        Flash::addFlashMsg('Your payment method has been successfully deleted.');
+        $this -> redirect('/settings/payment-methods');
+    }
+
+    public function addPaymentMethodAction()
+    {
+        $paymentMethod = new paymentMethod($_POST);
+        
+        if($paymentMethod -> addNewPaymentMethod()) {
+
+            Flash::addFlashMsg('Your payment method has been successfully added.');
+            $this -> redirect('/settings/payment-methods');
+            
+        } else {
+            
+            $paymentMethod = self::getPaymentMethods();
+
+            View::renderTemplate('Settings/payment-methods.html', [
+                'paymentMethods' => $paymentMethods,
+                'paymentMethod' => $paymentMethod
             ]);
         }
     }
