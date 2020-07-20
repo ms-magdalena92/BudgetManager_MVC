@@ -1,7 +1,7 @@
 {% extends "base-settings.html" %}
 
 {% block title %}
-    Payment Methods
+    Expense Categories
 {% endblock %}
 
 {% block onload %}
@@ -12,19 +12,19 @@ validateCategoryForm();
     
     <div class="col bg-light text-left mx-1 mt-4 mt-sm-0 mx-sm-0 py-4 px-2 pl-sm-5">
 
-        <label class="pl-3 font-weight-bold">Your Payment Methods</label>
+        <label class="pl-3 font-weight-bold">Your Expense Categories</label>
 
-        {% for method in paymentMethods %}
+        {% for category in expenseCategories %}
             <div class="col-lg-6 input-group mx-0 my-2">
-                <input class="form-control" type="text" value="{{ method.payment_method }}" disabled >
+                <input class="form-control" type="text" value="{{ category.expense_category }}" disabled >
                 <div class="input-group-append">
-                    <button class="btn signButton" type="button" id="editButton" data-category-id="{{ method.payment_method_id }}" data-category-name="{{ method.payment_method }}" data-toggle="modal" data-target="#editCategoryModal"><i class="icon-edit"></i></button>
-                    <button class="btn signButton" type="button" id="deleteButton" data-category-id="{{ method.payment_method_id }}" data-toggle="modal" data-target="#deleteCategoryModal"><i class="icon-delete"></i></button>
+                    <button class="btn signButton" type="button" id="editButton" data-category-id="{{ category.category_id }}" data-category-name="{{ category.expense_category }}" data-toggle="modal" data-target="#editCategoryModal"><i class="icon-edit"></i></button>
+                    <button class="btn signButton" type="button" id="deleteButton" data-category-id="{{ category.category_id }}" data-toggle="modal" data-target="#deleteCategoryModal"><i class="icon-delete"></i></button>
                 </div>
             </div>
         {% endfor %}
         
-        <button class="btn ml-3 mt-3 signButton" type="button" id="addButton" data-toggle="modal" data-target="#addCategoryModal"><i class="icon-plus"></i> New Payment Method</button>
+        <button class="btn ml-3 mt-3 signButton" type="button" id="addButton" data-toggle="modal" data-target="#addCategoryModal"><i class="icon-plus"></i> New Category</button>
         
     </div>
     
@@ -33,29 +33,29 @@ validateCategoryForm();
             <div class="modal-content">
                 
                 <div class="modal-header">
-                    <h3 class="modal-title">Editing Payment Method</h3>
+                    <h3 class="modal-title">Editing Expense Category</h3>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 
-                <form class="col" method="post" action="/settings/edit-payment-method">
+                <form class="col" method="post" action="/settings/edit-expense-category">
                     
                     <div class="modal-body">
                         
                         <div class="row py-1">
                             
-                            <p class="text-muted">Please enter new name for the selected payment method.</p>
+                            <p class="text-muted">Please enter new name for the selected category.</p>
 
                             <div class="form-group mb-0 mt-2 text-left">
-                                <label class="font-weight-bold" for="category">Payment Method Name</label>
-                                    <input class="form-control mt-1 userInput" type="text" data-category-type="payment_method" name="categoryNewName" required>
+                                <label class="font-weight-bold" for="category">Category Name</label>
+                                    <input class="form-control mt-1 userInput" type="text" data-category-type="expense" name="categoryNewName" required>
                                     <input type="hidden" name="categoryOldId">
                             </div>
 
                             <ul class="text-danger text-left pl-1 mt-2 error categoryNameError">
 
-                                {% if paymentMethod.validationErrors is not empty %}
+                                {% if expenseCategory.validationErrors is not empty %}
 
-                                    {% for error in paymentMethod.validationErrors %}
+                                    {% for error in expenseCategory.validationErrors %}
                                         <li>{{ error }}</li>
                                     {% endfor %}
                                     
@@ -85,18 +85,18 @@ validateCategoryForm();
             <div class="modal-content">
                 
                 <div class="modal-header">
-                    <h3 class="modal-title">Deleting Payment Method</h3>
+                    <h3 class="modal-title">Deleting Expense Category</h3>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 
-                <form class="col" method="post" action="/settings/delete-payment-method">
+                <form class="col" method="post" action="/settings/delete-expense-category">
                     
                     <div class="modal-body">
                         
                         <div class="row py-1 text-left">
                             
-                            <p class="text-muted"><span class="text-danger font-weight-bold">Warning!</span> If you delete the payment method all of your expenses assigned to this method will be automatically deleted.</p>
-                            <p class="mt-2 font-weight-bold">Are you sure you want to delete the payment method?</p>
+                            <p class="text-muted"><span class="text-danger font-weight-bold">Warning!</span> If you delete the category all of your expenses assigned to this category will be automatically deleted.</p>
+                            <p class="mt-2 font-weight-bold">Are you sure you want to delete the category?</p>
                             <div class="form-group mb-0 mt-2 text-left">
                                     <input type="hidden" name="categoryOldId">
                             </div>
@@ -123,28 +123,28 @@ validateCategoryForm();
             <div class="modal-content">
                 
                 <div class="modal-header">
-                    <h3 class="modal-title">Adding Payment Method</h3>
+                    <h3 class="modal-title">Adding Expense Category</h3>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 
-                <form class="col" method="post" action="/settings/add-payment-method">
+                <form class="col" method="post" action="/settings/add-expense-category">
                     
                     <div class="modal-body">
                         
                         <div class="row py-1">
                             
-                            <p class="text-muted">Please enter name for new payment method.</p>
+                            <p class="text-muted">Please enter name for new category.</p>
 
                             <div class="form-group mb-0 mt-2 text-left">
-                                <label class="font-weight-bold" for="category">Payment Method Name</label>
-                                    <input class="form-control mt-1 userInput" type="text" data-category-type="payment_method" name="categoryNewName" required>
+                                <label class="font-weight-bold" for="category">Category Name</label>
+                                    <input class="form-control mt-1 userInput" type="text" data-category-type="expense" name="categoryNewName" required>
                             </div>
 
                             <ul class="text-danger text-left pl-1 mt-2 error categoryNameError">
 
-                                {% if paymentMethod.validationErrors is not empty %}
+                                {% if expenseCategory.validationErrors is not empty %}
 
-                                    {% for error in paymentMethod.validationErrors %}
+                                    {% for error in expenseCategory.validationErrors %}
                                         <li>{{ error }}</li>
                                     {% endfor %}
                                     
@@ -169,21 +169,21 @@ validateCategoryForm();
         
     </div>
 
-    {% if paymentMethod.categoryOldId is defined and paymentMethod.validationErrors is not empty %}
+    {% if expenseCategory.categoryOldId is defined and expenseCategory.validationErrors is not empty %}
         <script type="text/javascript">
             $(document).ready(function(){ 
                 $('#editCategoryModal').modal('show');
-                $('#editCategoryModal input[name="categoryNewName"]').val('{{ paymentMethod.categoryNewName }}');
-                $('#editCategoryModal input[name="categoryOldId"]').val('{{ paymentMethod.categoryOldId }}');
+                $('#editCategoryModal input[name="categoryNewName"]').val('{{ expenseCategory.categoryNewName }}');
+                $('#editCategoryModal input[name="categoryOldId"]').val('{{ expenseCategory.categoryOldId }}');
             });
         </script>
     {% endif %}
 
-    {% if paymentMethod.categoryOldId is not defined and paymentMethod.validationErrors is not empty %}
+    {% if expenseCategory.categoryOldId is not defined and expenseCategory.validationErrors is not empty %}
         <script type="text/javascript">
             $(document).ready(function(){ 
                 $('#addCategoryModal').modal('show');
-                $('#addCategoryModal input[name="categoryNewName"]').val('{{ paymentMethod.categoryNewName }}');
+                $('#addCategoryModal input[name="categoryNewName"]').val('{{ expenseCategory.categoryNewName }}');
             });
         </script>
     {% endif %}

@@ -58,7 +58,7 @@ class Category extends \Core\Model
     {
         $db = static::getDBconnection();
         
-        $sql = 'SELECT ec.expense_category
+        $sql = 'SELECT ec.expense_category, ec.category_id
                 FROM expense_categories ec NATURAL JOIN user_expense_category uec
                 WHERE uec.user_id = :loggedUserId';
         

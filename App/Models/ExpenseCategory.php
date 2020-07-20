@@ -4,45 +4,45 @@ namespace App\Models;
 
 use PDO;
 
-class IncomeCategory extends Category
+class ExpenseCategory extends Category
 {
-    public static function incomeCategoryIsAssignedToUser($categoryName)
+    public static function expenseCategoryIsAssignedToUser($categoryName)
     {
         $db = static::getDBconnection();
         
         $sql = 'SELECT *
-                FROM user_income_category uic NATURAL JOIN income_categories ic
-                WHERE uic.user_id = :loggedUserId AND ic.income_category = :income_category';
+                FROM user_expense_category uec NATURAL JOIN expense_categories ec
+                WHERE uec.user_id = :loggedUserId AND ec.expense_category = :expense_category';
         
         $stmt = $db -> prepare($sql);
         $stmt -> bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
-        $stmt -> bindValue(':income_category', $categoryName, PDO::PARAM_STR);
+        $stmt -> bindValue(':expense_category', $categoryName, PDO::PARAM_STR);
         $stmt -> execute();
         
         return $stmt -> fetchAll();
     }
 
-    public function editIncomeCategory()
+    public function editExpenseCategory()
     {
         $this -> validateCategoryData();
 
-        if(self::incomeCategoryIsAssignedToUser($this -> categoryNewName)) {
+        if(self::expenseCategoryIsAssignedToUser($this -> categoryNewName)) {
                 
             $this -> validationErrors[] = 'Name already exists.';
         }
         
         if(empty($this -> validationErrors)) {
             
-            $this -> categoryNewId = $this -> categoryExistsInIncomeCategories();
+            $this -> categoryNewId = $this -> categoryExistsInExpenseCategories();
 
             if(!$this -> categoryNewId) {
                 
-                $this -> saveNewIncomeCategory();
-                $this -> categoryNewId = $this -> categoryExistsInIncomeCategories();
+                $this -> saveNewExpenseCategory();
+                $this -> categoryNewId = $this -> categoryExistsInExpenseCategories();
             }
 
-            $this -> assignIncomeCategoryToUser();
-            $this -> removeIncomeCategoryAssignmentFromUser();
+            $this -> assignExpenseCategoryToUser();
+            $this -> removeExpenseCategoryAssignmentFromUser();
 
             return true;
         }
@@ -50,26 +50,26 @@ class IncomeCategory extends Category
         return false;
     }
 
-    protected function categoryExistsInIncomeCategories()
+    protected function categoryExistsInExpenseCategories()
     {
         $db = static::getDBconnection();
         
         $sql = 'SELECT category_id
-                FROM income_categories
-                WHERE income_category = :income_category';
+                FROM expense_categories
+                WHERE expense_category = :expense_category';
         
         $stmt = $db -> prepare($sql);
-        $stmt -> bindValue(':income_category', $this -> categoryNewName, PDO::PARAM_STR);
+        $stmt -> bindValue(':expense_category', $this -> categoryNewName, PDO::PARAM_STR);
         $stmt -> execute();
-        
+
         return $stmt -> fetch();
     }
 
-    public function saveNewIncomeCategory()
+    public function saveNewExpenseCategory()
     {
         $db = static::getDBconnection();
         
-        $sql = 'INSERT INTO income_categories (income_category)
+        $sql = 'INSERT INTO expense_categories (expense_category)
                 VALUES (:categoryName)';
         
         $stmt = $db -> prepare($sql);
@@ -77,24 +77,24 @@ class IncomeCategory extends Category
         $stmt -> execute();
     }
 
-    protected function assignIncomeCategoryToUser()
+    protected function assignExpenseCategoryToUser()
     {
         $db = static::getDBconnection();
         
-        $sql = 'INSERT INTO user_income_category (user_id, category_id)
+        $sql = 'INSERT INTO user_expense_category (user_id, category_id)
                 VALUES (:loggedUserId, :categoryNewId)';
-        
+
         $stmt = $db -> prepare($sql);
         $stmt -> bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
         $stmt -> bindValue(':categoryNewId', $this -> categoryNewId['category_id'], PDO::PARAM_INT);
         $stmt -> execute();
     }
-
-    protected function removeIncomeCategoryAssignmentFromUser()
+    
+    protected function removeExpenseCategoryAssignmentFromUser()
     {
         $db = static::getDBconnection();
         
-        $sql = 'DELETE FROM user_income_category
+        $sql = 'DELETE FROM user_expense_category
                 WHERE user_id = :loggedUserId AND category_id = :categoryOldId';
         
         $stmt = $db -> prepare($sql);
@@ -103,31 +103,31 @@ class IncomeCategory extends Category
         $stmt -> execute();
     }
 
-    public function deleteIncomeCategory()
+    public function deleteExpenseCategory()
     {
-        self::removeIncomeCategoryAssignmentFromUser();
+        self::removeExpenseCategoryAssignmentFromUser();
     }
 
-    public function addNewIncomeCategory()
+    public function addNewExpenseCategory()
     {
         $this -> validateCategoryData();
 
-        if(self::incomeCategoryIsAssignedToUser($this -> categoryNewName)) {
+        if(self::expenseCategoryIsAssignedToUser($this -> categoryNewName)) {
                 
             $this -> validationErrors[] = 'Name already exists.';
         }
         
         if(empty($this -> validationErrors)) {
             
-            $this -> categoryNewId = $this -> categoryExistsInIncomeCategories();
+            $this -> categoryNewId = $this -> categoryExistsInExpenseCategories();
 
             if(!$this -> categoryNewId) {
                 
-                $this -> saveNewIncomeCategory();
-                $this -> categoryNewId = $this -> categoryExistsInIncomeCategories();
+                $this -> saveNewExpenseCategory();
+                $this -> categoryNewId = $this -> categoryExistsInExpenseCategories();
             }
 
-            $this -> assignIncomeCategoryToUser();
+            $this -> assignExpenseCategoryToUser();
 
             return true;
         }
