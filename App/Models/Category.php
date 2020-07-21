@@ -90,17 +90,40 @@ class Category extends \Core\Model
             
             if($this -> categoryNewName == '') {
                 
-                $this -> validationErrors[] = 'Name is required.';
+                $this -> validationErrors['name'] = 'Name is required.';
             }
             
             if(strlen($this -> categoryNewName) < 2 || strlen($this -> categoryNewName) > 50) {
                 
-                $this -> validationErrors[] = 'Name needs to be between 2 to 50 characters.';
+                $this -> validationErrors['name'] = 'Name needs to be between 2 to 50 characters.';
             }
             
             if(!preg_match('/^[A-ZĄĘÓŁŚŻŹĆŃa-ząęółśżźćń 0-9]+$/', $this -> categoryNewName)) {
                 
-                $this -> validationErrors[] = 'Name must contain letters and numbers only, special characters not allowed.';
+                $this -> validationErrors['name'] = 'Name must contain letters and numbers only, special characters not allowed.';
+            }
+        }
+
+        if(isset($this -> monthlyLimit) && isset($this -> limitAmount)) {
+            
+            if(empty($this -> limitAmount)) {
+                
+                $this -> validationErrors['limit'] = 'Expense amount is required.';
+            }
+
+            if(!is_numeric($this -> limitAmount)) {
+
+                $this -> validationErrors['limit'] = 'It is not a number. Please enter valid positive amount.';
+
+            } else {
+
+                $this -> limitAmount = number_format($this -> limitAmount, 2, '.', '');
+                $amount = explode('.', $this -> limitAmount);
+            
+                if(strlen($this -> limitAmount) > 9 || $this -> limitAmount < 0 || !(isset($amount[1]) && strlen($amount[1]) == 2)) {
+                
+                    $this -> validationErrors['limit'] = 'Enter valid positive amount - maximum 6 integer digits and 2 decimal places.';
+                }
             }
         }
     }

@@ -319,8 +319,6 @@ function validateCategoryForm()
         $('#editCategoryModal input[name="categoryNewName"]').val($(this).attr('data-category-name'));
         $('#editCategoryModal input[name="categoryOldId"]').val($(this).attr('data-category-id'));
         
-        console.log();
-        
         if($(this).attr('data-limit')) {
             $('input[name="monthlyLimit"]').prop("checked",true);
             $('input[name="limitAmount"]').attr("disabled",false);

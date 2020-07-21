@@ -60,12 +60,8 @@ validateCategoryForm();
                                 
                                 <ul class="text-danger text-left pl-1 mt-2 error categoryNameError">
 
-                                    {% if expenseCategory.validationErrors is not empty %}
-    
-                                        {% for error in expenseCategory.validationErrors %}
-                                            <li>{{ error }}</li>
-                                        {% endfor %}
-                                        
+                                    {% if expenseCategory.validationErrors['name'] is defined %}
+                                        <li>{{ expenseCategory.validationErrors['name'] }}</li>
                                     {% endif %}
     
                                 </ul>
@@ -78,14 +74,10 @@ validateCategoryForm();
 
                                 <ul class="text-danger text-left pl-1 mt-2 error categoryLimitError">
 
-                                    {% if expenseCategory.validationErrors is not empty %}
-    
-                                        {% for error in expenseCategory.validationErrors %}
-                                            <li>{{ error }}</li>
-                                        {% endfor %}
-                                        
+                                    {% if expenseCategory.validationErrors['limit'] is defined %}
+                                        <li>{{ expenseCategory.validationErrors['limit'] }}</li>
                                     {% endif %}
-    
+
                                 </ul>
 
                                 <input type="hidden" name="categoryOldId">
@@ -171,12 +163,8 @@ validateCategoryForm();
                                 
                                 <ul class="text-danger text-left pl-1 mt-2 error categoryNameError">
 
-                                    {% if expenseCategory.validationErrors is not empty %}
-    
-                                        {% for error in expenseCategory.validationErrors %}
-                                            <li>{{ error }}</li>
-                                        {% endfor %}
-                                        
+                                    {% if expenseCategory.validationErrors['name'] is defined %}
+                                        <li>{{ expenseCategory.validationErrors['name'] }}</li>
                                     {% endif %}
     
                                 </ul>
@@ -189,12 +177,8 @@ validateCategoryForm();
 
                                 <ul class="text-danger text-left pl-1 mt-2 error categoryLimitError">
 
-                                    {% if expenseCategory.validationErrors is not empty %}
-    
-                                        {% for error in expenseCategory.validationErrors %}
-                                            <li>{{ error }}</li>
-                                        {% endfor %}
-                                        
+                                    {% if expenseCategory.validationErrors['limit'] is defined %}
+                                        <li>{{ expenseCategory.validationErrors['limit'] }}</li>
                                     {% endif %}
     
                                 </ul>
@@ -224,16 +208,30 @@ validateCategoryForm();
                 $('#editCategoryModal').modal('show');
                 $('#editCategoryModal input[name="categoryNewName"]').val('{{ expenseCategory.categoryNewName }}');
                 $('#editCategoryModal input[name="categoryOldId"]').val('{{ expenseCategory.categoryOldId }}');
-                $('#editCategoryModal input[name="limitAmount"]').val('{{ expenseCategory.limitAmount }}');
+                
+                if('{{ expenseCategory.monthlyLimit }}') {
+                    $('#editCategoryModal input[name="limitAmount"]').val('{{ expenseCategory.limitAmount }}');
+                    $('input[name="monthlyLimit"]').prop("checked",true);
+                    $('input[name="limitAmount"]').attr("disabled",false);
+                    $('.limitLabel').removeClass("text-muted");
+                }
             });
         </script>
     {% endif %}
-
+    
     {% if expenseCategory.categoryOldId is not defined and expenseCategory.validationErrors is not empty %}
         <script type="text/javascript">
             $(document).ready(function(){ 
                 $('#addCategoryModal').modal('show');
                 $('#addCategoryModal input[name="categoryNewName"]').val('{{ expenseCategory.categoryNewName }}');
+                $('#addCategoryModal input[name="limitAmount"]').val('{{ expenseCategory.limitAmount }}');
+                
+                if('{{ expenseCategory.monthlyLimit }}') {
+                    $('#editCategoryModal input[name="limitAmount"]').val('{{ expenseCategory.limitAmount }}');
+                    $('input[name="monthlyLimit"]').prop("checked",true);
+                    $('input[name="limitAmount"]').attr("disabled",false);
+                    $('.limitLabel').removeClass("text-muted");
+                }
             });
         </script>
     {% endif %}

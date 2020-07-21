@@ -28,7 +28,7 @@ class ExpenseCategory extends Category
 
         if(self::expenseCategoryIsAssignedToUser($this -> categoryNewName)) {
                 
-            $this -> validationErrors[] = 'Name already exists.';
+            $this -> validationErrors['name'] = 'Name already exists.';
         }
         
         if(empty($this -> validationErrors)) {
@@ -114,7 +114,7 @@ class ExpenseCategory extends Category
 
         if(self::expenseCategoryIsAssignedToUser($this -> categoryNewName)) {
                 
-            $this -> validationErrors[] = 'Name already exists.';
+            $this -> validationErrors['name'] = 'Name already exists.';
         }
         
         if(empty($this -> validationErrors)) {
