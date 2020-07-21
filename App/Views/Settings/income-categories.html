@@ -53,12 +53,8 @@ validateCategoryForm();
 
                             <ul class="text-danger text-left pl-1 mt-2 error categoryNameError">
 
-                                {% if incomeCategory.validationErrors is not empty %}
-
-                                    {% for error in incomeCategory.validationErrors %}
-                                        <li>{{ error }}</li>
-                                    {% endfor %}
-                                    
+                                {% if incomeCategory.validationErrors['name'] is defined %}
+                                        <li>{{ incomeCategory.validationErrors['name'] }}</li>
                                 {% endif %}
 
                             </ul>
@@ -142,12 +138,8 @@ validateCategoryForm();
 
                             <ul class="text-danger text-left pl-1 mt-2 error categoryNameError">
 
-                                {% if incomeCategory.validationErrors is not empty %}
-
-                                    {% for error in incomeCategory.validationErrors %}
-                                        <li>{{ error }}</li>
-                                    {% endfor %}
-                                    
+                                {% if incomeCategory.validationErrors['name'] is defined %}
+                                        <li>{{ incomeCategory.validationErrors['name'] }}</li>
                                 {% endif %}
 
                             </ul>
