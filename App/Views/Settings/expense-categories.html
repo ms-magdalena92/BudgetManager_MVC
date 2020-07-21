@@ -15,13 +15,21 @@ validateCategoryForm();
         <label class="pl-3 font-weight-bold">Your Expense Categories</label>
 
         {% for category in expenseCategories %}
-            <div class="col-lg-6 input-group mx-0 my-2">
-                <input class="form-control" type="text" value="{{ category.expense_category }}" disabled >
-                <div class="input-group-append">
-                    <button class="btn signButton" type="button" id="editButton" data-category-id="{{ category.category_id }}" data-category-name="{{ category.expense_category }}" data-toggle="modal" data-target="#editCategoryModal"><i class="icon-edit"></i></button>
-                    <button class="btn signButton" type="button" id="deleteButton" data-category-id="{{ category.category_id }}" data-toggle="modal" data-target="#deleteCategoryModal"><i class="icon-delete"></i></button>
+            <div class="col-lg-6 form-group mx-0 my-2">
+                <div class="input-group">
+                    <input class="form-control" type="text" value="{{ category.expense_category}}" disabled >
+                    <div class="input-group-append">
+                        <button class="btn signButton" type="button" id="editButton" data-category-id="{{ category.category_id }}" data-category-name="{{ category.expense_category }}" data-limit="{{ category.limit_on }}" data-limit-amount="{{ category.monthly_limit }}" data-toggle="modal" data-target="#editCategoryModal"><i class="icon-edit"></i></button>
+                        <button class="btn signButton" type="button" id="deleteButton" data-category-id="{{ category.category_id }}" data-toggle="modal" data-target="#deleteCategoryModal"><i class="icon-delete"></i></button>
+                    </div>
                 </div>
+
+                {% if category.limit_on is not null %}
+                    <small class="form-text text-muted pl-2 mb-2 mt-0 limit">monthly limit: {{ category.monthly_limit }} PLN</small>
+                {% endif %}
+                
             </div>
+            
         {% endfor %}
         
         <button class="btn ml-3 mt-3 signButton" type="button" id="addButton" data-toggle="modal" data-target="#addCategoryModal"><i class="icon-plus"></i> New Category</button>
@@ -46,22 +54,43 @@ validateCategoryForm();
                             <p class="text-muted">Please enter new name for the selected category.</p>
 
                             <div class="form-group mb-0 mt-2 text-left">
+
                                 <label class="font-weight-bold" for="category">Category Name</label>
-                                    <input class="form-control mt-1 userInput" type="text" data-category-type="expense" name="categoryNewName" required>
-                                    <input type="hidden" name="categoryOldId">
+                                <input class="form-control mt-1 userInput" type="text" data-category-type="expense" name="categoryNewName" required>
+                                
+                                <ul class="text-danger text-left pl-1 mt-2 error categoryNameError">
+
+                                    {% if expenseCategory.validationErrors is not empty %}
+    
+                                        {% for error in expenseCategory.validationErrors %}
+                                            <li>{{ error }}</li>
+                                        {% endfor %}
+                                        
+                                    {% endif %}
+    
+                                </ul>
+
+                                <input type="checkbox" id="limit1" name="monthlyLimit" value="1">
+                                <label class ="ml-1" for="limit1">Enable monthly limit for this category</label>
+
+                                <label class="font-weight-bold text-muted limitLabel" for="limitAmount1">Monthly Limit Amount</label>
+                                <input class="form-control userInput labeledInput" id="limitAmount1" type="number" name="limitAmount" step="0.01" disabled >
+
+                                <ul class="text-danger text-left pl-1 mt-2 error categoryLimitError">
+
+                                    {% if expenseCategory.validationErrors is not empty %}
+    
+                                        {% for error in expenseCategory.validationErrors %}
+                                            <li>{{ error }}</li>
+                                        {% endfor %}
+                                        
+                                    {% endif %}
+    
+                                </ul>
+
+                                <input type="hidden" name="categoryOldId">
+
                             </div>
-
-                            <ul class="text-danger text-left pl-1 mt-2 error categoryNameError">
-
-                                {% if expenseCategory.validationErrors is not empty %}
-
-                                    {% for error in expenseCategory.validationErrors %}
-                                        <li>{{ error }}</li>
-                                    {% endfor %}
-                                    
-                                {% endif %}
-
-                            </ul>
                             
                         </div>
                         
@@ -136,22 +165,42 @@ validateCategoryForm();
                             <p class="text-muted">Please enter name for new category.</p>
 
                             <div class="form-group mb-0 mt-2 text-left">
+
                                 <label class="font-weight-bold" for="category">Category Name</label>
-                                    <input class="form-control mt-1 userInput" type="text" data-category-type="expense" name="categoryNewName" required>
+                                <input class="form-control mt-1 userInput" type="text" data-category-type="expense" name="categoryNewName" required>
+                                
+                                <ul class="text-danger text-left pl-1 mt-2 error categoryNameError">
+
+                                    {% if expenseCategory.validationErrors is not empty %}
+    
+                                        {% for error in expenseCategory.validationErrors %}
+                                            <li>{{ error }}</li>
+                                        {% endfor %}
+                                        
+                                    {% endif %}
+    
+                                </ul>
+
+                                <input type="checkbox" id="limit2" name="monthlyLimit" value="1">
+                                <label class ="ml-1" for="limit2">Enable monthly limit for this category</label>
+
+                                <label class="font-weight-bold text-muted limitLabel" for="limitAmount2">Monthly Limit Amount</label>
+                                <input class="form-control userInput labeledInput" id="limitAmount2" type="number" name="limitAmount" step="0.01" disabled >
+
+                                <ul class="text-danger text-left pl-1 mt-2 error categoryLimitError">
+
+                                    {% if expenseCategory.validationErrors is not empty %}
+    
+                                        {% for error in expenseCategory.validationErrors %}
+                                            <li>{{ error }}</li>
+                                        {% endfor %}
+                                        
+                                    {% endif %}
+    
+                                </ul>
+
                             </div>
 
-                            <ul class="text-danger text-left pl-1 mt-2 error categoryNameError">
-
-                                {% if expenseCategory.validationErrors is not empty %}
-
-                                    {% for error in expenseCategory.validationErrors %}
-                                        <li>{{ error }}</li>
-                                    {% endfor %}
-                                    
-                                {% endif %}
-
-                            </ul>
-                            
                         </div>
                         
                     </div>
@@ -175,6 +224,7 @@ validateCategoryForm();
                 $('#editCategoryModal').modal('show');
                 $('#editCategoryModal input[name="categoryNewName"]').val('{{ expenseCategory.categoryNewName }}');
                 $('#editCategoryModal input[name="categoryOldId"]').val('{{ expenseCategory.categoryOldId }}');
+                $('#editCategoryModal input[name="limitAmount"]').val('{{ expenseCategory.limitAmount }}');
             });
         </script>
     {% endif %}

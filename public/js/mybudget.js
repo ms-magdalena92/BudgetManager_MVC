@@ -300,24 +300,50 @@ function expandTableRows()
 
 function validateCategoryForm()
 {
+    $('.modal').on('hidden.bs.modal', function () {
+        
+        $('input[name="monthlyLimit"]').prop("checked",false);
+        $('input[name="limitAmount"]').attr("disabled",true);
+        $('.limitLabel').addClass("text-muted");
+        $('input[name="limitAmount"]').val('');
+        $('.error').empty();
+    });
+    
     $(document).on('click', '#deleteButton', function() {
 
-        var categoryId = $(this).attr('data-category-id');
-        $('#deleteCategoryModal input[name="categoryOldId"]').val(categoryId);
+        $('#deleteCategoryModal input[name="categoryOldId"]').val($(this).attr('data-category-id'));
     });
     
     $(document).on('click', '#editButton', function() {
 
-        var categoryName = $(this).attr('data-category-name');
-        var categoryId = $(this).attr('data-category-id');
-        $('#editCategoryModal input[name="categoryNewName"]').val(categoryName);
-        $('#editCategoryModal input[name="categoryOldId"]').val(categoryId);
-        $('.error').empty();
+        $('#editCategoryModal input[name="categoryNewName"]').val($(this).attr('data-category-name'));
+        $('#editCategoryModal input[name="categoryOldId"]').val($(this).attr('data-category-id'));
+        
+        console.log();
+        
+        if($(this).attr('data-limit')) {
+            $('input[name="monthlyLimit"]').prop("checked",true);
+            $('input[name="limitAmount"]').attr("disabled",false);
+            $('.limitLabel').removeClass("text-muted");
+        }
+
+        if($(this).attr('data-limit-amount')) {
+            
+            $('input[name="limitAmount"]').val($(this).attr('data-limit-amount'));
+        }
+
     });
 
-    $(document).on('click', '#addButton', function() {
+    $('input[name="monthlyLimit"]').on('change', function() {
 
-        $('.error').empty();
+        if(this.checked){
+            $('input[name="limitAmount"]').attr("disabled",false);
+            $('.limitLabel').removeClass("text-muted");
+        } else {
+            $('input[name="limitAmount"]').attr("disabled",true);
+            $('.limitLabel').addClass("text-muted");
+            $('.categoryLimitError').empty();
+        }
     });
     
     $.validator.addMethod('validName',
@@ -356,12 +382,25 @@ function validateCategoryForm()
                                 }
                             }
                         }
+                    },
+                    limitAmount: {
+                        required: true,
+                        number: true,
+                        min: 0.01,
+                        max: 999999.99,
+                        step: 0.01
                     }
                 },
                 messages: {
                     categoryNewName: {
                         required: 'Name is required.',
                         remote: 'Name already exists.'
+                    },
+                    limitAmount: {
+                        required: 'Amount is required.',
+                        number: 'Enter valid positive amount - maximum 6 integer digits and 2 decimal places.',
+                        min: 'Enter valid positive amount - maximum 6 integer digits and 2 decimal places.',
+                        max: 'Enter valid positive amount - maximum 6 integer digits and 2 decimal places.'
                     }
                 },
                 errorPlacement: function(error,element){
@@ -369,6 +408,11 @@ function validateCategoryForm()
                     if(element.attr('name') == 'categoryNewName') {
                         
                         error.appendTo('.categoryNameError');
+                    }
+
+                    if(element.attr('name') == 'limitAmount') {
+                        
+                        error.appendTo('.categoryLimitError');
                     }
                 }
             });
