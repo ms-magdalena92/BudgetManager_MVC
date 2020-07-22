@@ -302,9 +302,9 @@ function validateCategoryForm()
 {
     $('.modal').on('hidden.bs.modal', function () {
         
-        $('input[name="monthlyLimit"]').prop("checked",false);
-        $('input[name="limitAmount"]').attr("disabled",true);
-        $('.limitLabel').addClass("text-muted");
+        $('input[name="monthlyLimit"]').prop('checked',false);
+        $('input[name="limitAmount"]').prop('readonly',true);
+        $('.limitLabel').addClass('text-muted');
         $('input[name="limitAmount"]').val('');
         $('.error').empty();
     });
@@ -313,6 +313,11 @@ function validateCategoryForm()
 
         $('#deleteCategoryModal input[name="categoryOldId"]').val($(this).attr('data-category-id'));
     });
+
+    $(document).on('click', '#addButton', function() {
+
+        $('#addCategoryModal input[name="categoryNewName"]').val('');
+    });
     
     $(document).on('click', '#editButton', function() {
 
@@ -320,12 +325,12 @@ function validateCategoryForm()
         $('#editCategoryModal input[name="categoryOldId"]').val($(this).attr('data-category-id'));
         
         if($(this).attr('data-limit')) {
-            $('input[name="monthlyLimit"]').prop("checked",true);
-            $('input[name="limitAmount"]').attr("disabled",false);
-            $('.limitLabel').removeClass("text-muted");
+            $('input[name="monthlyLimit"]').prop('checked',true);
+            $('input[name="limitAmount"]').prop('readonly',false);
+            $('.limitLabel').removeClass('text-muted');
         }
 
-        if($(this).attr('data-limit-amount')) {
+        if($(this).attr('data-limit-amount') != 0) {
             
             $('input[name="limitAmount"]').val($(this).attr('data-limit-amount'));
         }
@@ -335,13 +340,17 @@ function validateCategoryForm()
     $('input[name="monthlyLimit"]').on('change', function() {
 
         if(this.checked){
-            $('input[name="limitAmount"]').attr("disabled",false);
-            $('.limitLabel').removeClass("text-muted");
+            $('input[name="limitAmount"]').prop('readonly',false);
+            $('.limitLabel').removeClass('text-muted');
         } else {
-            $('input[name="limitAmount"]').attr("disabled",true);
-            $('.limitLabel').addClass("text-muted");
+            $('input[name="limitAmount"]').prop('readonly',true);
+            $('.limitLabel').addClass('text-muted');
             $('.categoryLimitError').empty();
         }
+    });
+
+    $.validator.setDefaults({
+        ignore: ':hidden, [readonly=readonly]'
     });
     
     $.validator.addMethod('validName',
@@ -377,6 +386,9 @@ function validateCategoryForm()
                             data: {
                                 categoryType: function() {
                                     return $('input[name="categoryNewName"]').attr('data-category-type');
+                                },
+                                categoryOldId: function() {
+                                    return $('input[name="categoryOldId"]').val();
                                 }
                             }
                         }

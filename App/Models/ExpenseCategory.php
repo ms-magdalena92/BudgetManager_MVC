@@ -6,17 +6,18 @@ use PDO;
 
 class ExpenseCategory extends Category
 {
-    public static function expenseCategoryIsAssignedToUser($categoryName)
+    public static function expenseCategoryIsAssignedToUser($categoryName, $categoryOldId)
     {
         $db = static::getDBconnection();
         
         $sql = 'SELECT *
                 FROM user_expense_category uec NATURAL JOIN expense_categories ec
-                WHERE uec.user_id = :loggedUserId AND ec.expense_category = :expense_category';
+                WHERE uec.user_id = :loggedUserId AND ec.expense_category = :expense_category AND ec.category_id != :categoryOldId';
         
         $stmt = $db -> prepare($sql);
         $stmt -> bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
         $stmt -> bindValue(':expense_category', $categoryName, PDO::PARAM_STR);
+        $stmt -> bindValue(':categoryOldId', $categoryOldId, PDO::PARAM_INT);
         $stmt -> execute();
         
         return $stmt -> fetchAll();
@@ -26,8 +27,8 @@ class ExpenseCategory extends Category
     {
         $this -> validateCategoryData();
 
-        if(self::expenseCategoryIsAssignedToUser($this -> categoryNewName)) {
-                
+        if(self::expenseCategoryIsAssignedToUser($this -> categoryNewName, $this -> categoryOldId)) {
+
             $this -> validationErrors['name'] = 'Name already exists.';
         }
         
@@ -41,8 +42,14 @@ class ExpenseCategory extends Category
                 $this -> categoryNewId = $this -> categoryExistsInExpenseCategories();
             }
 
-            $this -> assignExpenseCategoryToUser();
-            $this -> removeExpenseCategoryAssignmentFromUser();
+            if($this -> categoryNewId['category_id'] != $this -> categoryOldId) {
+
+                $this -> assignExpenseCategoryToUser();
+                $this -> removeExpenseCategoryAssignmentFromUser();
+
+            } else {
+                $this -> updateExpenseCategoryLimit();
+            }
 
             return true;
         }
@@ -81,12 +88,14 @@ class ExpenseCategory extends Category
     {
         $db = static::getDBconnection();
         
-        $sql = 'INSERT INTO user_expense_category (user_id, category_id)
-                VALUES (:loggedUserId, :categoryNewId)';
+        $sql = 'INSERT INTO user_expense_category (user_id, category_id, monthly_limit, limit_on)
+                VALUES (:loggedUserId, :categoryNewId, :limitAmount, :monthlyLimit)';
 
         $stmt = $db -> prepare($sql);
         $stmt -> bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
         $stmt -> bindValue(':categoryNewId', $this -> categoryNewId['category_id'], PDO::PARAM_INT);
+        $stmt -> bindValue(':limitAmount', $this -> limitAmount, PDO::PARAM_INT);
+        $stmt -> bindValue(':monthlyLimit', $this -> monthlyLimit, PDO::PARAM_INT);
         $stmt -> execute();
     }
     
@@ -112,11 +121,11 @@ class ExpenseCategory extends Category
     {
         $this -> validateCategoryData();
 
-        if(self::expenseCategoryIsAssignedToUser($this -> categoryNewName)) {
+        if(!self::expenseCategoryIsAssignedToUser($this -> categoryNewName, $this -> categoryOldId)) {
                 
             $this -> validationErrors['name'] = 'Name already exists.';
         }
-        
+
         if(empty($this -> validationErrors)) {
             
             $this -> categoryNewId = $this -> categoryExistsInExpenseCategories();
@@ -133,5 +142,22 @@ class ExpenseCategory extends Category
         }
         
         return false;
+    }
+
+    protected function updateExpenseCategoryLimit()
+    {
+        $db = static::getDBconnection();
+        
+        $sql = 'UPDATE user_expense_category
+                SET monthly_limit = :limitAmount, limit_on = :monthlyLimit
+                WHERE user_id = :loggedUserId AND category_id = :categoryOldId';
+
+        $stmt = $db -> prepare($sql);
+        $stmt -> bindValue(':categoryOldId', $this -> categoryOldId, PDO::PARAM_INT);
+        $stmt -> bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt -> bindValue(':limitAmount', $this -> limitAmount, PDO::PARAM_INT);
+        $stmt -> bindValue(':monthlyLimit', $this -> monthlyLimit, PDO::PARAM_INT);
+        
+        $stmt -> execute();
     }
 }

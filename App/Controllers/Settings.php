@@ -56,7 +56,7 @@ class Settings extends Authenticated
 
         if(isset($_POST['categoryType']) &&  $_POST['categoryType'] == 'expense') {
             
-            $categoryExists = !ExpenseCategory::expenseCategoryIsAssignedToUser($_POST['categoryNewName']);
+            $categoryExists = !ExpenseCategory::expenseCategoryIsAssignedToUser($_POST['categoryNewName'], $_POST['categoryOldId']);
         }
 
         header('Content-Type: application/json; charset=utf-8');

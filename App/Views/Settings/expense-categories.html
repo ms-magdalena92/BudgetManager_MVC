@@ -19,7 +19,7 @@ validateCategoryForm();
                 <div class="input-group">
                     <input class="form-control" type="text" value="{{ category.expense_category}}" disabled >
                     <div class="input-group-append">
-                        <button class="btn signButton" type="button" id="editButton" data-category-id="{{ category.category_id }}" data-category-name="{{ category.expense_category }}" data-limit="{{ category.limit_on }}" data-limit-amount="{{ category.monthly_limit }}" data-toggle="modal" data-target="#editCategoryModal"><i class="icon-edit"></i></button>
+                        <button class="btn signButton" type="button" id="editButton" data-category-id="{{ category.category_id }}" data-category-name="{{ category.expense_category }}" data-limit="{{ category.limit_on }}" data-limit-amount="{{ category.monthly_limit == 0 ? '' : category.monthly_limit }}" data-toggle="modal" data-target="#editCategoryModal"><i class="icon-edit"></i></button>
                         <button class="btn signButton" type="button" id="deleteButton" data-category-id="{{ category.category_id }}" data-toggle="modal" data-target="#deleteCategoryModal"><i class="icon-delete"></i></button>
                     </div>
                 </div>
@@ -69,8 +69,9 @@ validateCategoryForm();
                                 <input type="checkbox" id="limit1" name="monthlyLimit" value="1">
                                 <label class ="ml-1" for="limit1">Enable monthly limit for this category</label>
 
-                                <label class="font-weight-bold text-muted limitLabel" for="limitAmount1">Monthly Limit Amount</label>
-                                <input class="form-control userInput labeledInput" id="limitAmount1" type="number" name="limitAmount" step="0.01" disabled >
+                                <label class="font-weight-bold text-muted limitLabel" for="limitAmount1">Monthly Limit Amount
+                                    <input class="form-control userInput labeledInput" id="limitAmount1" type="number" name="limitAmount" step="0.01" readonly >
+                                </label>
 
                                 <ul class="text-danger text-left pl-1 mt-2 error categoryLimitError">
 
@@ -172,8 +173,9 @@ validateCategoryForm();
                                 <input type="checkbox" id="limit2" name="monthlyLimit" value="1">
                                 <label class ="ml-1" for="limit2">Enable monthly limit for this category</label>
 
-                                <label class="font-weight-bold text-muted limitLabel" for="limitAmount2">Monthly Limit Amount</label>
-                                <input class="form-control userInput labeledInput" id="limitAmount2" type="number" name="limitAmount" step="0.01" disabled >
+                                <label class="font-weight-bold text-muted limitLabel" for="limitAmount2">Monthly Limit Amount
+                                    <input class="form-control userInput labeledInput" id="limitAmount2" type="number" name="limitAmount" step="0.01" readonly >
+                                </label>
 
                                 <ul class="text-danger text-left pl-1 mt-2 error categoryLimitError">
 
@@ -210,10 +212,10 @@ validateCategoryForm();
                 $('#editCategoryModal input[name="categoryOldId"]').val('{{ expenseCategory.categoryOldId }}');
                 
                 if('{{ expenseCategory.monthlyLimit }}') {
-                    $('#editCategoryModal input[name="limitAmount"]').val('{{ expenseCategory.limitAmount }}');
-                    $('input[name="monthlyLimit"]').prop("checked",true);
-                    $('input[name="limitAmount"]').attr("disabled",false);
-                    $('.limitLabel').removeClass("text-muted");
+                    $('#editCategoryModal input[name="limitAmount"]').val('');
+                    $('input[name="monthlyLimit"]').prop('checked',true);
+                    $('input[name="limitAmount"]').prop('readonly',false);
+                    $('.limitLabel').removeClass('text-muted');
                 }
             });
         </script>
@@ -224,13 +226,13 @@ validateCategoryForm();
             $(document).ready(function(){ 
                 $('#addCategoryModal').modal('show');
                 $('#addCategoryModal input[name="categoryNewName"]').val('{{ expenseCategory.categoryNewName }}');
-                $('#addCategoryModal input[name="limitAmount"]').val('{{ expenseCategory.limitAmount }}');
+                $('#addCategoryModal input[name="limitAmount"]').val('{{ expenseCategory.limitAmount == 0 ? '' : expenseCategory.limitAmount }}');
                 
                 if('{{ expenseCategory.monthlyLimit }}') {
-                    $('#editCategoryModal input[name="limitAmount"]').val('{{ expenseCategory.limitAmount }}');
-                    $('input[name="monthlyLimit"]').prop("checked",true);
-                    $('input[name="limitAmount"]').attr("disabled",false);
-                    $('.limitLabel').removeClass("text-muted");
+                    $('#addCategoryModal input[name="limitAmount"]').val('{{ expenseCategory.limitAmount == 0 ? '' : expenseCategory.limitAmount }}');
+                    $('input[name="monthlyLimit"]').prop('checked',true);
+                    $('input[name="limitAmount"]').prop('readonly',false);
+                    $('.limitLabel').removeClass('text-muted');
                 }
             });
         </script>

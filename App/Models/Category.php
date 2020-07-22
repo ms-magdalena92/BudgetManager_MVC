@@ -7,6 +7,9 @@ use PDO;
 class Category extends \Core\Model
 {
     public $validationErrors = [];
+    public $limitAmount = NULL;
+    public $monthlyLimit = NULL;
+    public $categoryOldId = NULL;
     
     public function __construct($data = [])
     {
