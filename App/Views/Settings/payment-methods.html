@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block onload %}
-validateCategoryForm();
+validateCategoryForm(); manageModal();
 {% endblock %}
 
 {% block settings %}
@@ -160,24 +160,25 @@ validateCategoryForm();
         </div>
         
     </div>
+    
+    {% if paymentMethod.categoryOldId is not null and paymentMethod.validationErrors is not empty %}
 
-    {% if paymentMethod.categoryOldId is defined and paymentMethod.validationErrors is not empty %}
         <script type="text/javascript">
-            $(document).ready(function(){ 
-                $('#editCategoryModal').modal('show');
-                $('#editCategoryModal input[name="categoryNewName"]').val('{{ paymentMethod.categoryNewName }}');
-                $('#editCategoryModal input[name="categoryOldId"]').val('{{ paymentMethod.categoryOldId }}');
+            $(document).ready(function() {
+                showModal('{{ expenseCategory|json_encode }}', '#editCategoryModal');
             });
         </script>
+
     {% endif %}
-
-    {% if paymentMethod.categoryOldId is not defined and paymentMethod.validationErrors is not empty %}
+    
+    {% if paymentMethod.categoryOldId is null and paymentMethod.validationErrors is not empty %}
+        
         <script type="text/javascript">
-            $(document).ready(function(){ 
-                $('#addCategoryModal').modal('show');
-                $('#addCategoryModal input[name="categoryNewName"]').val('{{ paymentMethod.categoryNewName }}');
+            $(document).ready(function() {
+                showModal('{{ expenseCategory|json_encode }}', '#addCategoryModal');
             });
         </script>
+        
     {% endif %}
     
 {% endblock %}

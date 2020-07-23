@@ -300,55 +300,6 @@ function expandTableRows()
 
 function validateCategoryForm()
 {
-    $('.modal').on('hidden.bs.modal', function () {
-        
-        $('input[name="monthlyLimit"]').prop('checked',false);
-        $('input[name="limitAmount"]').prop('readonly',true);
-        $('.limitLabel').addClass('text-muted');
-        $('input[name="limitAmount"]').val('');
-        $('.error').empty();
-    });
-    
-    $(document).on('click', '#deleteButton', function() {
-
-        $('#deleteCategoryModal input[name="categoryOldId"]').val($(this).attr('data-category-id'));
-    });
-
-    $(document).on('click', '#addButton', function() {
-
-        $('#addCategoryModal input[name="categoryNewName"]').val('');
-    });
-    
-    $(document).on('click', '#editButton', function() {
-
-        $('#editCategoryModal input[name="categoryNewName"]').val($(this).attr('data-category-name'));
-        $('#editCategoryModal input[name="categoryOldId"]').val($(this).attr('data-category-id'));
-        
-        if($(this).attr('data-limit')) {
-            $('input[name="monthlyLimit"]').prop('checked',true);
-            $('input[name="limitAmount"]').prop('readonly',false);
-            $('.limitLabel').removeClass('text-muted');
-        }
-
-        if($(this).attr('data-limit-amount') != 0) {
-            
-            $('input[name="limitAmount"]').val($(this).attr('data-limit-amount'));
-        }
-
-    });
-
-    $('input[name="monthlyLimit"]').on('change', function() {
-
-        if(this.checked){
-            $('input[name="limitAmount"]').prop('readonly',false);
-            $('.limitLabel').removeClass('text-muted');
-        } else {
-            $('input[name="limitAmount"]').prop('readonly',true);
-            $('.limitLabel').addClass('text-muted');
-            $('.categoryLimitError').empty();
-        }
-    });
-
     $.validator.setDefaults({
         ignore: ':hidden, [readonly=readonly]'
     });
@@ -428,4 +379,73 @@ function validateCategoryForm()
             });
         });
     });
+}
+
+function manageModal()
+{
+    $('.modal').on('hidden.bs.modal', function () {
+        
+        $('input[name="monthlyLimit"]').prop('checked',false);
+        $('input[name="limitAmount"]').prop('readonly',true);
+        $('.limitLabel').addClass('text-muted');
+        $('input[name="limitAmount"]').val('');
+        $('.error').empty();
+    });
+    
+    $(document).on('click', '#deleteButton', function() {
+
+        $('#deleteCategoryModal input[name="categoryOldId"]').val($(this).attr('data-category-id'));
+    });
+
+    $(document).on('click', '#addButton', function() {
+
+        $('#addCategoryModal input[name="categoryNewName"]').val('');
+    });
+    
+    $(document).on('click', '#editButton', function() {
+
+        $('#editCategoryModal input[name="categoryNewName"]').val($(this).attr('data-category-name'));
+        $('#editCategoryModal input[name="categoryOldId"]').val($(this).attr('data-category-id'));
+        
+        if($(this).attr('data-limit')) {
+            $('input[name="monthlyLimit"]').prop('checked',true);
+            $('input[name="limitAmount"]').prop('readonly',false);
+            $('.limitLabel').removeClass('text-muted');
+        }
+
+        if($(this).attr('data-limit-amount') != 0) {
+            
+            $('input[name="limitAmount"]').val($(this).attr('data-limit-amount'));
+        }
+
+    });
+
+    $('input[name="monthlyLimit"]').on('change', function() {
+
+        if(this.checked){
+            $('input[name="limitAmount"]').prop('readonly',false);
+            $('.limitLabel').removeClass('text-muted');
+        } else {
+            $('input[name="limitAmount"]').prop('readonly',true);
+            $('.limitLabel').addClass('text-muted');
+            $('.categoryLimitError').empty();
+        }
+    });
+}
+
+function showModal(category, modalId)
+{
+    var categoryArray = jQuery.parseJSON(category.replace(/&quot;/g,'"'));
+
+    $(modalId).modal('show');
+
+    $('input[name="categoryNewName"]').val(categoryArray.categoryNewName);
+    $('input[name="categoryOldId"]').val(categoryArray.categoryOldId);
+    $('input[name="limitAmount"]').val((categoryArray.limitAmount === 0) ? '' : categoryArray.limitAmount);
+                
+    if(categoryArray.monthlyLimit) {
+        $('input[name="monthlyLimit"]').prop('checked',true);
+        $('input[name="limitAmount"]').prop('readonly',false);
+        $('.limitLabel').removeClass('text-muted');
+    }
 }

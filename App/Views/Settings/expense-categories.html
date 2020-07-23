@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block onload %}
-validateCategoryForm();
+validateCategoryForm(); manageModal();
 {% endblock %}
 
 {% block settings %}
@@ -203,39 +203,25 @@ validateCategoryForm();
         </div>
         
     </div>
+    
+    {% if expenseCategory.categoryOldId is not null and expenseCategory.validationErrors is not empty %}
 
-    {% if expenseCategory.categoryOldId is defined and expenseCategory.validationErrors is not empty %}
         <script type="text/javascript">
-            $(document).ready(function(){ 
-                $('#editCategoryModal').modal('show');
-                $('#editCategoryModal input[name="categoryNewName"]').val('{{ expenseCategory.categoryNewName }}');
-                $('#editCategoryModal input[name="categoryOldId"]').val('{{ expenseCategory.categoryOldId }}');
-                
-                if('{{ expenseCategory.monthlyLimit }}') {
-                    $('#editCategoryModal input[name="limitAmount"]').val('');
-                    $('input[name="monthlyLimit"]').prop('checked',true);
-                    $('input[name="limitAmount"]').prop('readonly',false);
-                    $('.limitLabel').removeClass('text-muted');
-                }
+            $(document).ready(function() {
+                showModal('{{ expenseCategory|json_encode }}', '#editCategoryModal');
             });
         </script>
+
     {% endif %}
     
-    {% if expenseCategory.categoryOldId is not defined and expenseCategory.validationErrors is not empty %}
+    {% if expenseCategory.categoryOldId is null and expenseCategory.validationErrors is not empty %}
+        
         <script type="text/javascript">
-            $(document).ready(function(){ 
-                $('#addCategoryModal').modal('show');
-                $('#addCategoryModal input[name="categoryNewName"]').val('{{ expenseCategory.categoryNewName }}');
-                $('#addCategoryModal input[name="limitAmount"]').val('{{ expenseCategory.limitAmount == 0 ? '' : expenseCategory.limitAmount }}');
-                
-                if('{{ expenseCategory.monthlyLimit }}') {
-                    $('#addCategoryModal input[name="limitAmount"]').val('{{ expenseCategory.limitAmount == 0 ? '' : expenseCategory.limitAmount }}');
-                    $('input[name="monthlyLimit"]').prop('checked',true);
-                    $('input[name="limitAmount"]').prop('readonly',false);
-                    $('.limitLabel').removeClass('text-muted');
-                }
+            $(document).ready(function() {
+                showModal('{{ expenseCategory|json_encode }}', '#addCategoryModal');
             });
         </script>
+
     {% endif %}
     
 {% endblock %}

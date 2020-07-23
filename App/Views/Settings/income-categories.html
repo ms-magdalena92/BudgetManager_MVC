@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block onload %}
-validateCategoryForm();
+validateCategoryForm(); manageModal();
 {% endblock %}
 
 {% block settings %}
@@ -161,23 +161,24 @@ validateCategoryForm();
         
     </div>
 
-    {% if incomeCategory.categoryOldId is defined and incomeCategory.validationErrors is not empty %}
+    {% if incomeCategory.categoryOldId is not null and incomeCategory.validationErrors is not empty %}
+        
         <script type="text/javascript">
-            $(document).ready(function(){ 
-                $('#editCategoryModal').modal('show');
-                $('#editCategoryModal input[name="categoryNewName"]').val('{{ incomeCategory.categoryNewName }}');
-                $('#editCategoryModal input[name="categoryOldId"]').val('{{ incomeCategory.categoryOldId }}');
+            $(document).ready(function() {
+                showModal('{{ expenseCategory|json_encode }}', '#editCategoryModal');
             });
         </script>
-    {% endif %}
 
-    {% if incomeCategory.categoryOldId is not defined and incomeCategory.validationErrors is not empty %}
+    {% endif %}
+    
+    {% if incomeCategory.categoryOldId is null and incomeCategory.validationErrors is not empty %}
+        
         <script type="text/javascript">
-            $(document).ready(function(){ 
-                $('#addCategoryModal').modal('show');
-                $('#addCategoryModal input[name="categoryNewName"]').val('{{ incomeCategory.categoryNewName }}');
+            $(document).ready(function() {
+                showModal('{{ expenseCategory|json_encode }}', '#addCategoryModal');
             });
         </script>
+
     {% endif %}
     
 {% endblock %}
