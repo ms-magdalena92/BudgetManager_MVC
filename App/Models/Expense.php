@@ -122,4 +122,34 @@ class Expense extends \Core\Model
         
         $stmt -> execute();
     }
+
+    public static function updateExpensesAssignedToEditedCategory($expenseCategory)
+    {
+        $db = static::getDBconnection();
+        
+        $sql = 'UPDATE expenses
+                SET category_id = :categoryNewId
+                WHERE user_id = :loggedUserId AND category_id = :categoryOldId';
+        
+        $stmt = $db -> prepare($sql);
+        $stmt -> bindValue(':categoryNewId', $expenseCategory -> categoryNewId['category_id'], PDO::PARAM_INT);
+        $stmt -> bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt -> bindValue(':categoryOldId', $expenseCategory -> categoryOldId, PDO::PARAM_INT);
+        
+        $stmt -> execute();
+    }
+
+    public static function deleteExpensesAssignedToDeletedCategory($expenseCategory)
+    {
+        $db = static::getDBconnection();
+        
+        $sql = 'DELETE FROM expenses
+                WHERE user_id = :loggedUserId AND category_id = :categoryOldId';
+        
+        $stmt = $db -> prepare($sql);
+        $stmt -> bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt -> bindValue(':categoryOldId', $expenseCategory -> categoryOldId, PDO::PARAM_INT);
+        
+        $stmt -> execute();
+    }
 }

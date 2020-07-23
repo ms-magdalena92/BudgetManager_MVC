@@ -28,7 +28,7 @@ class IncomeCategory extends Category
 
         if(self::incomeCategoryIsAssignedToUser($this -> categoryNewName)) {
                 
-            $this -> validationErrors[] = 'Name already exists.';
+            $this -> validationErrors['name'] = 'Name already exists.';
         }
         
         if(empty($this -> validationErrors)) {
@@ -99,7 +99,7 @@ class IncomeCategory extends Category
         
         $stmt = $db -> prepare($sql);
         $stmt -> bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
-        $stmt -> bindValue(':categoryOldId', $this -> categoryOldId, PDO::PARAM_STR);
+        $stmt -> bindValue(':categoryOldId', $this -> categoryOldId, PDO::PARAM_INT);
         $stmt -> execute();
     }
 
@@ -114,7 +114,7 @@ class IncomeCategory extends Category
 
         if(self::incomeCategoryIsAssignedToUser($this -> categoryNewName)) {
                 
-            $this -> validationErrors[] = 'Name already exists.';
+            $this -> validationErrors['name'] = 'Name already exists.';
         }
         
         if(empty($this -> validationErrors)) {

@@ -1,0 +1,234 @@
+{% extends "base-settings.html" %}
+
+{% block title %}
+    Expense Categories
+{% endblock %}
+
+{% block onload %}
+validateCategoryForm(); manageModal();
+{% endblock %}
+
+{% block settings %}
+    
+    <div class="col bg-light text-left mx-1 mt-4 mt-sm-0 mx-sm-0 py-4 px-2 pl-sm-5">
+
+        <label class="pl-3 font-weight-bold">Your Expense Categories</label>
+
+        {% for category in expenseCategories %}
+            <div class="col-lg-6 form-group mx-0 my-2">
+                <div class="input-group">
+                    <input class="form-control" type="text" value="{{ category.expense_category}}" disabled >
+                    <div class="input-group-append">
+                        <button class="btn signButton" type="button" id="editButton" data-category-id="{{ category.category_id }}" data-category-name="{{ category.expense_category }}" data-limit="{{ category.limit_on }}" data-limit-amount="{{ category.monthly_limit == 0 ? '' : category.monthly_limit }}" data-toggle="modal" data-target="#editCategoryModal"><i class="icon-edit"></i></button>
+                        <button class="btn signButton" type="button" id="deleteButton" data-category-id="{{ category.category_id }}" data-toggle="modal" data-target="#deleteCategoryModal"><i class="icon-delete"></i></button>
+                    </div>
+                </div>
+
+                {% if category.limit_on is not null %}
+                    <small class="form-text text-muted pl-2 mb-2 mt-0 limit">monthly limit: {{ category.monthly_limit }} PLN</small>
+                {% endif %}
+                
+            </div>
+            
+        {% endfor %}
+        
+        <button class="btn ml-3 mt-3 signButton" type="button" id="addButton" data-toggle="modal" data-target="#addCategoryModal"><i class="icon-plus"></i> New Category</button>
+        
+    </div>
+    
+    <div class="modal fade" role='dialog' id="editCategoryModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                
+                <div class="modal-header">
+                    <h3 class="modal-title">Editing Expense Category</h3>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                
+                <form class="col" method="post" action="/settings/edit-expense-category">
+                    
+                    <div class="modal-body">
+                        
+                        <div class="row py-1">
+                            
+                            <p class="text-muted">Please enter new name for the selected category.</p>
+
+                            <div class="form-group mb-0 mt-2 text-left">
+
+                                <label class="font-weight-bold" for="category">Category Name</label>
+                                <input class="form-control mt-1 userInput" type="text" data-category-type="expense" name="categoryNewName" required>
+                                
+                                <ul class="text-danger text-left pl-1 mt-2 error categoryNameError">
+
+                                    {% if expenseCategory.validationErrors['name'] is defined %}
+                                        <li>{{ expenseCategory.validationErrors['name'] }}</li>
+                                    {% endif %}
+    
+                                </ul>
+
+                                <input type="checkbox" id="limit1" name="monthlyLimit" value="1">
+                                <label class ="ml-1" for="limit1">Enable monthly limit for this category</label>
+
+                                <label class="font-weight-bold text-muted limitLabel" for="limitAmount1">Monthly Limit Amount
+                                    <input class="form-control userInput labeledInput" id="limitAmount1" type="number" name="limitAmount" step="0.01" readonly >
+                                </label>
+
+                                <ul class="text-danger text-left pl-1 mt-2 error categoryLimitError">
+
+                                    {% if expenseCategory.validationErrors['limit'] is defined %}
+                                        <li>{{ expenseCategory.validationErrors['limit'] }}</li>
+                                    {% endif %}
+
+                                </ul>
+
+                                <input type="hidden" name="categoryOldId">
+
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button class="btn signButton" type="submit">Save</button>
+                        <button type="button" class="btn signButton" data-dismiss="modal">Cancel</button>
+                    </div>
+                    
+                </form>
+                
+            </div>
+            
+        </div>
+        
+    </div>
+
+    <div class="modal fade" role='dialog' id="deleteCategoryModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                
+                <div class="modal-header">
+                    <h3 class="modal-title">Deleting Expense Category</h3>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                
+                <form class="col" method="post" action="/settings/delete-expense-category">
+                    
+                    <div class="modal-body">
+                        
+                        <div class="row py-1 text-left">
+                            
+                            <p class="text-muted"><span class="text-danger font-weight-bold">Warning!</span> If you delete the category all of your expenses assigned to this category will be automatically deleted.</p>
+                            <p class="mt-2 font-weight-bold">Are you sure you want to delete the category?</p>
+                            <div class="form-group mb-0 mt-2 text-left">
+                                    <input type="hidden" name="categoryOldId">
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button class="btn btn-danger" type="submit">Delete</button>
+                        <button type="button" class="btn signButton" data-dismiss="modal">Cancel</button>
+                    </div>
+                    
+                </form>
+                
+            </div>
+            
+        </div>
+        
+    </div>
+
+    <div class="modal fade" role='dialog' id="addCategoryModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                
+                <div class="modal-header">
+                    <h3 class="modal-title">Adding Expense Category</h3>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                
+                <form class="col" method="post" action="/settings/add-expense-category">
+                    
+                    <div class="modal-body">
+                        
+                        <div class="row py-1">
+                            
+                            <p class="text-muted">Please enter name for new category.</p>
+
+                            <div class="form-group mb-0 mt-2 text-left">
+
+                                <label class="font-weight-bold" for="category">Category Name</label>
+                                <input class="form-control mt-1 userInput" type="text" data-category-type="expense" name="categoryNewName" required>
+                                
+                                <ul class="text-danger text-left pl-1 mt-2 error categoryNameError">
+
+                                    {% if expenseCategory.validationErrors['name'] is defined %}
+                                        <li>{{ expenseCategory.validationErrors['name'] }}</li>
+                                    {% endif %}
+    
+                                </ul>
+
+                                <input type="checkbox" id="limit2" name="monthlyLimit" value="1">
+                                <label class ="ml-1" for="limit2">Enable monthly limit for this category</label>
+
+                                <label class="font-weight-bold text-muted limitLabel" for="limitAmount2">Monthly Limit Amount
+                                    <input class="form-control userInput labeledInput" id="limitAmount2" type="number" name="limitAmount" step="0.01" readonly >
+                                </label>
+
+                                <ul class="text-danger text-left pl-1 mt-2 error categoryLimitError">
+
+                                    {% if expenseCategory.validationErrors['limit'] is defined %}
+                                        <li>{{ expenseCategory.validationErrors['limit'] }}</li>
+                                    {% endif %}
+    
+                                </ul>
+
+                            </div>
+
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button class="btn signButton" type="submit">Save</button>
+                        <button type="button" class="btn signButton" data-dismiss="modal">Cancel</button>
+                    </div>
+                    
+                </form>
+                
+            </div>
+            
+        </div>
+        
+    </div>
+    
+    {% if expenseCategory.categoryOldId is not null and expenseCategory.validationErrors is not empty %}
+
+        <script type="text/javascript">
+            $(document).ready(function() {
+                showModal('{{ expenseCategory|json_encode }}', '#editCategoryModal');
+            });
+        </script>
+
+    {% endif %}
+    
+    {% if expenseCategory.categoryOldId is null and expenseCategory.validationErrors is not empty %}
+        
+        <script type="text/javascript">
+            $(document).ready(function() {
+                showModal('{{ expenseCategory|json_encode }}', '#addCategoryModal');
+            });
+        </script>
+
+    {% endif %}
+    
+{% endblock %}
+
+{% block links %}
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js" integrity="sha256-+BEKmIvQ6IsL8sHcvidtDrNOdZO3C9LtFPtF2H0dOHI=" crossorigin="anonymous"></script>
+    <script src="/js/mybudget.js"></script>
+    
+{% endblock %}

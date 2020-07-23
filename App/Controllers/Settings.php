@@ -5,6 +5,7 @@ namespace App\Controllers;
 use \Core\View;
 use \App\Models\Category;
 use \App\Models\IncomeCategory;
+use \App\Models\ExpenseCategory;
 use \App\Models\PaymentMethod;
 use \App\Models\Income;
 use \App\Models\Expense;
@@ -20,6 +21,11 @@ class Settings extends Authenticated
     protected static function getPaymentMethods()
     {
         return Category::getCurrentUserPaymentMethods();
+    }
+
+    protected static function getExpenseCategories()
+    {
+        return Category::getCurrentUserExpenseCategories();
     }
     
     public function profileAction()
@@ -48,7 +54,12 @@ class Settings extends Authenticated
             $categoryExists = !PaymentMethod::paymentMethodIsAssignedToUser($_POST['categoryNewName']);
         }
 
-        header('Content-Type: application/json');
+        if(isset($_POST['categoryType']) &&  $_POST['categoryType'] == 'expense') {
+            
+            $categoryExists = !ExpenseCategory::expenseCategoryIsAssignedToUser($_POST['categoryNewName'], $_POST['categoryOldId']);
+        }
+
+        header('Content-Type: application/json; charset=utf-8');
         
         echo json_encode($categoryExists);
     }
@@ -103,6 +114,69 @@ class Settings extends Authenticated
             View::renderTemplate('Settings/income-categories.html', [
                 'incomeCategories' => $incomeCategories,
                 'incomeCategory' => $incomeCategory
+            ]);
+        }
+    }
+
+    public function expenseCategoriesAction()
+    {
+        $expenseCategories = self::getExpenseCategories();
+
+        View::renderTemplate('Settings/expense-categories.html', [
+            'expenseCategories' => $expenseCategories
+        ]);
+    }
+
+    public function editExpenseCategoryAction()
+    {
+        $expenseCategory = new ExpenseCategory($_POST);
+        
+        if($expenseCategory -> editExpenseCategory()) {
+
+            expense::updateExpensesAssignedToEditedCategory($expenseCategory);
+
+            Flash::addFlashMsg('Your category has been successfully edited.');
+            $this -> redirect('/settings/expense-categories');
+            
+        } else {
+            
+            $expenseCategories = self::getExpenseCategories();
+
+            View::renderTemplate('Settings/expense-categories.html', [
+                'expenseCategories' => $expenseCategories,
+                'expenseCategory' => $expenseCategory
+            ]);
+        }
+    }
+
+    public function deleteExpenseCategoryAction()
+    {
+        $expenseCategory = new ExpenseCategory($_POST);
+        
+        $expenseCategory -> deleteExpenseCategory();
+
+        Expense::deleteExpensesAssignedToDeletedCategory($expenseCategory);
+
+        Flash::addFlashMsg('Your category has been successfully deleted.');
+        $this -> redirect('/settings/expense-categories');
+    }
+
+    public function addExpenseCategoryAction()
+    {
+        $expenseCategory = new ExpenseCategory($_POST);
+        
+        if($expenseCategory -> addNewExpenseCategory()) {
+
+            Flash::addFlashMsg('Your new category has been successfully added.');
+            $this -> redirect('/settings/expense-categories');
+            
+        } else {
+            
+            $expenseCategories = self::getExpenseCategories();
+
+            View::renderTemplate('Settings/expense-categories.html', [
+                'expenseCategories' => $expenseCategories,
+                'expenseCategory' => $expenseCategory
             ]);
         }
     }

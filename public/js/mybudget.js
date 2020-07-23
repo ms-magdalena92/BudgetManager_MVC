@@ -300,24 +300,8 @@ function expandTableRows()
 
 function validateCategoryForm()
 {
-    $(document).on('click', '#deleteButton', function() {
-
-        var categoryId = $(this).attr('data-category-id');
-        $('#deleteCategoryModal input[name="categoryOldId"]').val(categoryId);
-    });
-    
-    $(document).on('click', '#editButton', function() {
-
-        var categoryName = $(this).attr('data-category-name');
-        var categoryId = $(this).attr('data-category-id');
-        $('#editCategoryModal input[name="categoryNewName"]').val(categoryName);
-        $('#editCategoryModal input[name="categoryOldId"]').val(categoryId);
-        $('.error').empty();
-    });
-
-    $(document).on('click', '#addButton', function() {
-
-        $('.error').empty();
+    $.validator.setDefaults({
+        ignore: ':hidden, [readonly=readonly]'
     });
     
     $.validator.addMethod('validName',
@@ -353,15 +337,31 @@ function validateCategoryForm()
                             data: {
                                 categoryType: function() {
                                     return $('input[name="categoryNewName"]').attr('data-category-type');
+                                },
+                                categoryOldId: function() {
+                                    return $('input[name="categoryOldId"]').val();
                                 }
                             }
                         }
+                    },
+                    limitAmount: {
+                        required: true,
+                        number: true,
+                        min: 0.01,
+                        max: 999999.99,
+                        step: 0.01
                     }
                 },
                 messages: {
                     categoryNewName: {
                         required: 'Name is required.',
                         remote: 'Name already exists.'
+                    },
+                    limitAmount: {
+                        required: 'Amount is required.',
+                        number: 'Enter valid positive amount - maximum 6 integer digits and 2 decimal places.',
+                        min: 'Enter valid positive amount - maximum 6 integer digits and 2 decimal places.',
+                        max: 'Enter valid positive amount - maximum 6 integer digits and 2 decimal places.'
                     }
                 },
                 errorPlacement: function(error,element){
@@ -370,8 +370,82 @@ function validateCategoryForm()
                         
                         error.appendTo('.categoryNameError');
                     }
+
+                    if(element.attr('name') == 'limitAmount') {
+                        
+                        error.appendTo('.categoryLimitError');
+                    }
                 }
             });
         });
     });
+}
+
+function manageModal()
+{
+    $('.modal').on('hidden.bs.modal', function () {
+        
+        $('input[name="monthlyLimit"]').prop('checked',false);
+        $('input[name="limitAmount"]').prop('readonly',true);
+        $('.limitLabel').addClass('text-muted');
+        $('input[name="limitAmount"]').val('');
+        $('.error').empty();
+    });
+    
+    $(document).on('click', '#deleteButton', function() {
+
+        $('#deleteCategoryModal input[name="categoryOldId"]').val($(this).attr('data-category-id'));
+    });
+
+    $(document).on('click', '#addButton', function() {
+
+        $('#addCategoryModal input[name="categoryNewName"]').val('');
+    });
+    
+    $(document).on('click', '#editButton', function() {
+
+        $('#editCategoryModal input[name="categoryNewName"]').val($(this).attr('data-category-name'));
+        $('#editCategoryModal input[name="categoryOldId"]').val($(this).attr('data-category-id'));
+        
+        if($(this).attr('data-limit')) {
+            $('input[name="monthlyLimit"]').prop('checked',true);
+            $('input[name="limitAmount"]').prop('readonly',false);
+            $('.limitLabel').removeClass('text-muted');
+        }
+
+        if($(this).attr('data-limit-amount') != 0) {
+            
+            $('input[name="limitAmount"]').val($(this).attr('data-limit-amount'));
+        }
+
+    });
+
+    $('input[name="monthlyLimit"]').on('change', function() {
+
+        if(this.checked){
+            $('input[name="limitAmount"]').prop('readonly',false);
+            $('.limitLabel').removeClass('text-muted');
+        } else {
+            $('input[name="limitAmount"]').prop('readonly',true);
+            $('.limitLabel').addClass('text-muted');
+            $('.categoryLimitError').empty();
+        }
+    });
+}
+
+function showModal(category, modalId)
+{
+    var categoryArray = jQuery.parseJSON(category.replace(/&quot;/g,'"'));
+
+    $(modalId).modal('show');
+
+    $('input[name="categoryNewName"]').val(categoryArray.categoryNewName);
+    $('input[name="categoryOldId"]').val(categoryArray.categoryOldId);
+    $('input[name="limitAmount"]').val((categoryArray.limitAmount === 0) ? '' : categoryArray.limitAmount);
+                
+    if(categoryArray.monthlyLimit) {
+        $('input[name="monthlyLimit"]').prop('checked',true);
+        $('input[name="limitAmount"]').prop('readonly',false);
+        $('.limitLabel').removeClass('text-muted');
+    }
 }

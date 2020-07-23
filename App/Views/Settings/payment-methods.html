@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block onload %}
-validateCategoryForm();
+validateCategoryForm(); manageModal();
 {% endblock %}
 
 {% block settings %}
@@ -41,7 +41,7 @@ validateCategoryForm();
                     
                     <div class="modal-body">
                         
-                        <div class="row py-1">
+                        <div class="row py-1 text-left">
                             
                             <p class="text-muted">Please enter new name for the selected payment method.</p>
 
@@ -53,12 +53,8 @@ validateCategoryForm();
 
                             <ul class="text-danger text-left pl-1 mt-2 error categoryNameError">
 
-                                {% if paymentMethod.validationErrors is not empty %}
-
-                                    {% for error in paymentMethod.validationErrors %}
-                                        <li>{{ error }}</li>
-                                    {% endfor %}
-                                    
+                                {% if paymentMethod.validationErrors['name'] is defined %}
+                                        <li>{{ paymentMethod.validationErrors['name'] }}</li>
                                 {% endif %}
 
                             </ul>
@@ -95,7 +91,7 @@ validateCategoryForm();
                         
                         <div class="row py-1 text-left">
                             
-                            <p class="text-muted"><span class="text-danger font-weight-bold">Warning!</span> If you delete the payment method all of your incomes assigned to this method will be automatically deleted.</p>
+                            <p class="text-muted"><span class="text-danger font-weight-bold">Warning!</span> If you delete the payment method all of your expenses assigned to this method will be automatically deleted.</p>
                             <p class="mt-2 font-weight-bold">Are you sure you want to delete the payment method?</p>
                             <div class="form-group mb-0 mt-2 text-left">
                                     <input type="hidden" name="categoryOldId">
@@ -142,12 +138,8 @@ validateCategoryForm();
 
                             <ul class="text-danger text-left pl-1 mt-2 error categoryNameError">
 
-                                {% if paymentMethod.validationErrors is not empty %}
-
-                                    {% for error in paymentMethod.validationErrors %}
-                                        <li>{{ error }}</li>
-                                    {% endfor %}
-                                    
+                                {% if paymentMethod.validationErrors['name'] is defined %}
+                                        <li>{{ paymentMethod.validationErrors['name'] }}</li>
                                 {% endif %}
 
                             </ul>
@@ -168,24 +160,25 @@ validateCategoryForm();
         </div>
         
     </div>
+    
+    {% if paymentMethod.categoryOldId is not null and paymentMethod.validationErrors is not empty %}
 
-    {% if paymentMethod.categoryOldId is defined and paymentMethod.validationErrors is not empty %}
         <script type="text/javascript">
-            $(document).ready(function(){ 
-                $('#editCategoryModal').modal('show');
-                $('#editCategoryModal input[name="categoryNewName"]').val('{{ paymentMethod.categoryNewName }}');
-                $('#editCategoryModal input[name="categoryOldId"]').val('{{ paymentMethod.categoryOldId }}');
+            $(document).ready(function() {
+                showModal('{{ expenseCategory|json_encode }}', '#editCategoryModal');
             });
         </script>
+
     {% endif %}
-
-    {% if paymentMethod.categoryOldId is not defined and paymentMethod.validationErrors is not empty %}
+    
+    {% if paymentMethod.categoryOldId is null and paymentMethod.validationErrors is not empty %}
+        
         <script type="text/javascript">
-            $(document).ready(function(){ 
-                $('#addCategoryModal').modal('show');
-                $('#addCategoryModal input[name="categoryNewName"]').val('{{ paymentMethod.categoryNewName }}');
+            $(document).ready(function() {
+                showModal('{{ expenseCategory|json_encode }}', '#addCategoryModal');
             });
         </script>
+        
     {% endif %}
     
 {% endblock %}
