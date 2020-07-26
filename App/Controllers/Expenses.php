@@ -46,4 +46,15 @@ class Expenses extends Authenticated
             ]);
         }
     }
+
+    public function showLimitAction()
+    {
+        $expense = new Expense($_POST);
+
+        $limitInfo = $expense -> getMonthlyLimitInfo();
+
+        header('Content-Type: application/json');
+        
+        echo json_encode($limitInfo);
+    }
 }
