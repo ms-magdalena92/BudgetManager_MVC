@@ -9,6 +9,7 @@ use \App\Models\ExpenseCategory;
 use \App\Models\PaymentMethod;
 use \App\Models\Income;
 use \App\Models\Expense;
+use \App\Models\User;
 use \App\Flash;
 
 class Settings extends Authenticated
@@ -241,6 +242,21 @@ class Settings extends Authenticated
                 'paymentMethods' => $paymentMethods,
                 'paymentMethod' => $paymentMethod
             ]);
+        }
+    }
+
+    public function editUsernameAction()
+    {
+        $user = new User($_POST);
+        
+        if($user -> editUsername()) {
+
+            Flash::addFlashMsg('Name has been successfully edited.');
+            $this -> redirect('/settings/profile');
+            
+        } else {
+            
+            View::renderTemplate('Settings/profile.html', ['user' => $user]);
         }
     }
 }

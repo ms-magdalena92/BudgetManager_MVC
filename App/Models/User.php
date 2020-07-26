@@ -104,6 +104,11 @@ class User extends \Core\Model
                 }
             }
         }
+
+        if(isset($this -> currentPassword) && $this -> currentPassword == '') {
+
+            $this -> validationErrors['password'] = 'Password is required.';
+        }
     }
     
     public static function emailExists($email, $existing_user_id = NULL)
@@ -316,5 +321,39 @@ class User extends \Core\Model
         $stmt -> bindValue(':hashed_token', $hashed_token, PDO::PARAM_STR);
         
         $stmt -> execute();
+    }
+
+    public function editUsername()
+    {
+        $this -> validateUserData();
+            
+        $user = static::findUserByID($_SESSION['user_id']);
+        
+        if ($user) {
+
+            if (password_verify($this -> currentPassword, $user -> password)) {
+
+                if(empty($this -> validationErrors)) {
+
+                    $db = static::getDBconnection();
+                    
+                    $sql = 'UPDATE users
+                            SET username = :newName
+                            WHERE user_id = :user_id';
+
+                    $stmt = $db -> prepare($sql);
+                    $stmt -> bindValue(':newName', $this -> userName, PDO::PARAM_STR);
+                    $stmt -> bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+                    
+                    return $stmt -> execute();
+                }
+
+            } else {
+
+                    $this -> validationErrors['password'] = "Password you've entered is wrong. Please try again.";
+            }
+        }
+        
+        return false;
     }
 }

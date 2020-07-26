@@ -67,6 +67,9 @@ function validateSignForm()
                 passwordConfirm: {
                     required: true,
                     equalTo: '#password1'
+                },
+                currentPassword: {
+                    required: true
                 }
             },
             messages: {
@@ -88,6 +91,9 @@ function validateSignForm()
                 passwordConfirm: {
                     required: 'Password confirmation is required.',
                     equalTo: 'Passwords you have entered does not match.'
+                },
+                currentPassword: {
+                    required: 'Password is required.'
                 }
             },
             errorPlacement: function(error,element){
@@ -98,7 +104,7 @@ function validateSignForm()
                 if(element.attr('name') == 'email') {
                     error.appendTo('#emailError');
                 }
-                if(element.attr('name') == 'password') {
+                if(element.attr('name') == 'password' || element.attr('name') == 'currentPassword') {
                     error.appendTo('#passwordError');
                 }
                 if(element.attr('name') == 'passwordConfirm') {
@@ -389,6 +395,7 @@ function manageModal()
         $('input[name="limitAmount"]').prop('readonly', true);
         $('.limitLabel').addClass('text-muted');
         $('input[name="limitAmount"]').val('');
+        $('input[name="currentPassword"]').val('');
         $('.error').empty();
     });
     
@@ -406,6 +413,7 @@ function manageModal()
 
         $('#editCategoryModal input[name="categoryNewName"]').val($(this).attr('data-category-name'));
         $('#editCategoryModal input[name="categoryOldId"]').val($(this).attr('data-category-id'));
+        $('#editNameModal input[name="userName"]').val($(this).attr('data-name'));
         
         if($(this).attr('data-limit')) {
             $('input[name="monthlyLimit"]').prop('checked', true);
