@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use PDO;
+use \App\Date;
 
 class Expense extends \Core\Model
 {
@@ -151,5 +152,27 @@ class Expense extends \Core\Model
         $stmt -> bindValue(':categoryOldId', $expenseCategory -> categoryOldId, PDO::PARAM_INT);
         
         $stmt -> execute();
+    }
+
+    public function getMonthlyLimitInfo()
+    {
+        $startDate = Date::getMonthStartDate($this -> date);
+        $endDate = Date::getMonthEndDate($this -> date);
+        
+        $db = static::getDBconnection();
+
+        $sql = 'SELECT SUM(e.expense_amount) AS expenses_amount, uec.monthly_limit, uec.limit_on
+                FROM expenses e, user_expense_category uec
+                WHERE e.user_id = :loggedUserId AND e.category_id = (SELECT category_id FROM expense_categories WHERE expense_category = :category) AND uec.category_id =  e.category_id AND e.expense_date BETWEEN :startDate AND :endDate';
+        
+        $stmt = $db -> prepare($sql);
+        $stmt -> bindValue(':loggedUserId', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt -> bindValue(':category', $this -> category, PDO::PARAM_STR);
+        $stmt -> bindValue(':startDate', $startDate, PDO::PARAM_STR);
+        $stmt -> bindValue(':endDate', $endDate, PDO::PARAM_STR);
+        
+        $stmt -> execute();
+
+        return $stmt -> fetchAll();
     }
 }

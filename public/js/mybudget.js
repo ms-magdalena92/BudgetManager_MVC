@@ -385,8 +385,8 @@ function manageModal()
 {
     $('.modal').on('hidden.bs.modal', function () {
         
-        $('input[name="monthlyLimit"]').prop('checked',false);
-        $('input[name="limitAmount"]').prop('readonly',true);
+        $('input[name="monthlyLimit"]').prop('checked', false);
+        $('input[name="limitAmount"]').prop('readonly', true);
         $('.limitLabel').addClass('text-muted');
         $('input[name="limitAmount"]').val('');
         $('.error').empty();
@@ -408,8 +408,8 @@ function manageModal()
         $('#editCategoryModal input[name="categoryOldId"]').val($(this).attr('data-category-id'));
         
         if($(this).attr('data-limit')) {
-            $('input[name="monthlyLimit"]').prop('checked',true);
-            $('input[name="limitAmount"]').prop('readonly',false);
+            $('input[name="monthlyLimit"]').prop('checked', true);
+            $('input[name="limitAmount"]').prop('readonly', false);
             $('.limitLabel').removeClass('text-muted');
         }
 
@@ -423,10 +423,10 @@ function manageModal()
     $('input[name="monthlyLimit"]').on('change', function() {
 
         if(this.checked){
-            $('input[name="limitAmount"]').prop('readonly',false);
+            $('input[name="limitAmount"]').prop('readonly', false);
             $('.limitLabel').removeClass('text-muted');
         } else {
-            $('input[name="limitAmount"]').prop('readonly',true);
+            $('input[name="limitAmount"]').prop('readonly', true);
             $('.limitLabel').addClass('text-muted');
             $('.categoryLimitError').empty();
         }
@@ -444,8 +444,64 @@ function showModal(category, modalId)
     $('input[name="limitAmount"]').val((categoryArray.limitAmount === 0) ? '' : categoryArray.limitAmount);
                 
     if(categoryArray.monthlyLimit) {
-        $('input[name="monthlyLimit"]').prop('checked',true);
-        $('input[name="limitAmount"]').prop('readonly',false);
+        $('input[name="monthlyLimit"]').prop('checked', true);
+        $('input[name="limitAmount"]').prop('readonly', false);
         $('.limitLabel').removeClass('text-muted');
     }
+}
+
+function showLimitInfo()
+{
+    $('#itemsForm').on('input', function() {
+        
+        var amount = $('input[name="amount"]').val();
+        var category = $('select[name="category"]').val();
+        var date = $('input[name="date"]').val();
+
+        if (amount && category) {
+
+            var amountPost = amount;
+
+            $.ajax({
+                type: 'POST',
+                url: '/expenses/show-limit',
+                data: { 
+                    amount: amount,
+                    category: category,
+                    date: date
+                },
+                sentData: amountPost,
+                dataType: 'JSON',
+                success: function(limitInfo) {
+
+                    if(limitInfo && limitInfo[0].limit_on) {
+
+                        var totalExpenses = parseFloat(limitInfo[0].expenses_amount) + parseFloat(this.sentData);
+
+                        $('#monthlyLimit').html(limitInfo[0].monthly_limit);
+                        $('#previousExpenses').html(limitInfo[0].expenses_amount);
+                        $('#remainingAmount').html((limitInfo[0].monthly_limit - limitInfo[0].expenses_amount).toFixed(2));
+                        $('#totalExpenses').html(totalExpenses.toFixed(2));
+
+                        if(totalExpenses > limitInfo[0].monthly_limit) {
+                            $(".limitInfo").css("background-color", "#ffb3b3");
+
+                        } else {
+                            $(".limitInfo").css("background-color", "#aaff80");
+                        }
+
+                        $('.limitInfo').prop('hidden', false);
+
+                    } else {
+
+                        $('.limitInfo').prop('hidden', true);
+                    }
+                }
+            });
+
+        } else {
+
+            $('.limitInfo').prop('hidden', true);
+        }
+    });
 }
