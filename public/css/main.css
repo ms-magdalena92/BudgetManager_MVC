@@ -377,6 +377,12 @@ div.input-group-append > button:hover {
     border-radius: 5px;
 }
 
+.limitInfo {
+    font-size: 0.85em;
+    background: #ffb3b3;
+    /*background: #aaff80;*/
+}
+
 @media (min-width: 992px) and (max-width: 1199px) {
     ul.navbar-nav > li {
         display: flex;

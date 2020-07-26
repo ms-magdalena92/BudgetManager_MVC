@@ -9,14 +9,38 @@
 {% endblock %}
 
 {% block onload %}
-    validateItemsForm()
+    validateItemsForm(); showLimitInfo();
 {% endblock %}
 
 {% block main %}
     
     {{ parent() }}
     
-    <section class="container-fluid my-4 py-4">
+    <section class="container-fluid my-4 p-4">
+
+        <div class="row justify-content-center mb-3 py-1 limitInfo" hidden>
+                            
+            <div class="col-3 col-lg-2">
+                <div class="font-weight-bold">Monthly Limit:</div>
+                <div id="monthlyLimit"></div>
+            </div>
+           
+            <div class="col-3 col-lg-2">
+                <div class="font-weight-bold">Previous expenses</div>
+                <div id="previousExpenses"></div>
+            </div>
+
+            <div class="col-3 col-lg-2">
+                <div class="font-weight-bold">Remaining amount</div>
+                <div id="remainingAmount"></div>
+            </div>
+
+            <div class="col-3 col-lg-2">
+                <div class="font-weight-bold">Total expenses</div>
+                <div id="totalExpenses"></div>
+            </div>
+
+        </div>
         
         <form class="col-sm-10 col-md-8 col-lg-6 py-3 mx-auto square" method="post" action="/expenses/add-expense" id="itemsForm">
             
