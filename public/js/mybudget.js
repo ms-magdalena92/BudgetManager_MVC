@@ -44,73 +44,78 @@ function validateSignForm()
     );
             
     $(document).ready(function() {
-        $('#signupForm').validate({
-            errorElement: 'li',
-            rules: {
-                userName: {
-                    required: true,
-                    minlength: 2,
-                    maxlength: 20,
-                    validName: true
+        $('form').each(function() {
+            $(this).validate({
+                errorElement: 'li',
+                rules: {
+                    userName: {
+                        required: true,
+                        minlength: 2,
+                        maxlength: 20,
+                        validName: true
+                    },
+                    email: {
+                        required: true,
+                        email: true,
+                        remote: '/account/validate-email'
+                    },
+                    password: {
+                        required: true,
+                        minlength: 8,
+                        maxlength: 50,
+                        validPassword: true
+                    },
+                    passwordConfirm: {
+                        required: true,
+                        equalTo: '#password'
+                    },
+                    currentPassword: {
+                        required: true
+                    }
                 },
-                email: {
-                    required: true,
-                    email: true,
-                    remote: '/account/validate-email'
+                messages: {
+                    userName: {
+                        required: 'Name is required.',
+                        minlength: 'Name needs to be between 2 to 20 characters.',
+                        maxlength: 'Name needs to be between 2 to 20 characters.'
+                    },
+                    email: {
+                        required: 'E-mail adress is required.',
+                        email: 'Please enter a valid e-mail adress.',
+                        remote: 'An account with this e-mail adress already exists.'
+                    },
+                    password: {
+                        required: 'Password is required.',
+                        minlength: 'Password needs to be between 8 to 50 characters.',
+                        maxlength: 'Password needs to be between 8 to 50 characters.'
+                    },
+                    passwordConfirm: {
+                        required: 'Password confirmation is required.',
+                        equalTo: 'Passwords you have entered does not match.'
+                    },
+                    currentPassword: {
+                        required: 'Password is required.'
+                    }
                 },
-                password: {
-                    required: true,
-                    minlength: 8,
-                    maxlength: 50,
-                    validPassword: true
-                },
-                passwordConfirm: {
-                    required: true,
-                    equalTo: '#password1'
-                },
-                currentPassword: {
-                    required: true
-                }
-            },
-            messages: {
-                userName: {
-                    required: 'Name is required.',
-                    minlength: 'Name needs to be between 2 to 20 characters.',
-                    maxlength: 'Name needs to be between 2 to 20 characters.'
-                },
-                email: {
-                    required: 'E-mail adress is required.',
-                    email: 'Please enter a valid e-mail adress.',
-                    remote: 'An account with this e-mail adress already exists.'
-                },
-                password: {
-                    required: 'Password is required.',
-                    minlength: 'Password needs to be between 8 to 50 characters.',
-                    maxlength: 'Password needs to be between 8 to 50 characters.'
-                },
-                passwordConfirm: {
-                    required: 'Password confirmation is required.',
-                    equalTo: 'Passwords you have entered does not match.'
-                },
-                currentPassword: {
-                    required: 'Password is required.'
-                }
-            },
-            errorPlacement: function(error,element){
-                
-                if(element.attr('name') == 'userName') {
-                    error.appendTo('#nameError');
-                }
-                if(element.attr('name') == 'email') {
-                    error.appendTo('#emailError');
-                }
-                if(element.attr('name') == 'password' || element.attr('name') == 'currentPassword') {
-                    error.appendTo('#passwordError');
-                }
-                if(element.attr('name') == 'passwordConfirm') {
-                    error.appendTo('#passwordConfirmError');
-                }
-            }	
+                errorPlacement: function(error,element){
+                    
+                    if(element.attr('name') == 'userName') {
+                        error.appendTo('.nameError');
+                    }
+                    if(element.attr('name') == 'email') {
+                        error.appendTo('.emailError');
+                    }
+                    if(element.attr('name') == 'password') {
+                        error.appendTo('.passwordError');
+                    }
+                    if(element.attr('name') == 'currentPassword') {
+                        error.appendTo('.currentPasswordError');
+                    }
+                    if(element.attr('name') == 'passwordConfirm') {
+                        error.appendTo('.passwordConfirmError');
+                    }
+                }	
+            });
         });
     });
 }
@@ -204,7 +209,7 @@ function showHidePassword()
 {
     $(".reveal").on('click',function() {
         
-        var $password = $("#password1");
+        var $password = $(".password");
         
         if ($password.attr('type') === 'password') {
             
@@ -394,8 +399,7 @@ function manageModal()
         $('input[name="monthlyLimit"]').prop('checked', false);
         $('input[name="limitAmount"]').prop('readonly', true);
         $('.limitLabel').addClass('text-muted');
-        $('input[name="limitAmount"]').val('');
-        $('input[name="currentPassword"]').val('');
+        $('input[name="limitAmount"], input[name="currentPassword"], input[name="password"], input[name="passwordConfirm"]').val('');
         $('.error').empty();
     });
     

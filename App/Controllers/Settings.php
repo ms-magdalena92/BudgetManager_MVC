@@ -259,4 +259,19 @@ class Settings extends Authenticated
             View::renderTemplate('Settings/profile.html', ['user' => $user]);
         }
     }
+
+    public function editPasswordAction()
+    {
+        $user = new User($_POST);
+        
+        if($user -> editPassword()) {
+
+            Flash::addFlashMsg('Your password has been successfully edited.');
+            $this -> redirect('/settings/profile');
+            
+        } else {
+            
+            View::renderTemplate('Settings/profile.html', ['user' => $user]);
+        }
+    }
 }

@@ -16,6 +16,7 @@ validateCategoryForm(); manageModal();
 
         {% for category in expenseCategories %}
             <div class="col-lg-6 form-group mx-0 my-2">
+                
                 <div class="input-group">
                     <input class="form-control" type="text" value="{{ category.expense_category}}" disabled >
                     <div class="input-group-append">
@@ -49,39 +50,43 @@ validateCategoryForm(); manageModal();
                     
                     <div class="modal-body">
                         
-                        <div class="row py-1">
+                        <div class="row py-1 text-left">
+
+                            <div class="col">
                             
-                            <p class="text-muted">Please enter new name for the selected category.</p>
+                                <p class="text-muted">Please enter new name for the selected category.</p>
 
-                            <div class="form-group mb-0 mt-2 text-left">
+                                <div class="form-group mb-0 mt-2 text-left">
 
-                                <label class="font-weight-bold" for="category">Category Name</label>
-                                <input class="form-control mt-1 userInput" type="text" data-category-type="expense" name="categoryNewName" required>
-                                
-                                <ul class="text-danger text-left pl-1 mt-2 error categoryNameError">
+                                    <label class="font-weight-bold" for="category">Category Name</label>
+                                    <input class="form-control mt-1 userInput" type="text" data-category-type="expense" name="categoryNewName" required>
+                                    
+                                    <ul class="text-danger text-left pl-1 mt-2 error categoryNameError">
 
-                                    {% if expenseCategory.validationErrors['name'] is defined %}
-                                        <li>{{ expenseCategory.validationErrors['name'] }}</li>
-                                    {% endif %}
-    
-                                </ul>
+                                        {% if expenseCategory.validationErrors['name'] is defined %}
+                                            <li>{{ expenseCategory.validationErrors['name'] }}</li>
+                                        {% endif %}
+        
+                                    </ul>
 
-                                <input type="checkbox" id="limit1" name="monthlyLimit" value="1">
-                                <label class ="ml-1" for="limit1">Enable monthly limit for this category</label>
+                                    <input type="checkbox" id="limit1" name="monthlyLimit" value="1">
+                                    <label class="ml-1" for="limit1">Enable monthly limit for this category</label>
 
-                                <label class="font-weight-bold text-muted limitLabel" for="limitAmount1">Monthly Limit Amount
-                                    <input class="form-control userInput labeledInput" id="limitAmount1" type="number" name="limitAmount" step="0.01" readonly >
-                                </label>
+                                    <label class="font-weight-bold text-muted limitLabel" for="limitAmount1">Monthly Limit Amount
+                                        <input class="form-control userInput labeledInput" id="limitAmount1" type="number" name="limitAmount" step="0.01" readonly >
+                                    </label>
 
-                                <ul class="text-danger text-left pl-1 mt-2 error categoryLimitError">
+                                    <ul class="text-danger text-left pl-1 mt-2 error categoryLimitError">
 
-                                    {% if expenseCategory.validationErrors['limit'] is defined %}
-                                        <li>{{ expenseCategory.validationErrors['limit'] }}</li>
-                                    {% endif %}
+                                        {% if expenseCategory.validationErrors['limit'] is defined %}
+                                            <li>{{ expenseCategory.validationErrors['limit'] }}</li>
+                                        {% endif %}
 
-                                </ul>
+                                    </ul>
 
-                                <input type="hidden" name="categoryOldId">
+                                    <input type="hidden" name="categoryOldId">
+
+                                </div>
 
                             </div>
                             
@@ -116,11 +121,15 @@ validateCategoryForm(); manageModal();
                     <div class="modal-body">
                         
                         <div class="row py-1 text-left">
+
+                            <div class="col">
                             
-                            <p class="text-muted"><span class="text-danger font-weight-bold">Warning!</span> If you delete the category all of your expenses assigned to this category will be automatically deleted.</p>
-                            <p class="mt-2 font-weight-bold">Are you sure you want to delete the category?</p>
-                            <div class="form-group mb-0 mt-2 text-left">
-                                    <input type="hidden" name="categoryOldId">
+                                <p class="text-muted"><span class="text-danger font-weight-bold">Warning!</span> If you delete the category all of your expenses assigned to this category will be automatically deleted.</p>
+                                <p class="mt-2 font-weight-bold">Are you sure you want to delete the category?</p>
+                                <div class="form-group mb-0 mt-2 text-left">
+                                        <input type="hidden" name="categoryOldId">
+                                </div>
+
                             </div>
                             
                         </div>
@@ -153,37 +162,41 @@ validateCategoryForm(); manageModal();
                     
                     <div class="modal-body">
                         
-                        <div class="row py-1">
+                        <div class="row py-1 text-left">
+
+                            <div class="col">
                             
-                            <p class="text-muted">Please enter name for new category.</p>
+                                <p class="text-muted">Please enter name for new category.</p>
 
-                            <div class="form-group mb-0 mt-2 text-left">
+                                <div class="form-group mb-0 mt-2 text-left">
 
-                                <label class="font-weight-bold" for="category">Category Name</label>
-                                <input class="form-control mt-1 userInput" type="text" data-category-type="expense" name="categoryNewName" required>
-                                
-                                <ul class="text-danger text-left pl-1 mt-2 error categoryNameError">
+                                    <label class="font-weight-bold" for="category">Category Name</label>
+                                    <input class="form-control mt-1 userInput" type="text" data-category-type="expense" name="categoryNewName" required>
+                                    
+                                    <ul class="text-danger text-left pl-1 mt-2 error categoryNameError">
 
-                                    {% if expenseCategory.validationErrors['name'] is defined %}
-                                        <li>{{ expenseCategory.validationErrors['name'] }}</li>
-                                    {% endif %}
-    
-                                </ul>
+                                        {% if expenseCategory.validationErrors['name'] is defined %}
+                                            <li>{{ expenseCategory.validationErrors['name'] }}</li>
+                                        {% endif %}
+        
+                                    </ul>
 
-                                <input type="checkbox" id="limit2" name="monthlyLimit" value="1">
-                                <label class ="ml-1" for="limit2">Enable monthly limit for this category</label>
+                                    <input type="checkbox" id="limit2" name="monthlyLimit" value="1">
+                                    <label class="ml-1" for="limit2">Enable monthly limit for this category</label>
 
-                                <label class="font-weight-bold text-muted limitLabel" for="limitAmount2">Monthly Limit Amount
-                                    <input class="form-control userInput labeledInput" id="limitAmount2" type="number" name="limitAmount" step="0.01" readonly >
-                                </label>
+                                    <label class="font-weight-bold text-muted limitLabel" for="limitAmount2">Monthly Limit Amount
+                                        <input class="form-control userInput labeledInput" id="limitAmount2" type="number" name="limitAmount" step="0.01" readonly >
+                                    </label>
 
-                                <ul class="text-danger text-left pl-1 mt-2 error categoryLimitError">
+                                    <ul class="text-danger text-left pl-1 mt-2 error categoryLimitError">
 
-                                    {% if expenseCategory.validationErrors['limit'] is defined %}
-                                        <li>{{ expenseCategory.validationErrors['limit'] }}</li>
-                                    {% endif %}
-    
-                                </ul>
+                                        {% if expenseCategory.validationErrors['limit'] is defined %}
+                                            <li>{{ expenseCategory.validationErrors['limit'] }}</li>
+                                        {% endif %}
+        
+                                    </ul>
+
+                                </div>
 
                             </div>
 

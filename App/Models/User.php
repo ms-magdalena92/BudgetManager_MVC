@@ -70,7 +70,7 @@ class User extends \Core\Model
         }
         
         //Email validation
-        if(isset($this -> password)) {
+        if(isset($this -> email)) {
             
             if(!filter_var($this -> email, FILTER_VALIDATE_EMAIL) || filter_var($this -> email, FILTER_SANITIZE_EMAIL) != $this -> email) {
                 
@@ -343,6 +343,42 @@ class User extends \Core\Model
 
                     $stmt = $db -> prepare($sql);
                     $stmt -> bindValue(':newName', $this -> userName, PDO::PARAM_STR);
+                    $stmt -> bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+                    
+                    return $stmt -> execute();
+                }
+
+            } else {
+
+                    $this -> validationErrors['password'] = "Password you've entered is wrong. Please try again.";
+            }
+        }
+        
+        return false;
+    }
+
+    public function editPassword()
+    {
+        $this -> validateUserData();
+            
+        $user = static::findUserByID($_SESSION['user_id']);
+        
+        if ($user) {
+
+            if (password_verify($this -> currentPassword, $user -> password)) {
+
+                if(empty($this -> validationErrors)) {
+
+                    $password_hash = password_hash($this -> password, PASSWORD_DEFAULT);
+
+                    $db = static::getDBconnection();
+                    
+                    $sql = 'UPDATE users
+                            SET password= :newPassword
+                            WHERE user_id = :user_id';
+                    
+                    $stmt = $db -> prepare($sql);
+                    $stmt -> bindValue(':newPassword', $password_hash, PDO::PARAM_STR);
                     $stmt -> bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
                     
                     return $stmt -> execute();

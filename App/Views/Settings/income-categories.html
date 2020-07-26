@@ -41,23 +41,27 @@ validateCategoryForm(); manageModal();
                     
                     <div class="modal-body">
                         
-                        <div class="row py-1">
+                        <div class="row py-1 text-left">
+
+                            <div class="col">
                             
-                            <p class="text-muted">Please enter new name for the selected category.</p>
+                                <p class="text-muted">Please enter new name for the selected category.</p>
 
-                            <div class="form-group mb-0 mt-2 text-left">
-                                <label class="font-weight-bold" for="category">Category Name</label>
-                                    <input class="form-control mt-1 userInput" type="text" data-category-type="income" name="categoryNewName" required>
-                                    <input type="hidden" name="categoryOldId">
+                                <div class="form-group mb-0 mt-2 text-left">
+                                    <label class="font-weight-bold" for="category">Category Name</label>
+                                        <input class="form-control mt-1 userInput" type="text" data-category-type="income" name="categoryNewName" required>
+                                        <input type="hidden" name="categoryOldId">
+                                </div>
+
+                                <ul class="text-danger text-left pl-1 mt-2 error categoryNameError">
+
+                                    {% if incomeCategory.validationErrors['name'] is defined %}
+                                            <li>{{ incomeCategory.validationErrors['name'] }}</li>
+                                    {% endif %}
+
+                                </ul>
+
                             </div>
-
-                            <ul class="text-danger text-left pl-1 mt-2 error categoryNameError">
-
-                                {% if incomeCategory.validationErrors['name'] is defined %}
-                                        <li>{{ incomeCategory.validationErrors['name'] }}</li>
-                                {% endif %}
-
-                            </ul>
                             
                         </div>
                         
@@ -90,11 +94,15 @@ validateCategoryForm(); manageModal();
                     <div class="modal-body">
                         
                         <div class="row py-1 text-left">
+
+                            <div class="col">
                             
-                            <p class="text-muted"><span class="text-danger font-weight-bold">Warning!</span> If you delete the category all of your incomes assigned to this category will be automatically deleted.</p>
-                            <p class="mt-2 font-weight-bold">Are you sure you want to delete the category?</p>
-                            <div class="form-group mb-0 mt-2 text-left">
-                                    <input type="hidden" name="categoryOldId">
+                                <p class="text-muted"><span class="text-danger font-weight-bold">Warning!</span> If you delete the category all of your incomes assigned to this category will be automatically deleted.</p>
+                                <p class="mt-2 font-weight-bold">Are you sure you want to delete the category?</p>
+                                <div class="form-group mb-0 mt-2 text-left">
+                                        <input type="hidden" name="categoryOldId">
+                                </div>
+
                             </div>
                             
                         </div>
@@ -127,22 +135,26 @@ validateCategoryForm(); manageModal();
                     
                     <div class="modal-body">
                         
-                        <div class="row py-1">
+                        <div class="row py-1 text-left">
+
+                            <div class="col">
                             
-                            <p class="text-muted">Please enter name for new category.</p>
+                                <p class="text-muted">Please enter name for new category.</p>
 
-                            <div class="form-group mb-0 mt-2 text-left">
-                                <label class="font-weight-bold" for="category">Category Name</label>
-                                    <input class="form-control mt-1 userInput" type="text" data-category-type="income" name="categoryNewName" required>
+                                <div class="form-group mb-0 mt-2 text-left">
+                                    <label class="font-weight-bold" for="category">Category Name</label>
+                                        <input class="form-control mt-1 userInput" type="text" data-category-type="income" name="categoryNewName" required>
+                                </div>
+
+                                <ul class="text-danger text-left pl-1 mt-2 error categoryNameError">
+
+                                    {% if incomeCategory.validationErrors['name'] is defined %}
+                                            <li>{{ incomeCategory.validationErrors['name'] }}</li>
+                                    {% endif %}
+
+                                </ul>
+
                             </div>
-
-                            <ul class="text-danger text-left pl-1 mt-2 error categoryNameError">
-
-                                {% if incomeCategory.validationErrors['name'] is defined %}
-                                        <li>{{ incomeCategory.validationErrors['name'] }}</li>
-                                {% endif %}
-
-                            </ul>
                             
                         </div>
                         

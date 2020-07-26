@@ -42,22 +42,26 @@ validateCategoryForm(); manageModal();
                     <div class="modal-body">
                         
                         <div class="row py-1 text-left">
-                            
-                            <p class="text-muted">Please enter new name for the selected payment method.</p>
 
-                            <div class="form-group mb-0 mt-2 text-left">
-                                <label class="font-weight-bold" for="category">Payment Method Name</label>
-                                    <input class="form-control mt-1 userInput" type="text" data-category-type="payment_method" name="categoryNewName" required>
-                                    <input type="hidden" name="categoryOldId">
+                            <div class="col">
+
+                                <p class="text-muted">Please enter new name for the selected payment method.</p>
+
+                                <div class="form-group mb-0 mt-2 text-left">
+                                    <label class="font-weight-bold" for="category">Payment Method Name</label>
+                                        <input class="form-control mt-1 userInput" type="text" data-category-type="payment_method" name="categoryNewName" required>
+                                        <input type="hidden" name="categoryOldId">
+                                </div>
+
+                                <ul class="text-danger text-left pl-1 mt-2 error categoryNameError">
+
+                                    {% if paymentMethod.validationErrors['name'] is defined %}
+                                            <li>{{ paymentMethod.validationErrors['name'] }}</li>
+                                    {% endif %}
+
+                                </ul>
+
                             </div>
-
-                            <ul class="text-danger text-left pl-1 mt-2 error categoryNameError">
-
-                                {% if paymentMethod.validationErrors['name'] is defined %}
-                                        <li>{{ paymentMethod.validationErrors['name'] }}</li>
-                                {% endif %}
-
-                            </ul>
                             
                         </div>
                         
@@ -90,11 +94,15 @@ validateCategoryForm(); manageModal();
                     <div class="modal-body">
                         
                         <div class="row py-1 text-left">
+
+                            <div class="col">
                             
-                            <p class="text-muted"><span class="text-danger font-weight-bold">Warning!</span> If you delete the payment method all of your expenses assigned to this method will be automatically deleted.</p>
-                            <p class="mt-2 font-weight-bold">Are you sure you want to delete the payment method?</p>
-                            <div class="form-group mb-0 mt-2 text-left">
-                                    <input type="hidden" name="categoryOldId">
+                                <p class="text-muted"><span class="text-danger font-weight-bold">Warning!</span> If you delete the payment method all of your expenses assigned to this method will be automatically deleted.</p>
+                                <p class="mt-2 font-weight-bold">Are you sure you want to delete the payment method?</p>
+                                <div class="form-group mb-0 mt-2 text-left">
+                                        <input type="hidden" name="categoryOldId">
+                                </div>
+
                             </div>
                             
                         </div>
