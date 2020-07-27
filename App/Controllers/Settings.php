@@ -9,6 +9,7 @@ use \App\Models\ExpenseCategory;
 use \App\Models\PaymentMethod;
 use \App\Models\Income;
 use \App\Models\Expense;
+use \App\Models\User;
 use \App\Flash;
 
 class Settings extends Authenticated
@@ -242,5 +243,67 @@ class Settings extends Authenticated
                 'paymentMethod' => $paymentMethod
             ]);
         }
+    }
+
+    public function editUsernameAction()
+    {
+        $user = new User($_POST);
+        
+        if($user -> editUsername()) {
+
+            Flash::addFlashMsg('Name has been successfully edited.');
+            $this -> redirect('/settings/profile');
+            
+        } else {
+            
+            View::renderTemplate('Settings/profile.html', ['user' => $user]);
+        }
+    }
+
+    public function editPasswordAction()
+    {
+        $user = new User($_POST);
+        
+        if($user -> editPassword()) {
+
+            Flash::addFlashMsg('Your password has been successfully edited.');
+            $this -> redirect('/settings/profile');
+            
+        } else {
+            
+            View::renderTemplate('Settings/profile.html', ['user' => $user]);
+        }
+    }
+
+    public function editEmailAction()
+    {
+        $user = new User($_POST);
+        
+        if($user -> editEmail()) {
+
+            $user -> sendNewEmailActivationMsg();
+            
+            $this -> redirect('/settings/success');
+            
+        } else {
+            
+            View::renderTemplate('Settings/profile.html', ['user' => $user]);
+        }
+    }
+
+    public function successAction()
+    {
+        View::renderTemplate('Settings/success-email-request.html');
+    }
+
+    public function activateEmailAction()
+    {
+        User::activateEmailAddress($this -> routeParams['token']);
+        $this -> redirect('/settings/activated');
+    }
+
+    public function activatedAction()
+    {
+        View::renderTemplate('Settings/email_changed.html');
     }
 }
