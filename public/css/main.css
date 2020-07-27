@@ -356,9 +356,10 @@ ul.side > li > a {
     color: #404040 !important;
 }
 
-ul.side > h5  {
+ul.side > li.readonly {
     color: #595959;
     font-size: 1em;
+    cursor: default;
 }
 
 div.input-group-append > button {
