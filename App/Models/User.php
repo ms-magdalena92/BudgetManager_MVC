@@ -350,7 +350,7 @@ class User extends \Core\Model
 
             } else {
 
-                    $this -> validationErrors['password'] = "Password you've entered is wrong. Please try again.";
+                    $this -> validationErrors['password'] = "Password you've entered is incorrect. Please try again.";
             }
         }
         
@@ -386,10 +386,81 @@ class User extends \Core\Model
 
             } else {
 
-                    $this -> validationErrors['password'] = "Password you've entered is wrong. Please try again.";
+                    $this -> validationErrors['password'] = "Password you've entered is incorrect. Please try again.";
             }
         }
         
         return false;
+    }
+
+    public function editEmail()
+    {
+        $this -> validateUserData();
+            
+        $user = static::findUserByID($_SESSION['user_id']);
+        
+        if ($user) {
+
+            if (password_verify($this -> currentPassword, $user -> password)) {
+
+                if(empty($this -> validationErrors)) {
+
+                    $token = new Token();
+                    $hashedToken = $token -> getTokenHash();
+                    
+                    $this -> emailChangeToken = $token -> getTokenValue();
+                    
+                    $sql = 'UPDATE users
+                            SET email_activation_hash_token = :token_hash, new_email = :email
+                            WHERE user_id = :user_id';
+                    
+                    $db = static::getDBconnection();
+                    
+                    $stmt = $db -> prepare($sql);
+                    $stmt -> bindValue(':token_hash', $hashedToken, PDO::PARAM_STR);
+                    $stmt -> bindValue(':email', $this -> email, PDO::PARAM_STR);
+                    $stmt -> bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+                    
+                    return $stmt -> execute();
+                }
+
+            } else {
+
+                    $this -> validationErrors['password'] = "Password you've entered is incorrect. Please try again.";
+            }
+        }
+        
+        return false;
+    }
+
+    public function sendNewEmailActivationMsg()
+    {
+        $url = 'http://'.$_SERVER['HTTP_HOST'].'/settings/activate-email/'.$this -> emailChangeToken;
+        $html = View::getTemplate('Settings/activation_email.html', ['url' => $url]);
+        
+        $headers = "MIME-Version: 1.0"."\r\n";
+        $headers .= "Content-type:text/html;charset=UTF-8"."\r\n";
+        $headers .= 'From: <admin@mybudget.com>'."\r\n";
+        
+        return Mail::sendEmail($this -> email, 'Activate your email', $html, $headers);
+    }
+
+    public static function activateEmailAddress($activationToken)
+    {
+        $token = new Token($activationToken);
+        $hashed_token = $token -> getTokenHash();
+        
+        $sql = 'UPDATE users
+                SET email_activation_hash_token = NULL,
+                    email = new_email,
+                    new_email = NULL
+                WHERE email_activation_hash_token = :hashed_token';
+        
+        $db = static::getDBconnection();
+        
+        $stmt = $db -> prepare($sql);
+        $stmt -> bindValue(':hashed_token', $hashed_token, PDO::PARAM_STR);
+        
+        $stmt -> execute();
     }
 }

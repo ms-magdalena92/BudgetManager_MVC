@@ -399,7 +399,7 @@ function manageModal()
         $('input[name="monthlyLimit"]').prop('checked', false);
         $('input[name="limitAmount"]').prop('readonly', true);
         $('.limitLabel').addClass('text-muted');
-        $('input[name="limitAmount"], input[name="currentPassword"], input[name="password"], input[name="passwordConfirm"]').val('');
+        $('input[name="limitAmount"], input[name="currentPassword"], input[name="password"], input[name="passwordConfirm"], input[name="email"]').val('');
         $('.error').empty();
     });
     

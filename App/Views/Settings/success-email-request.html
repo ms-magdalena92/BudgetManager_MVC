@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Email change request
+{% endblock %}
+
+{% block header %}
+    {{ parent() }}
+{% endblock %}
+
+{% block main %}
+    
+    <section class="container-fluid square my-4 py-4">
+        
+        <div class="col-sm-10 col-md-8 col-lg-6 mx-auto my-2 py-3">
+            
+            <h4 class="text-success">✔  Email change request sent</h4>
+            
+            <p class="mt-3">Email activation link has been sent. Please check your inbox to activate your new email address.</p>
+            
+            <div class="row justify-content-around">
+                
+                <div class="col-sm-8 mt-3">
+                    
+                    <div>
+                        <a href="/settings/profile">Back to settings</a>
+                    </div>
+
+                    <div class="mt-2">
+                        <a href="/menu/main">Home</a>
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+        </div>
+        
+    </section>
+    
+{% endblock %}
+
+{% block footer %}
+    {{ parent() }}
+{% endblock %}

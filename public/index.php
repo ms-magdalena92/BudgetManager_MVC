@@ -16,6 +16,7 @@ $router -> addRoute('logout', ['controller' => 'Login', 'action' => 'logout']);
 $router -> addRoute('{controller}/{action}');
 $router -> addRoute('password/reset/{token:[\da-f]+}', ['controller' => 'Password', 'action' => 'reset']);
 $router -> addRoute('signup/activate/{token:[\da-f]+}', ['controller' => 'Signup', 'action' => 'activate']);
+$router -> addRoute('settings/activate-email/{token:[\da-f]+}', ['controller' => 'Settings', 'action' => 'activate-email']);
 
 $url = $_SERVER['QUERY_STRING'];
 $router -> dispatchRoute($url);
